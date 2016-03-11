@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${i18n.get("receiveAddress")}</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<script src="js/jquery-2.1.3.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/address.css" type="text/css" />
+</head>
+<style>
+	span{color:#666;}
+</style>
+<body>
+	<div id="container">
+    <div class="header">
+        <a href="../order-detail.html" class="header-back"><img src="images-address/back_n.png"></a>
+        <span>${i18n.get("receiveAddress")}</span>
+    </div>
+    #foreach($add in $adds)
+    <div class="address">
+		<div class="addressC">
+			<p>$!{add.address}</p>
+			<span>$!{add.recName}</span> <span class="phone">$!{add.recMobile}</span>
+			<div class="address-footer">
+				<div class="footer-left">
+					<img class="img1" src="images-address/check_box_n.png" #if($add.isDefault=='DEF')style="display:none;"#end>
+					<img class="img2" src="images-address/check_box_p.png" #if($add.isDefault=='DEF')style="display:inline-block;"#end>
+					<a href="javascript:" class="changeAddress" data-id="$add.iD">${i18n.get("setDefaultAddress")}</a>
+				</div>
+				<div class="footer-right">
+					<span>
+						<img class="img1" src="images-address/edit_n.png">
+						<img class="img2" src="images-address/edit_p.png">
+						<a href="${link.contextPath}/edit_rece_add?ID=$add.iD" class="editAddress">${i18n.get("edit")}</a>
+					</span>
+					<span>
+						<img class="img1" src="images-address/delete_n.png">
+						<img class="img2" src="images-address/delete_p.png">
+						<a href="javascript:void(0);" class="deleteAddress" data-id="${add.iD}">${i18n.get("delete")}</a>
+					</span>
+				</div>
+			</div>
+		</div>
+    </div>
+    #end
+    <div class="address-btn">
+        <a href="${link.contextPath}/edit_rece_add" class="addAddress">${i18n.get("newReceiveAddress")}
+		 <img class="img1" src="images-address/add_n.png">
+         <img class="img2" src="images-address/add_p.png"></a>
+    </div>
+</div>
+</body>
+<script>
+    $(function(){
+        $(".changeAddress").click(function(){
+         if($(this).siblings(".img1").is(":visible")){
+        	 	
+        	 	//本来不是默认地址  现在设置成默认地址
+        	 	var id = $(this).data("id");
+        	 	var isDefault = "DEF";
+        	 	var this_ = $(this);
+        	 	$.ajax({
+					url:'${link.contextPath}/setUserDefaultAddress',
+					type:"POST",
+					dataType:"json",
+					data:{"id":id,"isDefault":isDefault},
+					success:function(ret){
+						console.log(ret);
+						$(".img2").hide();
+						$(".img1").show();
+						this_.siblings(".img1").hide();
+		            	this_.siblings(".img2").show();
+					}
+				});
+            	 
+             }else{
+            	 
+            	//本来是默认地址  现在设置成不是默认地址
+         	 	var id = $(this).data("id");
+         	 	var isDefault = "NOR";
+         	 	
+         	 	$.ajax({
+ 					url:'${link.contextPath}/setUserDefaultAddress',
+ 					type:"POST",
+ 					dataType:"json",
+ 					data:{"id":id,"isDefault":isDefault},
+ 					success:function(ret){
+ 						console.log(ret);
+ 						$(".img2").hide();
+						$(".img1").show();
+ 					}
+ 				});
+            	 
+             	
+             }
+         });
+		$(".editAddress").click(function(){
+         if($(this).siblings(".img1").is(":visible")){
+             $(this).siblings(".img1").hide();
+             $(this).siblings(".img2").show();
+             }else{
+             $(this).siblings(".img1").show();
+             $(this).siblings(".img2").hide();
+             }
+         });
+		 $(".deleteAddress").click(function(){
+        	 if($(this).siblings(".img1").is(":visible")){
+             	$(this).siblings(".img1").hide();
+             	$(this).siblings(".img2").show();
+             }else{
+            	 $(this).siblings(".img1").show();
+            	 $(this).siblings(".img2").hide();
+             }
+			 
+        	 if(confirm('确定删除该地址吗?')){
+ 				$(this).parents(".address").remove();
+ 				location.href="${link.contextPath}/del_rece_add?ID="+$(this).data("id");
+ 			 }else{
+ 				$(this).siblings(".img1").show();
+ 				$(this).siblings(".img2").hide();
+ 			 }
+         });
+
+        $(".address-btn").hover(function(){
+            $(this).children(".img1").hide();
+            $(this).children(".img2").show();
+        },function(){
+            $(this).children(".img1").show();
+            $(this).children(".img2").hide();
+        });
+
+    });
+</script>
+</html>
+ 

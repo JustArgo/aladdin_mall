@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+				        http://www.springframework.org/schema/beans/spring-beans.xsd
+				        http://code.alibabatech.com/schema/dubbo
+				        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+				        	
+	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
+	<dubbo:application name="aladdin_mall" /> 
+	<dubbo:registry  protocol="zookeeper"  address="zookeeper://127.0.0.1:2181" timeout="30000"/>         
+	
+	<dubbo:reference id="productService" interface="com.maiquan.aladdin_product.service.IProductService"/>
+	<dubbo:reference id="productSkuService" interface="com.maiquan.aladdin_product.service.IProductSkuService"/>
+	<dubbo:reference id="productVoService" interface="com.maiquan.aladdin_product.service.IProductVoService"/>
+	<dubbo:reference id="commentVoService" interface="com.maiquan.aladdin_comment.service.ICommentVoService"/>
+	
+	<!-- 引用购物车微服务 -->
+	<dubbo:reference id="shopCarService" interface="com.maiquan.aladdin_shopcar.service.IShopCarService"/>
+	
+	<!-- 引用订单微服务 -->
+	<dubbo:reference id="orderService" interface="com.maiquan.aladdin_order.service.IOrderService"/>
+	
+	<!-- 引用订单商品微服务 -->
+	<dubbo:reference id="orderProductService" interface="com.maiquan.aladdin_order.service.IOrderProductService"/>
+	
+	<!-- 引用收货地址管理微服务 -->
+	<dubbo:reference id="manageReceAddService" interface="com.maiquan.aladdin_receadd.service.IManageReceAddService"/>
+	
+	<!-- 引用地区管理微服务 -->
+	<dubbo:reference id="addressService" interface="com.maiquan.aladdin_receadd.service.IAddressService"/>
+	
+	<!-- 引用评论微服务 -->
+	<dubbo:reference id="commentService" interface="com.maiquan.aladdin_comment.service.ICommentService"/>
+	
+</beans>	
+	

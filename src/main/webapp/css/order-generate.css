@@ -1,0 +1,24 @@
+.info-title{border:0;padding-bottom:0;}
+.info-content{padding-top:0;padding-bottom:10px;border-bottom:1px solid #cecece;}
+.order-freight{width:96%;margin-left:2%;}
+.order-freight p{margin:5px 0 0 0;padding:5px 0 0 0;}
+.p-left{display:none;font-size:12px;color:#E81959;border-top:1px solid #cecece;margin-top:10px;}
+.p-right{position:absolute;right:20px;color:#E81959;}
+.invoice{width:100%;height:100%;background-color:#fff;float:left;margin-top:10px;}
+.invoice-link{width:80px;height:30px;display:block;font-size:18px;margin-left:20px;margin-top:15px;}
+.invoice-link img{width:23px;height:23px;margin-right:10px;position:relative;top:5px;}
+.invoice-main{width:90%;height:150px;margin-left:5%;position:relative;margin-top:-12px;boorder-bottom:1px solid #cecece;}
+.invoice-main ul{list-style:none;}
+.invoice-main ul li input{width:150px;height:30px;background-color:#F3F3F3;border:0;border-radius:5px;text-align:center;margin-bottom:10px;}
+.invoice-main ul li{height:35px;}
+.optionS img{width:14px;height:14px;}
+.hidden{position:absolute;width:100%;height:100%;background:rgba(0,0,0,0.5);top:0;left:0;border-radius:5px;}
+.invoice-message{width:96%;height:40px;margin-left:2%;border-top:1px solid #cecece;margin-top:10px;padding-top:10px;padding-bottom:15px;}
+.invoice-message input{width:90%;;height:36px;margin-top:2px;margin-left:20px;text-align:center;border-radius:5px;background-color:#F3F3F3;border:0;}
+.pay-type{width:100%;height:100%;float:left;padding-bottom:10px;}
+.type{width:70%;margin-left:15%;height:40px;margin-top:20px;background-color:#fff;border-radius:5px;box-shadow:0 0 5px #cecece;}
+.type a{display:block;width:1005;height:1005;line-height:40px;text-align:center;}
+.order-pay-footer{width:100%;height:40px;line-height:40px;position:relative;font-size:14px;background-color:#fff;float:left;}
+.order-pay-footer a{width:60px;height:40px;display:block;background-color:#161213;color:#fff;line-height:40px;text-align:center;float:right;}
+.bg1{background-color:#fff;color:#232323;}
+.bg2{background-color:#E81959;color:#fff;}
