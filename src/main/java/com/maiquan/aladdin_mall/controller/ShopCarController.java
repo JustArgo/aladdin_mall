@@ -43,12 +43,12 @@ public class ShopCarController {
 	
 	@RequestMapping("/remove_shopcar_product")
 	@ResponseBody
-	public String remove_shopcar_product(Integer userID, Integer skuID){
-		System.out.println(userID+"------------"+skuID);
-		if(userID==null || skuID==null){
+	public String remove_shopcar_product(Integer userID, Integer[] skuIDs){
+		System.out.println(userID+"------------"+skuIDs);
+		if(userID==null || skuIDs==null){
 			return "{\"errcode\":10042,\"errormsg\":\"invalid arguments\"}";
 		}
-		shopCarService.removeShopCarProduct(userID, skuID, UUID.randomUUID().toString());
+		shopCarService.removeShopCarProduct(userID, skuIDs, UUID.randomUUID().toString());
 		return "{\"errcode\":0,\"errormsg\":\"success\"}";
 	}
 	

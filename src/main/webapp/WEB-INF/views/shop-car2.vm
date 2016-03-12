@@ -1,17 +1,14 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>购物车</title>
+<title>订单详情</title>
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <script src="js/jquery-2.1.3.min.js"></script>
 <link rel="stylesheet" href="css/mall.css" type="text/css" />
 <link rel="stylesheet" href="css/shop-car.css" type="text/css" />
 </head>
-<!-- 
-批量删除功能 -216-3-10
--->
+
 <body>
 	<div id="container">
     <div class="header">
@@ -20,11 +17,10 @@
 			<img class="img2" src="images/classfiy/back_p.png">
 		</a>
         <span>购物车</span>
-		<a href="javascript:" id="edit">
-			<img src="images/img/edit_n.png" />
-			<!-- <img class="img2" src="images/img/edit_p.png" style="display:none" /> -->
+		<a href="javascript:" class="btn right-btn" id="edit">
+			<img class="img1" src="images/img/edit_n.png" />
+			<img class="img2" src="images/img/edit_p.png" style="display:none" />
 		</a>
-		<a href="javascript:" id="edit2">删除</a>
     </div>
     <form id="shopcarForm" action="${link.contextPath}/settle" type="POST">
     #foreach($m in $shopCarProducts)
@@ -32,7 +28,6 @@
 		<input type="hidden" name="skuIDs" value="${m.skuID}"/>
 		<input type="hidden" name="buyNums" value="${m.skuQuality}"/>
 		<input type="hidden" name="skuPrices" value="${m.skuPrice}"/>
-		<div class="bottom-title">供应商：阿里巴巴天猫商城</div>
 		<div class="info-bottom">
 			<div class="car-select">
 				<a href="#" class="btn option">
@@ -41,9 +36,15 @@
 				</a>
 			</div>
 			<div class="info-bottom-img">
-				<a href="#"><img src="images/img/thumbnail2.png" /></a>
+				<a href="#"><img src="$m.imgPath" /></a>
 			</div>
 			<p class="bottom-1" style="font-size:14px;">$m.sellDesc</p>
+			<div class="botton-delete" >
+				<a href="#" class="btn delete" > 
+					<img class="img1 option-img" src="images/img/delete3_n.png" />
+					<img class="img2" src="images/img/delete3_p.png" />
+				</a>
+			</div>
 			<p class="bottom-2">
 				<!-- 如果没有skuStr 需要加个空格占一行 -->
 				#if($m.skuStrs.isEmpty())<span>&nbsp;</span>#end
@@ -68,16 +69,10 @@
 				</div>
 			</p>
 		</div>
-		<div class="botton-delete" >
-			<a href="#" class="btn delete" > 
-				<img class="img1 option-img" src="images/img/delete_n.png" />
-				<img class="img2" src="images/img/delete_p.png" />
-			</a>
-		</div>
 	</div>
 	#end
 	</form>
-	
+
 	<div class="car-footer">
 		<div class="car-footer-1">
 			<a href="javascript:" id="selectAll">
@@ -95,6 +90,8 @@
 </body>
 <script>
     $(function(){
+    	
+	
 		$(".btn").click(function(){
 			if($(this).find(".img1").is(":visible")){
 				$(this).find(".img1").hide();
@@ -153,72 +150,20 @@
 		
 		
 		$("#edit").click(function(){
-				$("#edit").hide();
-				$("#edit2").show();
-				$(".botton-delete").show();
-		});
-		$("#edit2").click(function(){
-			if($(".car-content").find(".car-select").find(".img2").is(":visible")){
-				if(confirm('确定要批量删除商品吗?')){
-					var skuIDs = "";
-					$(".car-content").each(function(){
-							if($(this).find(".car-select").find(".img2").is(":visible")){
-								
-								skuIDs += "&skuIDs="+$(this).data("id");
-								
-								//改变总价
-								//获得要删除商品的单价
-								var pattern = new RegExp("[0-9]+");
-								var price = pattern.exec($(this).find(".product_price").text())[0];
-								
-								//获得要删除商品的购买数量
-								var num = $(this).find(".number-2").text();
-								
-								var totalPrice = parseInt(price)*parseInt(num);
-								var newTotalPrice = parseInt(pattern.exec($(".car-footer-2").text()))-totalPrice;
-								
-								$(".car-footer-2").text("合计：￥"+newTotalPrice);
-								var newConclusion = parseInt(pattern.exec($(".car-footer div:eq(2)").find("a").text()))-1;
-								$(".car-footer div:eq(2)").find("a").text("结算("+newConclusion+")");
-								
-								$(this).remove();
-							}
-					});
-					$.ajax({
-						url:'${link.contextPath}/remove_shopcar_product',
-						type:'POST',
-						dataType:'JSON',
-						data:"userID=2"+skuIDs,
-						success:function(ret){
-							if(ret.errcode==0){
-								console.log("删除成功");
-							}
-						}
-					}); 
-					$("#edit").show();
-					$("#edit2").hide();
-					$(".botton-delete").hide();
-					$(".option-img1").show();
-					$(".option-img2").hide();
-					$(".optionAll").text("全选");
-				}else{
-					$(".img1").show();
-					$(".img2").hide();
-					$(".option-img1").show();
-					$(".option-img2").hide();
-					$(".optionAll").text("全选");
-				}
+			if($(".botton-delete").is(":visible")){
+				$(".botton-delete").hide();
 			}else{
-				alert("请选择商品");
+				$(".botton-delete").show();
 			}
 		});
-
+		
 		$(".delete").click(function(){
-			if($(this).parent(".botton-delete").siblings(".info-bottom").children(".car-select").find(".img1").is(":visible")){
+			if($(this).parent(".botton-delete").siblings(".car-select").find(".img1").is(":visible")){
 				alert("对不起，请先选择删除的商品");
+				
 			}else{
 				if(confirm('确定要删除该商品吗?')){
-					var carContent = $(this).closest(".car-content");
+					var carContent = $(this).parent(".botton-delete").siblings(".car-select").parents(".car-content");
 					
 					//获得要删除商品的单价
 					var pattern = new RegExp("[0-9]+");
@@ -239,7 +184,7 @@
 						url:'${link.contextPath}/remove_shopcar_product',
 						type:'POST',
 						dataType:'JSON',
-						data:{"userID":2,"skuIDs":skuID},
+						data:{"userID":1,"skuID":skuID},
 						success:function(ret){
 							if(ret.errcode==0){
 								console.log("删除成功");
@@ -247,6 +192,10 @@
 							}
 						}
 					});
+					
+					
+						
+					
 				}else{
 					$(".img1").show();
 					$(".img2").hide();

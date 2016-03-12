@@ -26,7 +26,7 @@ import com.maiquan.aladdin_product.service.IProductService;
 public class CommentController {
 	
 	@Autowired
-	private IProductService productService;
+	private IProductService productService; 
 	
 	@Autowired
 	private ICommentService commentService;

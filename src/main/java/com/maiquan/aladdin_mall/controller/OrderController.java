@@ -119,7 +119,11 @@ public class OrderController {
 		//查找默认收货地址
 		ReceiveAddress receAdd = manageReceAddService.getDefaultAddress(1+"", UUID.randomUUID().toString());
 		System.out.println("收货地址:"+receAdd);
-		model.addAttribute("receAdd",receAdd);
+		if(receAdd!=null){
+			model.addAttribute("recName",receAdd.getRecName());
+			model.addAttribute("recMobile",receAdd.getRecMobile());
+			model.addAttribute("fullAddress",manageReceAddService.getFullAddress(receAdd, UUID.randomUUID().toString()));
+		}
 		model.addAttribute("supplierName","alibaba");
 		model.addAttribute("sellDesc","犬岚，魅力与时尚的结合");
 		model.addAttribute("skuImgPath","http://7xrd9k.com2.z0.glb.qiniucdn.com/6309-110R916035585.jpg");

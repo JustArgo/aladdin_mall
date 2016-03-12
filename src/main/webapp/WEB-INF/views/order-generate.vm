@@ -19,7 +19,7 @@
     </div>
 	<a href="${link.contextPath}/manage_rece_add"><div class="order-address">
 		<div class="order-left">
-			#if(${receName})
+			#if(${recName})
 			<div class="order-left-top">
 				<table class="order-tb">
 					<tr>
