@@ -43,7 +43,7 @@
 			<p>$item.parent.classname</p>
 			<ul>
 				#foreach( $item2 in $item.leafs)
-				<li><a href="product-list.html" class="select-2 #if($velocityCount==1) bg2 #end ">$item2.classname</a></li>
+				<li><a href="${link.contextPath}/product/$item2.classname" class="select-2 #if($velocityCount==1) bg2 #end ">$item2.classname</a></li>
 				#end
 			</ul>
 		</div>

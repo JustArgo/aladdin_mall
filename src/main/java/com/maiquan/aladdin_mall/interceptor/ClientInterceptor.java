@@ -1,4 +1,4 @@
-package com.maiquan.aladingfront.interceptor;
+package com.maiquan.aladdin_mall.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,8 +8,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.aladdin.interaction.wx.service.WxInteractionService;
-import com.maiquan.aladingfront.Principal;
-import com.maiquan.aladingfront.util.WebUtil;
+import com.maiquan.aladdin_mall.Principal;
+import com.maiquan.aladdin_mall.util.WebUtil;
 
 import me.chanjar.weixin.common.api.WxConsts;
 

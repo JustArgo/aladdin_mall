@@ -5,20 +5,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * 会员
+ * 用户
  * 
  * @author JSC
  *
  */
 @Controller
-@RequestMapping("/member")
-public class MemberController {
+@RequestMapping("/user")
+public class UserController {
 	/**
-	 * 会员个人中心
+	 * 用户个人中心
 	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index() {
-		return "member/index";
+		return "user/index";
 	}
 
 	/**
@@ -26,7 +26,7 @@ public class MemberController {
 	 */
 	@RequestMapping(value = "/wealth", method = RequestMethod.GET)
 	public String wealth() {
-		return "member/wealth";
+		return "user/wealth";
 	}
 	/**
 	 * 
@@ -34,6 +34,6 @@ public class MemberController {
 	 */
 	@RequestMapping(value = "/popularize", method = RequestMethod.GET)
 	public String popularize(){
-		return "member/popularize";
+		return "user/popularize";
 	}
 }
