@@ -164,7 +164,7 @@ public class ProductController {
 
 	@RequestMapping(value = "/list/{categoryId}", method = RequestMethod.GET)
 	public String list(@PathVariable Integer categoryId,ModelMap modelMap) {
-		modelMap.addAttribute("products", productService.getProductListByCategoryID(categoryId,null));
+		modelMap.addAttribute("products", productService.getProductListByCategoryID(categoryId,"fwef"));
 		return "product/list";
 	}
 }
