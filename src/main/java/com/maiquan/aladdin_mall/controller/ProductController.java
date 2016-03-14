@@ -10,7 +10,10 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
@@ -26,17 +29,18 @@ import com.maiquan.aladdin_product.service.IProductVoService;
 import com.maiquan.aladdin_product.vo.ProductVo;
 
 @Controller
+@RequestMapping("/product")
 public class ProductController {
 
 	@Autowired
 	private IProductService productService;
-	
+
 	@Autowired
 	private IProductVoService productVoService;
- 	
-	//@Autowired
-	//private ICommentVoService commentVoService;
-	
+
+	// @Autowired
+	// private ICommentVoService commentVoService;
+
 	@Autowired
 	private IProductSkuService productSkuService;
 	
@@ -44,118 +48,123 @@ public class ProductController {
 	private IPostFeeService postFeeService;
 	
 	
+
 	/**
 	 * 查看商品详情
+	 * 
 	 * @param productID
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping("/product_detail")
-	public String productDetail(Integer productID,Model model){
-		
-		List<Map<String,Object>> attrItems = new ArrayList<Map<String,Object>>();
-		ProductVo productVo = productVoService.getProductVo(productID,UUID.randomUUID().toString());
-		
+	public String productDetail(Integer productID, Model model) {
+
+		List<Map<String, Object>> attrItems = new ArrayList<Map<String, Object>>();
+		ProductVo productVo = productVoService.getProductVo(productID, UUID.randomUUID().toString());
+
 		System.out.println(productVo);
-		
-		Product p = productService.queryProduct(productID,UUID.randomUUID().toString());
+
+		Product p = productService.queryProduct(productID, UUID.randomUUID().toString());
 		model.addAttribute("productVo", productVo);
-		
-		//封装该产品的属性 
-		List<ProductAttr> productAttrs = productService.getProductAttrByProductID(productID,UUID.randomUUID().toString());
-		for(int i=0;i<productAttrs.size();i++){
-			
-			Map<String,Object> attrMap = new HashMap<String,Object>();
+
+		// 封装该产品的属性
+		List<ProductAttr> productAttrs = productService.getProductAttrByProductID(productID,
+				UUID.randomUUID().toString());
+		for (int i = 0; i < productAttrs.size(); i++) {
+
+			Map<String, Object> attrMap = new HashMap<String, Object>();
 			attrMap.put("attrName", productAttrs.get(i).getAttrName());
 			attrMap.put("attrID", productAttrs.get(i).getID());
-			
-			List<ProductAttrValue> productAttrValues = productService.getAttrValuesByAttrID(productAttrs.get(i).getID(),UUID.randomUUID().toString());
+
+			List<ProductAttrValue> productAttrValues = productService.getAttrValuesByAttrID(productAttrs.get(i).getID(),
+					UUID.randomUUID().toString());
 			List<String[]> attrValues = new ArrayList<String[]>();
-			for(int j=0;j<productAttrValues.size();j++){
+			for (int j = 0; j < productAttrValues.size(); j++) {
 				String[] valueTwin = new String[2];
-				valueTwin[0] = productAttrValues.get(j).getID()+"";
+				valueTwin[0] = productAttrValues.get(j).getID() + "";
 				valueTwin[1] = productAttrValues.get(j).getAttrValue();
 				attrValues.add(valueTwin);
 			}
-			
+
 			attrMap.put("attrValues", attrValues);
-			
+
 			attrItems.add(attrMap);
 		}
-		
+
 		model.addAttribute("attrItems", attrItems);
-		model.addAttribute("productID",productID);
+		model.addAttribute("productID", productID);
 		return "productdetail";
 	}
-	
-	
+
 	@RequestMapping("/commentVo")
-	public void getCommentVo(){
+	public void getCommentVo() {
 		System.out.println("java");
-//		CommentVo commentVo = commentVoService.getCommentVo(1);
+		// CommentVo commentVo = commentVoService.getCommentVo(1);
 		try {
-			System.out.println(JSON.json(""/*commentVo*/));
+			System.out.println(JSON.json(""/* commentVo */));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping("querySku")
 	@ResponseBody
-	public Map<String,Object> querySku(Integer productID, Integer[] attrs, Integer[] values){
-		
-		Map<String,Object>   retMap = new HashMap<String,Object>();
-		Map<Integer,Integer> skuMap = new HashMap<Integer,Integer>();
-		
-		//先对参数做基础验证
-		if(productID==null || attrs==null || values==null || attrs.length!=values.length){
+	public Map<String, Object> querySku(Integer productID, Integer[] attrs, Integer[] values) {
+
+		Map<String, Object> retMap = new HashMap<String, Object>();
+		Map<Integer, Integer> skuMap = new HashMap<Integer, Integer>();
+
+		// 先对参数做基础验证
+		if (productID == null || attrs == null || values == null || attrs.length != values.length) {
 			return retMap;
 		}
-		
-		System.out.println("productID---"+productID);
-		
-		for(int i=0;i<attrs.length;i++){
-			System.out.println(attrs[i]+"   "+values[i]);
+
+		System.out.println("productID---" + productID);
+
+		for (int i = 0; i < attrs.length; i++) {
+			System.out.println(attrs[i] + "   " + values[i]);
 		}
-		
-		for(int i=0;i<attrs.length;i++){
+
+		for (int i = 0; i < attrs.length; i++) {
 			skuMap.put(attrs[i], values[i]);
 		}
-		
-		List<ProductSku> skus = productSkuService.getSkuByProductID(productID,UUID.randomUUID().toString());
-		
-		System.out.println("该产品对应几个sku---"+skus.size());
-		
-		for(int i=0;i<skus.size();i++){
+
+		List<ProductSku> skus = productSkuService.getSkuByProductID(productID, UUID.randomUUID().toString());
+
+		System.out.println("该产品对应几个sku---" + skus.size());
+
+		for (int i = 0; i < skus.size(); i++) {
 
 			int matchAttr = 0;
-			
+
 			ProductSku sku = skus.get(i);
-			System.out.println("当前是第"+(i+1)+"个sku id--"+sku.getID());
-			List<ProductSkuAttr> skuAttrs = productSkuService.getSkuAttrBySkuID(sku.getID(),UUID.randomUUID().toString());
-			
-			if(skuMap.size()==skuAttrs.size()){
-				for(int j=0;j<skuAttrs.size();j++){
+			System.out.println("当前是第" + (i + 1) + "个sku id--" + sku.getID());
+			List<ProductSkuAttr> skuAttrs = productSkuService.getSkuAttrBySkuID(sku.getID(),
+					UUID.randomUUID().toString());
+
+			if (skuMap.size() == skuAttrs.size()) {
+				for (int j = 0; j < skuAttrs.size(); j++) {
 					ProductSkuAttr skuAttr = skuAttrs.get(j);
-					if(skuMap.containsKey(skuAttr.getAttrID()) && skuMap.get(skuAttr.getAttrID())==skuAttr.getAttrValueID()){
+					if (skuMap.containsKey(skuAttr.getAttrID())
+							&& skuMap.get(skuAttr.getAttrID()) == skuAttr.getAttrValueID()) {
 						matchAttr++;
-					}else{
+					} else {
 						break;
 					}
 				}
-				//说明这个sku就是我们要找的sku
-				if(matchAttr==skuMap.size()){
-					retMap.put("errcode",0);
+				// 说明这个sku就是我们要找的sku
+				if (matchAttr == skuMap.size()) {
+					retMap.put("errcode", 0);
 					retMap.put("skuID", sku.getID());
-					retMap.put("skuImg",sku.getSkuImg());
+					retMap.put("skuImg", sku.getSkuImg());
 					retMap.put("skuStock", sku.getSkuStock());
 					retMap.put("skuPrice", sku.getSkuPrice());
 				}
 			}
-			
+
 		}
-		
+
 		return retMap;
 	}
 	
@@ -190,5 +199,10 @@ public class ProductController {
 	public Long calcPostFee(Integer productID, Integer buyNum, Integer countryID,Integer provinceID,Integer cityID,Integer districtID){
 		return postFeeService.calcPostFee(productID, buyNum, countryID, provinceID, cityID, districtID, UUID.randomUUID().toString());
 	}
-	
+
+	@RequestMapping(value = "/list/{categoryId}", method = RequestMethod.GET)
+	public String list(@PathVariable Integer categoryId,ModelMap modelMap) {
+		modelMap.addAttribute("products", productService.getProductListByCategoryID(categoryId,"fwef"));
+		return "product/list";
+	}
 }
