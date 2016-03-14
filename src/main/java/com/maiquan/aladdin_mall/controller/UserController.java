@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/user")
 public class UserController {
 	/**
-	 * 用户个人中心
+	 * 个人中心
 	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index() {

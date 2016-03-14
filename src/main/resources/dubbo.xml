@@ -11,7 +11,7 @@
 				        	
 	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
 	<dubbo:application name="aladdin_mall" /> 
-	<dubbo:registry  protocol="zookeeper"  address="zookeeper://127.0.0.1:2181" timeout="30000"/>         
+	<dubbo:registry protocol="zookeeper"  address="zookeeper://115.29.249.236:2181" timeout="30000"  />        
 	
 	<dubbo:reference id="productService" interface="com.maiquan.aladdin_product.service.IProductService"/>
 	<dubbo:reference id="productSkuService" interface="com.maiquan.aladdin_product.service.IProductSkuService"/>
@@ -36,5 +36,9 @@
 	<!-- 引用评论微服务 -->
 	<dubbo:reference id="commentService" interface="com.maiquan.aladdin_comment.service.ICommentService"/>
 	
+	
+	<dubbo:reference id="userService" interface="com.aladdin.user.service.UserService" timeout="30000" protocol="dubbo" />
+	<dubbo:reference id="productCategoryService" interface="com.aladdin.product.category.service.ProductCategoryService" timeout="30000" protocol="dubbo" />
+	<dubbo:reference id="wxInteractionService" interface="com.aladdin.interaction.wx.service.WxInteractionService" timeout="30000" protocol="dubbo" />
 </beans>	
 	
