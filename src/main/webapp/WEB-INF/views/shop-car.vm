@@ -32,7 +32,7 @@
 		<input type="hidden" name="skuIDs" value="${m.skuID}"/>
 		<input type="hidden" name="buyNums" value="${m.skuQuality}"/>
 		<input type="hidden" name="skuPrices" value="${m.skuPrice}"/>
-		<div class="bottom-title">供应商：阿里巴巴天猫商城</div>
+		<div class="bottom-title">供应商：$m.supName</div>
 		<div class="info-bottom">
 			<div class="car-select">
 				<a href="#" class="btn option">
@@ -41,7 +41,7 @@
 				</a>
 			</div>
 			<div class="info-bottom-img">
-				<a href="#"><img src="images/img/thumbnail2.png" /></a>
+				<a href="#"><img src="${m.imgPath}" /></a>
 			</div>
 			<p class="bottom-1" style="font-size:14px;">$m.sellDesc</p>
 			<p class="bottom-2">

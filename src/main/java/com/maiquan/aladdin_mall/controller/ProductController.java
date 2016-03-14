@@ -19,6 +19,7 @@ import com.maiquan.aladdin_product.domain.ProductAttr;
 import com.maiquan.aladdin_product.domain.ProductAttrValue;
 import com.maiquan.aladdin_product.domain.ProductSku;
 import com.maiquan.aladdin_product.domain.ProductSkuAttr;
+import com.maiquan.aladdin_product.service.IPostFeeService;
 import com.maiquan.aladdin_product.service.IProductService;
 import com.maiquan.aladdin_product.service.IProductSkuService;
 import com.maiquan.aladdin_product.service.IProductVoService;
@@ -38,6 +39,9 @@ public class ProductController {
 	
 	@Autowired
 	private IProductSkuService productSkuService;
+	
+	@Autowired
+	private IPostFeeService postFeeService;
 	
 	
 	/**
@@ -153,6 +157,38 @@ public class ProductController {
 		}
 		
 		return retMap;
+	}
+	
+	@RequestMapping("/collect")
+	@ResponseBody
+	public Map<String,Object> collect(String mqID, Integer productID, Integer collect){
+		
+		Map<String,Object> ret = new HashMap<String,Object>();
+		
+		if(mqID==null || productID==null ||collect==null){
+			ret.put("errcode",10042);
+			ret.put("errmsg", "invalid arguments");
+			return ret;
+		}
+		
+		if(collect==0){//0代表取消收藏
+			productService.uncollectProduct(mqID, productID, UUID.randomUUID().toString());
+			ret.put("errcode", 0);
+			ret.put("errmsg", "uncollect success");
+		}else{//1代表收藏
+			productService.collectProduct(mqID, productID, UUID.randomUUID().toString());
+			ret.put("errcode", 0);
+			ret.put("errmsg", "collect success");
+		}
+		
+		return ret;
+		
+	}
+	
+	@RequestMapping("/calcPostFee")
+	@ResponseBody
+	public Long calcPostFee(Integer productID, Integer buyNum, Integer countryID,Integer provinceID,Integer cityID,Integer districtID){
+		return postFeeService.calcPostFee(productID, buyNum, countryID, provinceID, cityID, districtID, UUID.randomUUID().toString());
 	}
 	
 }
