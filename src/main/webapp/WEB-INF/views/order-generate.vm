@@ -19,7 +19,7 @@
     </div>
 	<a href="${link.contextPath}/manage_rece_add"><div class="order-address">
 		<div class="order-left">
-			#if(${recName})
+			#if($recName && $recName!="")
 			<div class="order-left-top">
 				<table class="order-tb">
 					<tr>
@@ -54,7 +54,7 @@
 		<div class="info-content">
 			<div class="info-bottom">
 				<div class="info-bottom-img">
-					<a href="#"><img src="images/img/thumbnail2.png" /></a>
+					<a href="#"><img src="${orderProduct.skuImg}" /></a>
 				</div>
 					<p class="bottom-1">${orderProduct.sellDesc}</p>
 					<p class="bottom-2">

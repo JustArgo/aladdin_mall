@@ -36,6 +36,8 @@
 	<!-- 引用评论微服务 -->
 	<dubbo:reference id="commentService" interface="com.maiquan.aladdin_comment.service.ICommentService"/>
 	
+	<!-- 引用邮费计算服务 -->
+	<dubbo:reference id="postFeeService" interface="com.maiquan.aladdin_product.service.IPostFeeService"/>
 	
 	<dubbo:reference id="userService" interface="com.aladdin.user.service.UserService" timeout="30000" protocol="dubbo" />
 	<dubbo:reference id="productCategoryService" interface="com.aladdin.product.category.service.ProductCategoryService" timeout="30000" protocol="dubbo" />

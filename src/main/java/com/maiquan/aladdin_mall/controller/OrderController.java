@@ -17,6 +17,7 @@ import com.maiquan.aladdin_order.service.IOrderProductService;
 import com.maiquan.aladdin_order.service.IOrderService;
 import com.maiquan.aladdin_product.domain.Product;
 import com.maiquan.aladdin_product.domain.ProductSku;
+import com.maiquan.aladdin_product.service.IPostFeeService;
 import com.maiquan.aladdin_product.service.IProductService;
 import com.maiquan.aladdin_product.service.IProductSkuService;
 import com.maiquan.aladdin_receadd.domain.ReceiveAddress;
@@ -44,6 +45,9 @@ public class OrderController {
 	@Autowired
 	private IManageReceAddService manageReceAddService;
 	
+	@Autowired
+	private IPostFeeService postFeeService;
+	
 	//@Autowired
 	//private ISupplierService supplierService;
 	
@@ -62,29 +66,31 @@ public class OrderController {
 			Order childOrder = childOrders.get(i);
 
 //			假设是一个订单商品对应一个子订单
-			OrderProduct orderProduct = orderProductService.getOrderProductByOrderID(childOrder.getID(), UUID.randomUUID().toString()).get(0);
+			List<OrderProduct> orderProducts = orderProductService.getOrderProductByOrderID(childOrder.getID(), UUID.randomUUID().toString());
 			
-			//查找对应的商品
-			Product product = productService.queryProduct(orderProduct.getProductID(),UUID.randomUUID().toString());
-			
-			//查找对应的sku
-			ProductSku productSku = productSkuService.getSkuByID(orderProduct.getSkuID(),UUID.randomUUID().toString());
-			
-			
-			Map<String,Object> orderProductMap = new HashMap<String,Object>();
-			orderProductMap.put("supName", orderProduct.getSupName());						//设置供应商名字
-			orderProductMap.put("sellDesc", product.getSellDesc());							//商品描述
-			
-			List<String> skuStrs = productSkuService.getSkuStr(orderProduct.getSkuID(),UUID.randomUUID().toString());
-			
-			orderProductMap.put("skuStrs", skuStrs);										//sku描述  尺码:39 颜色:红色
-			orderProductMap.put("skuPrice", productSku.getSkuPrice());						//sku价格
-			orderProductMap.put("skuImg", productSku.getSkuImg());							//sku图片
-			orderProductMap.put("buyNum", orderProduct.getBuyNum());						//该sku的购买数量
-//
-			orderProductMap.put("postFee", 8L);												//该sku邮费
-			
-			viewList.add(orderProductMap);
+			for(OrderProduct orderProduct:orderProducts){
+				//查找对应的商品
+				Product product = productService.queryProduct(orderProduct.getProductID(),UUID.randomUUID().toString());
+				
+				//查找对应的sku
+				ProductSku productSku = productSkuService.getSkuByID(orderProduct.getSkuID(),UUID.randomUUID().toString());
+				
+				
+				Map<String,Object> orderProductMap = new HashMap<String,Object>();
+				orderProductMap.put("supName", orderProduct.getSupName());						//设置供应商名字
+				orderProductMap.put("sellDesc", product.getSellDesc());							//商品描述
+				
+				List<String> skuStrs = productSkuService.getSkuStr(orderProduct.getSkuID(),UUID.randomUUID().toString());
+				
+				orderProductMap.put("skuStrs", skuStrs);										//sku描述  尺码:39 颜色:红色
+				orderProductMap.put("skuPrice", productSku.getSkuPrice());						//sku价格
+				orderProductMap.put("skuImg", productSku.getSkuImg());							//sku图片
+				orderProductMap.put("buyNum", orderProduct.getBuyNum());						//该sku的购买数量
+	//
+				orderProductMap.put("postFee", 8L);												//该sku邮费
+				
+				viewList.add(orderProductMap);
+			}
 			
 		}
 		
@@ -134,50 +140,6 @@ public class OrderController {
 		model.addAttribute("skuPrice",33L);
 		model.addAttribute("postFee",100);
 		model.addAttribute("buyNum",3);
-		
-		
-		
-		//点击立即购买 没有购物车这个环节
-
-		// 1 查找出要购买的商品
-		/*Product product = productService.queryProduct(productID);
-		
-		//List<OrderProduct> orderProducts = new ArrayList<OrderProduct>();
-		
-		Order order = new Order();
-		order.setID((int)(Math.random()*2147483648L));
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-		String orderCode = sdf.format(new Date());
-		
-		order.setOrderCode(orderCode);*/
-
-		/*OrderProduct orderProduct = new OrderProduct();
-		orderProduct.setID((int)(Math.random()*2147483648L));
-		orderProduct.setOrderID(order.getOrderID()+"");
-		orderProduct.setProduct(product.getID());
-		orderProduct.setProductName(product.getProductName());
-		orderProduct.setSkuID(skuID);
-		orderProduct.setSkuName("");
-		orderProduct.setSupName(product.getSupplyID()+"");
-		
-		orderProducts.add(orderProduct);
-		
-		order.setOrderProducts(orderProducts);
-		
-		//将orderProduct存入
-		orderService.addOrder(order,UUID.randomUUID().toString());
-		
-		//将order存储到数据库
-		orderProductService.addOrderProduct(orderProduct, UUID.randomUUID().toString());
-		
-		//获得morning收货地址
-		ReceiveAddress receAdd = manageReceAddService.getDefaultAddress("mqID",UUID.randomUUID().toString());;
-		
-		model.addAttribute("product",prouct);
-		model.addAttribute("sku",sku);
-		
-		model.addAttribute("shopCar",shopCar);*/
 		
 		return "redirect:viewOrder?orderID="+orderID;
 	}

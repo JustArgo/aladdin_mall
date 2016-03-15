@@ -10,11 +10,11 @@
 <body>
 	<div id="container">
 	 <input type="hidden" class="productID" value="$productID"/>
-	 <input type="hidden" class="skuID" value=""/>
+	 <input type="hidden" class="skuID" value="${productVo.skus[0].ID}"/>
      <div class="product-detail-title" id="topTarget">
 		<img src="${link.contextPath}/images/img/details_figure.png" />
 		<div class="heart">
-			<a href="${link.contextPath}/#"><img src="${link.contextPath}/images/img/collect.png" id="collect"/></a>
+			<a href="javascript:void(0);"><img src="${link.contextPath}/images/img/collect.png" id="collect"/></a>
 		</div>
 		<P class="detail-p">
 			<span>$!{productVo.product.sellDesc}</span>
@@ -172,6 +172,9 @@
 	<div class="collect-success">
 		恭喜您，商品收藏成功！
 	<div>
+	<div class="uncollect-success">
+		成功取消收藏该商品！
+	</div>
 </div>
 </body>
 <script>
@@ -315,10 +318,46 @@
 			
 		});
 		$("#collect").click(function(){
-			$(".collect-success").fadeIn();
-			 setTimeout(function () {
-				$(".collect-success").fadeOut();
-			 }, 2000);
+			
+			
+			//改变图片
+			if($("#collect").attr("src").indexOf("uncollect")!=-1){
+				$("#collect").attr("src","${link.contextPath}/images/img/collect.png");
+				$.ajax({
+					url:'${link.contextPath}/collect',
+					type:'POST',
+					dataType:'JSON',
+					data:{"mqID":2,"productID":$(".productID").val(),"collect":1},
+					success:function(ret){
+						console.log(ret);
+						if(ret.errcode==0){
+							$(".collect-success").fadeIn();
+							setTimeout(function () {
+								$(".collect-success").fadeOut();
+							}, 2000);
+						}
+					}
+				});
+			}else{
+				$("#collect").attr("src","${link.contextPath}/images/img/uncollect.png");
+				$.ajax({
+					url:'${link.contextPath}/collect',
+					type:'POST',
+					dataType:'JSON',
+					data:{"mqID":2,"productID":$(".productID").val(),"collect":0},
+					success:function(ret){
+						console.log(ret);
+						if(ret.errcode==0){
+							$(".uncollect-success").fadeIn();
+							setTimeout(function () {
+								$(".uncollect-success").fadeOut();
+							}, 2000);
+						}
+					}
+				});
+			}
+			
+			 
 		});
 		
 		$("#sureP").click(function(){
