@@ -9,26 +9,26 @@ import java.io.Serializable;
  *
  */
 public class Principal implements Serializable {
-	private static final long serialVersionUID = 5468975118212385151L;
+	private static final long serialVersionUID = 7534104684362489251L;
 	/** 在session中身份信息的key */
 	public static final String ATTRIBUTE_KEY = "principal";
 
-	/** 麦圈用户id */
-	private String mqID;
+	/** 麦圈用户Id */
+	private String mqId;
 	/** 微信openId */
 	private String openId;
 
-	public Principal(String mqID, String openId) {
-		this.mqID = mqID;
+	public Principal(String mqId, String openId) {
+		this.mqId = mqId;
 		this.openId = openId;
 	}
 
-	public String getMqID() {
-		return mqID;
+	public String getMqId() {
+		return mqId;
 	}
 
-	public void setMqID(String mqID) {
-		this.mqID = mqID;
+	public void setMqId(String mqId) {
+		this.mqId = mqId;
 	}
 
 	public String getOpenId() {

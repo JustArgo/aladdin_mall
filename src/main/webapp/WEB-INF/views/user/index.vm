@@ -47,7 +47,7 @@
 		</div>
 	</div>
 	<div class="personal-select">
-		<a href="${link.contextPath}/member/wealth" class="btn2"><div class="order-1">
+		<a href="${link.contextPath}/user/wealth" class="btn2"><div class="order-1">
 			<img class="img1" src="${link.contextPath}/images/treasure_n.png" />
 			<img class="img2" src="${link.contextPath}/images/treasure_p.png" />
 			我的财富

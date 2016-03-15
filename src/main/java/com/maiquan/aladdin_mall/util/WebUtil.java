@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
  *
  */
 public class WebUtil extends HttpServlet {
+	private static final long serialVersionUID = 283892857645407691L;
 	/** 在session中登陆前请求地址的key */
 	public static final String SAVE_REQUEST_KEY = "saveRequesKey";
 
