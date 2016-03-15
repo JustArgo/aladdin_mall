@@ -32,8 +32,8 @@ public class ClientInterceptor extends HandlerInterceptorAdapter {
 		}
 		String ua = request.getHeader("user-agent").toLowerCase();
 		boolean isWx = ua.indexOf("micromessenger") > 0;// 是否微信浏览器
-		boolean isAuthenticated = WebUtil.isAuthenticated();
-		if (!isAuthenticated) {
+		Principal principal = WebUtil.getCurrentPrincipal();
+		if (principal==null) {
 			if (isWx) {
 				/* 跳转到自动登陆页面 */
 				WebUtil.getSession().setAttribute(WebUtil.SAVE_REQUEST_KEY, request.getRequestURL());

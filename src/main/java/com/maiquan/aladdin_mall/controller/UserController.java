@@ -29,11 +29,11 @@ public class UserController {
 		return "user/wealth";
 	}
 	/**
-	 * 
+	 * 我要推广
 	 * @return
 	 */
-	@RequestMapping(value = "/popularize", method = RequestMethod.GET)
-	public String popularize(){
-		return "user/popularize";
+	@RequestMapping(value = "/generalize", method = RequestMethod.GET)
+	public String generalize(){
+		return "user/generalize";
 	}
 }

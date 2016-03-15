@@ -22,16 +22,12 @@ public class WebUtil extends HttpServlet {
 	public static final String SAVE_REQUEST_KEY = "saveRequesKey";
 
 	/**
-	 * 是否已登录
+	 * 获取当前用户身份信息，若未登录返回null
 	 * 
-	 * @return
+	 * @return 身份信息，未登录为null
 	 */
-	public static boolean isAuthenticated() {
-		Principal principal = (Principal) getSession().getAttribute(Principal.ATTRIBUTE_KEY);
-		if (principal != null) {
-			return true;
-		}
-		return false;
+	public static Principal getCurrentPrincipal() {
+		return (Principal) getSession().getAttribute(Principal.ATTRIBUTE_KEY);
 	}
 
 	/**

@@ -79,7 +79,7 @@
 				<img src="${link.contextPath}/images/arrow.png">
 			</span>
 		</div></a>
-		<a href="generalize.html" class="btn2"><div class="order-1">
+		<a href="${link.contextPath}/user/generalize" class="btn2"><div class="order-1">
 			<img class="img1" src="${link.contextPath}/images/generalize_n.png" />
 			<img class="img2" src="${link.contextPath}/images/generalize_p.png" />
 			我要推广
