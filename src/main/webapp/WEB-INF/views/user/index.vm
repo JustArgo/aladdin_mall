@@ -87,7 +87,7 @@
 				<img src="${link.contextPath}/images/arrow.png">
 			</span>
 		</div></a>
-		<a href="javascript:" class="btn2"><div class="order-1">
+		<a href="${link.contextPath}/user/collect" class="btn2"><div class="order-1">
 			<img class="img1" src="${link.contextPath}/images/collect_n.png" />
 			<img class="img2" src="${link.contextPath}/images/collect_p.png" />
 			我的收藏

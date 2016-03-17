@@ -3,9 +3,33 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>提现</title>
- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<script src="${link.contextPath}/js/jquery-2.1.3.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" href="${link.contextPath}/css/reflect-money.css" type="text/css" />
+<script src="${link.contextPath}/js/jquery-2.1.3.min.js"></script>
+<script>
+    $(function(){
+		$(".btn").click(function(){
+			if($(this).find(".img1").is(":visible")){
+				$(this).find(".img1").hide();
+				$(this).find(".img2").show();
+			}else{
+				$(this).find(".img1").show();
+				$(this).find(".img2").hide();
+			}
+		});
+		
+		$("#reflect-btn").click(function(){
+			$(this).css({"color":"#fff","background-color":"#E81959"});
+			setTimeout(function(){
+				$("#reflect-btn").css({"color":"#5e5b5c","background-color":"#fff"});
+			},1000)
+		});
+		
+		$("#reflect-btn").click(function(){
+			
+		})
+	});
+</script>
 </head>
 <body>
 <div id="container">
@@ -40,25 +64,5 @@
 	</div>
 </div>
 </body>
-<script>
-    $(function(){
-		$(".btn").click(function(){
-			if($(this).find(".img1").is(":visible")){
-				$(this).find(".img1").hide();
-				$(this).find(".img2").show();
-			}else{
-				$(this).find(".img1").show();
-				$(this).find(".img2").hide();
-			}
-		});
-		
-		$("#reflect-btn").click(function(){
-			$(this).css({"color":"#fff","background-color":"#E81959"});
-			setTimeout(function(){
-				$("#reflect-btn").css({"color":"#5e5b5c","background-color":"#fff"});
-			},1000)
-		});
-	});
-</script>
 </html>
  
