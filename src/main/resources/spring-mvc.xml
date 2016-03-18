@@ -27,8 +27,7 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<!-- 拦截所有请求， -->
-			<mvc:mapping path="/member/**" />
-			<mvc:mapping path="/order/**" />
+			<mvc:mapping path="/**" />
 			<bean id="clientInterceptor"
 				class="com.maiquan.aladdin_mall.interceptor.ClientInterceptor" />
 		</mvc:interceptor>
