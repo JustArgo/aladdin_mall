@@ -205,6 +205,12 @@ public class ProductController {
 		return postFeeService.calcPostFee(productID, buyNum, countryID, provinceID, cityID, districtID, UUID.randomUUID().toString());
 	}
 
+	/**
+	 * 商品列表
+	 * @param categoryId 商品分类id
+	 * @param modelMap
+	 * @return
+	 */
 	@RequestMapping(value = "/list/{categoryId}", method = RequestMethod.GET)
 	public String list(@PathVariable Integer categoryId,ModelMap modelMap) {
 		modelMap.addAttribute("products", productService.getProductListByCategoryID(categoryId,"fwef"));

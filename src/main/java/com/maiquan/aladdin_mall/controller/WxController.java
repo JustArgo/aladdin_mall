@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -34,6 +36,9 @@ import com.aladdin.user.service.UserService;
 import com.maiquan.aladdin_mall.Principal;
 import com.maiquan.aladdin_mall.util.DecryptUtil;
 import com.maiquan.aladdin_mall.util.WebUtil;
+import com.maiquan.aladingfront.controller.ClientProtocolException;
+import com.maiquan.aladingfront.controller.HttpGet;
+import com.maiquan.aladingfront.controller.JSONObject;
 
 /**
  * 微信验证接口
@@ -79,8 +84,10 @@ public class WxController {
 	@RequestMapping(value = "/callback", method = RequestMethod.GET)
 	@ResponseBody
 	public void login(HttpServletResponse response, String code, String state) throws Exception {
+		System.out.println("code "+code);
+		
 		WxMpUser wxMpUser = wxInteractionService.getSnsapiBaseUserInfo(code);
-		String openId = wxMpUser.getOpenId();
+		String openId = getOpenID(code);//wxMpUser.getOpenId();
 		System.out.println("get the openId:" + openId);
 		Principal principal = new Principal(null, openId);
 		WebUtil.login(principal);
@@ -116,7 +123,7 @@ public class WxController {
 		String sign				= null;
 		
 		//Principal principal = WebUtil.getCurrentPrincipal();
-		
+System.out.println("totalFee---"+totalFee);		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		String prepay_id = "";
 		
@@ -132,6 +139,7 @@ public class WxController {
 		}
 		
 		appid=p.getProperty("appid");
+		openid=WebUtil.getCurrentPrincipal().getOpenId();
 		attach="js";
 		body="sdfdf";
 		mch_id=p.getProperty("mch_id");
@@ -144,8 +152,11 @@ public class WxController {
 		
 		String mch_key = p.getProperty("mch_key");
 		
-		System.out.println(appid);
-		System.out.println(mch_id);
+System.out.println("appid---"+appid);
+System.out.println("openid---"+openid);
+System.out.println("mch_id---"+mch_id);
+System.out.println("notify_url---"+notify_url);
+System.out.println("spbill_create_ip---"+spbill_create_ip);
 		
 		time_start = new Date();
 		time_expire = new Date(time_start.getTime()+15*60*1000);
@@ -165,14 +176,14 @@ public class WxController {
 			post.setHeader("Content-Type", "application/xml");
 			
 			HttpResponse resp = client.execute(post);
-			System.out.println(resp.getStatusLine().getStatusCode());
+System.out.println("respcode----"+resp.getStatusLine().getStatusCode());
 			BufferedReader br = new BufferedReader(new InputStreamReader(resp.getEntity().getContent()));
 			String line = "";
 			StringBuffer sb = new StringBuffer();
 			while((line=br.readLine())!=null){
 				sb.append(line+"\n");
 			}
-			
+System.out.println("sb---"+sb);
 			prepay_id = getPrepayID(sb.toString());
 			
 		} catch (Exception e) {
@@ -183,6 +194,67 @@ public class WxController {
 	}
 	
 	/**
+	 * 获得signature 作为前台wx.config
+	 * @return
+	 */
+	@RequestMapping("/getConfig")
+	@ResponseBody
+	public Map<String,String> getConfig(){
+		
+		HttpClient client = new DefaultHttpClient();
+		InputStream is = WxController.class.getClassLoader().getResourceAsStream("wx.properties");
+		Properties p = new Properties();
+		String accessToken = "";
+		String ticket = "";
+		String signature = "";
+		try {
+			p.load(is);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String appid = p.getProperty("appid");
+		String secret = p.getProperty("secret");
+		String url   = p.getProperty("url");
+		Map<String,String> retMap = new HashMap<String,String>();
+		
+		HttpGet get = new HttpGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appid+"&secret="+secret);
+		JSONObject retObj = null;
+		try {
+			HttpResponse resp = client.execute(get);
+			if(resp.getStatusLine().getStatusCode()==200){
+				retObj = (JSONObject)JSON.parse(new InputStreamReader(resp.getEntity().getContent()));
+				if(retObj.contains("access_token")){
+					accessToken = retObj.getString("access_token");
+					HttpGet getTicket = new HttpGet("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token="+accessToken+"&type=jsapi");
+					resp = client.execute(getTicket);
+					if(resp.getStatusLine().getStatusCode()==200){
+						retObj = (JSONObject)JSON.parse(new InputStreamReader(resp.getEntity().getContent()));
+						if(retObj.getInt("errcode", 40000)==0){
+							ticket = retObj.getString("ticket");
+							Long timestamp = System.currentTimeMillis()/1000L;
+							String noncestr = UUID.randomUUID().toString().replaceAll("-", "");
+							String signStr = "jsapi_ticket="+ticket+"&noncestr="+noncestr+"&timestamp="+timestamp+"&url="+url;
+							signature = DecryptUtil.SHA1(signStr);
+							retMap.put("appId", appid);
+							retMap.put("timestamp", timestamp.toString());
+							retMap.put("nonceStr", noncestr);
+							retMap.put("signature", signature);
+						}
+					}
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+		
+		
+		return retMap;
+	}
+	
+	/**
 	 * 统一下单通知
 	 * @param retXml
 	 * @return
@@ -190,12 +262,15 @@ public class WxController {
 	@RequestMapping("/unifiedorder_notify")
 	public String unifiedorder_notify(String retXml){
 		System.out.println("unifiedorder_notify");
-		System.out.println(retXml);
+		System.out.println("retXml----"+retXml);
 		return "";
 	}
 	
-	
-	
+	/**
+	 * 发送统一订单请求 返回prepay_id
+	 * @param retXml
+	 * @return
+	 */
 	private String getPrepayID(String retXml){
 		
 		String prepay_id = "";
@@ -217,6 +292,10 @@ public class WxController {
 		return prepay_id;
 	}
 	
+	/**
+	 * 准备预签名
+	 * @return
+	 */
 	private String prepareSign(String appid, String attach,	String body,String detail, String device_info,String fee_type,String goods_tag,
 			String limit_pay,String mch_id,	String nonce_str,String notify_url,String openid,String out_trade_no,String product_id,
 			String spbill_create_ip,Date time_expire,Date time_start, String total_fee, String trade_type){
@@ -245,6 +324,10 @@ public class WxController {
 		return beforeSigned;
 	}
 	
+	/**
+	 * 准备xml 发起统一下单请求
+	 * @return
+	 */
 	private String prepareParam(String appid, String attach,	String body,String detail, String device_info,String fee_type,String goods_tag,
 			String limit_pay,String mch_id,	String nonce_str,String notify_url,String openid,String out_trade_no,String product_id,
 			String spbill_create_ip,Date time_expire,Date time_start, String total_fee, String trade_type, String sign){
@@ -276,6 +359,42 @@ public class WxController {
 		
 	}
 	
-
+	/**
+	 * 根据code 计算openID
+	 * @param code
+	 * @return
+	 */
+	private String getOpenID(String code){
+		
+		
+		HttpClient client = new DefaultHttpClient();
+		InputStream is = WxController.class.getClassLoader().getResourceAsStream("wx.properties");
+		Properties p = new Properties();
+		String openid="";
+		try {
+			p.load(is);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String appid = p.getProperty("appid");
+		String secret = p.getProperty("secret");
+		
+		
+		HttpGet get = new HttpGet("https://api.weixin.qq.com/sns/oauth2/access_token?appid="+appid+"&secret="+secret+"&code="+code+"&grant_type=authorization_code");
+		try {
+			HttpResponse resp = client.execute(get);
+			JSONObject retObj = (JSONObject)JSON.parse(new InputStreamReader(resp.getEntity().getContent()));
+			openid = retObj.getString("openid");
+			System.out.println("getOpenID()   openID--"+openid);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return openid;
+	}
+	
 	
 }
