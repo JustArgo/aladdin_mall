@@ -57,5 +57,14 @@ public class WebUtil extends HttpServlet {
 		HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
 		return request.getSession();
 	}
+	
+	/**
+	 * 获取当前用户身份信息，若未登录为null
+	 * 
+	 * @return 身份信息，未登录为null
+	 */
+	public static Principal getCurrentPrincipal(){
+		return (Principal)getSession().getAttribute(Principal.ATTRIBUTE_KEY);
+	}
 
 }

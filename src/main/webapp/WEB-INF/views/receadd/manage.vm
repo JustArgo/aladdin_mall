@@ -14,7 +14,7 @@
 <body>
 	<div id="container">
     <div class="header">
-        <a href="../order-detail.html" class="header-back"><img src="images-address/back_n.png"></a>
+        <a href="javascript:history.go(-1);" class="header-back"><img src="images-address/back_n.png"></a>
         <span>${i18n.get("receiveAddress")}</span>
     </div>
     #foreach($add in $adds)

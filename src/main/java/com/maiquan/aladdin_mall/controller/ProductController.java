@@ -63,7 +63,12 @@ public class ProductController {
 		ProductVo productVo = productVoService.getProductVo(productID, UUID.randomUUID().toString());
 
 		System.out.println(productVo);
-
+		//获得该商品 共有多少个sku
+		Integer skuStock = 0;
+		for(ProductSku sku:productVo.getSkus()){
+			skuStock += sku.getSkuStock();
+		}
+		
 		Product p = productService.queryProduct(productID, UUID.randomUUID().toString());
 		model.addAttribute("productVo", productVo);
 
@@ -93,6 +98,7 @@ public class ProductController {
 
 		model.addAttribute("attrItems", attrItems);
 		model.addAttribute("productID", productID);
+		model.addAttribute("productStock",skuStock);
 		return "productdetail";
 	}
 
@@ -103,7 +109,6 @@ public class ProductController {
 		try {
 			System.out.println(JSON.json(""/* commentVo */));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

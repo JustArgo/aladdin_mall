@@ -159,7 +159,7 @@
 								</a>
 							</div>
 						</div>
-						<div class="bottom-number-left">(库存：251件)</div>
+						<div class="bottom-number-left">(库存：${productStock}件)</div>
 					</div>
 					<div class="bottom-number-btn">
 						<a href="javascript:void(0);" id="sureP">确认</a>
@@ -279,7 +279,7 @@
 				console.log(param);		
 				
 				$.ajax({
-					url:"${link.contextPath}/querySku?"+param,
+					url:"${link.contextPath}/product/querySku?"+param,
 					type:"POST",
 					dataType:"JSON",
 					success:function(ret){
@@ -324,7 +324,7 @@
 			if($("#collect").attr("src").indexOf("uncollect")!=-1){
 				$("#collect").attr("src","${link.contextPath}/images/img/collect.png");
 				$.ajax({
-					url:'${link.contextPath}/collect',
+					url:'${link.contextPath}/product/collect',
 					type:'POST',
 					dataType:'JSON',
 					data:{"mqID":2,"productID":$(".productID").val(),"collect":1},
@@ -341,7 +341,7 @@
 			}else{
 				$("#collect").attr("src","${link.contextPath}/images/img/uncollect.png");
 				$.ajax({
-					url:'${link.contextPath}/collect',
+					url:'${link.contextPath}/product/collect',
 					type:'POST',
 					dataType:'JSON',
 					data:{"mqID":2,"productID":$(".productID").val(),"collect":0},
@@ -427,7 +427,8 @@
 			}else{
 				//构造表单提交
 				var params = [];
-				params.push($("<input>",{name:"userID",value:"1"}))
+				params.push($("<input>",{name:"productID",value:$(".productID").val()}));
+				params.push($("<input>",{name:"userID",value:"1"}));
 				params.push($("<input>",{name:"skuID",value:$(".skuID").val()}));
 				params.push($("<input>",{name:"buyNum",value:buyNum}));
 				params.push($("<input>",{name:"skuPrice",value:skuPrice}));

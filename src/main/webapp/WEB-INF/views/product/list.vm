@@ -4,12 +4,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>商品列表</title>
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<script src="js/jquery-2.1.3.min.js"></script>
-<link rel="stylesheet" href="css/index.css" type="text/css" />
-<script src="js/js.js"></script>
+<script src="${link.contextPath}/js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="${link.contextPath}/css/index.css" type="text/css" />
+<script src="${link.contextPath}/js/js.js"></script>
 </head>
 <style>
-.header{width:100%;height:50px;background:url("images/classfiy/title_bar.png");text-align: center;}
+.header{width:100%;height:50px;background:url("${link.contextPath}/images/classfiy/title_bar.png");text-align: center;}
 .header-back{width:25px;height:25px;display:block;float:left;text-align: center;line-height: 25px;margin:12px;}
 .header-back img{width:100%;height:100%;}
 .header span{text-align: center;font-size:20px;color:#fff;line-height: 50px;position:relative;left:-20px;}
@@ -21,13 +21,13 @@
 <div id="container">
     <div class="header">
         <a href="classfiy.html" class="header-back">
-			<img class="img1" src="images/classfiy/back_n.png">
-			<img class="img2" src="images/classfiy/back_p.png">
+			<img class="img1" src="${link.contextPath}/images/classfiy/back_n.png">
+			<img class="img2" src="${link.contextPath}/images/classfiy/back_p.png">
 		</a>
         <span style="position:relative;left:1px;">【分类OR品牌】</span>
 		<a href="javascript:" class="btn right-btn" id="edit">
-			<img src="images/classfiy/search_n.png" />
-			<img src="images/classfiy/search_p.png" style="display:none" />
+			<img src="${link.contextPath}/images/classfiy/search_n.png" />
+			<img src="${link.contextPath}/images/classfiy/search_p.png" style="display:none" />
 		</a>
     </div>
 	<div class="success-search">
@@ -36,12 +36,12 @@
 			<a href="javascript:" class="sort-2">
 				价格排序
 				<span class="up">
-					<img class="img1" src="images/img/up_n.png" style="display:none;"/>
-					<img class="img2" src="images/img/up_p.png" style="display:block"/>
+					<img class="img1" src="${link.contextPath}/images/img/up_n.png" style="display:none;"/>
+					<img class="img2" src="${link.contextPath}/images/img/up_p.png" style="display:block"/>
 				</span>
 				<span class="down">
-					<img class="img1" src="images/img/down_n.png" />
-					<img class="img2" src="images/img/down_p.png" style="display:none;" />
+					<img class="img1" src="${link.contextPath}/images/img/down_n.png" />
+					<img class="img2" src="${link.contextPath}/images/img/down_p.png" style="display:none;" />
 				</span>
 			</a>
 	   </div>
@@ -49,7 +49,7 @@
     <div class="share-product">
         <div class="product">
             <div class="product-1">
-                <div class="product-img"><a href="product-list.html"><img src="images/img/commodity_image.png"></a></div>
+                <div class="product-img"><a href="product-list.html"><img src="${link.contextPath}/images/img/commodity_image.png"></a></div>
                 <div class="product-price">
 					<span>柯玫娅 欧美风貂皮大衣..</span>
 					<div class="price-footer">
@@ -59,7 +59,7 @@
 				</div>
             </div>
             <div class="product-2">
-                  <div class="product-img"><a href="product-list.html"><img src="images/img/commodity_image.png"></a></div>
+                  <div class="product-img"><a href="product-list.html"><img src="${link.contextPath}/images/img/commodity_image.png"></a></div>
                 <div class="product-price">
 					<span>柯玫娅 欧美风貂皮大衣..</span>
 					<div class="price-footer">
@@ -71,7 +71,7 @@
         </div>
         <div class="product">
             <div class="product-1">
-                 <div class="product-img"><a href="product-list.html"><img src="images/img/commodity_image.png"></a></div>
+                 <div class="product-img"><a href="product-list.html"><img src="${link.contextPath}/images/img/commodity_image.png"></a></div>
                 <div class="product-price">
 					<span>柯玫娅 欧美风貂皮大衣..</span>
 					<div class="price-footer">
@@ -81,7 +81,7 @@
 				</div>
             </div>
             <div class="product-2">
-                  <div class="product-img"><a href="product-list.html"><img src="images/img/commodity_image.png"></a></div>
+                  <div class="product-img"><a href="product-list.html"><img src="${link.contextPath}/images/img/commodity_image.png"></a></div>
                 <div class="product-price">
 					<span>柯玫娅 欧美风貂皮大衣..</span>
 					<div class="price-footer">
@@ -93,7 +93,7 @@
         </div>
         <div class="product">
             <div class="product-1">
-				 <div class="product-img"><a href="product-list.html"><img src="images/img/commodity_image.png"></a></div>
+				 <div class="product-img"><a href="product-list.html"><img src="${link.contextPath}/images/img/commodity_image.png"></a></div>
                 <div class="product-price">
 					<span>柯玫娅 欧美风貂皮大衣..</span>
 					<div class="price-footer">
@@ -103,7 +103,7 @@
 				</div>
             </div>
             <div class="product-2">
-                 <div class="product-img"><a href="product-list.html"><img src="images/img/commodity_image.png"></a></div>
+                 <div class="product-img"><a href="product-list.html"><img src="${link.contextPath}/images/img/commodity_image.png"></a></div>
                 <div class="product-price">
 					<span>柯玫娅 欧美风貂皮大衣..</span>
 					<div class="price-footer">

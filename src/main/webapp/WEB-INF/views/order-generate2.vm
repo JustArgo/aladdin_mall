@@ -17,7 +17,7 @@
 		</a>
         <span>确认订单</span>
     </div>
-	<a href="${link.contextPath}/manage_rece_add"><div class="order-address">
+	<a href="${link.contextPath}/manage_rece_add?mqID=2"><div class="order-address">
 		<div class="order-left">
 			#if($recName && $recName!="")
 			<div class="order-left-top">
@@ -54,6 +54,16 @@
 		<div class="info-content">
 			<div class="info-bottom">
 				<div class="info-bottom-img">
+					<a href="#"><img src="images/img/thumbnail2.png" /></a>
+				</div>
+					<p class="bottom-1">岚爵 冬季新款狐狸毛领长款羊毛皮草...</p>
+					<p class="bottom-2"><span>购买尺码：M</span><span style="margin-left:30px;">颜色：深驼</span></p>
+					<p class="bottom-3"><span style="color:#F389AA;font-size:14px;">￥3990.00</span><span class="number">x1</span></p>
+			</div>
+		</div>
+		<div class="info-content">
+			<div class="info-bottom">
+				<div class="info-bottom-img">
 					<a href="#"><img src="${orderProduct.skuImg}" /></a>
 				</div>
 					<p class="bottom-1">${orderProduct.sellDesc}</p>
@@ -84,17 +94,17 @@
 		<div class="invoice-main" style="display:none">
 			<ul>
 				<li><input class="text" placeholder="输入发票抬头"/></li>
-				<li><a href="javascript:" class="btn optionS">
+				<li><a href="javascript:" class="optionS">
 					<img class="img1 option-img1" src="images/img/select_n.png" />
 					<img class="img2 option-img2" src="images/img/select_p.png" />
 					麦圈
 				<a></li>
-				<li><a href="javascript:" class="btn optionS">
+				<li><a href="javascript:" class="optionS">
 					<img class="img1 option-img1" src="images/img/select_n.png" />
 					<img class="img2 option-img2" src="images/img/select_p.png" />
 					品味滋味
 				<a></li>
-				<li><a href="javascript:" class="btn optionS">
+				<li><a href="javascript:" class="optionS">
 					<img class="img1 option-img1" src="images/img/select_n.png" />
 					<img class="img2 option-img2" src="images/img/select_p.png" />
 					熊无人
@@ -134,6 +144,18 @@
 				$(this).find(".img1").show();
 				$(this).find(".img2").hide();
 			}
+		});
+		$(".optionS").click(function(){
+			$(".optionS").find(".img2").hide();
+			$(".optionS").find(".img1").show();
+			$(this).find(".img2").show();
+			$(this).find(".img1").hide();
+			$(".text").val($(this).get(0).innerText);
+			
+		});
+		$(".text").focus(function(){
+			$(".optionS").find(".img2").hide();
+			$(".optionS").find(".img1").show();
 		});
 		$(".btn2").click(function(){
 			if($(this).find(".img1").is(":visible")){

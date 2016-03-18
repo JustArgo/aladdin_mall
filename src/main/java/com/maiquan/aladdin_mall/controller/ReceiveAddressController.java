@@ -83,12 +83,13 @@ public class ReceiveAddressController {
 	@RequestMapping("/manage_rece_add")
 	private String manage(String mqID, Model model){
 		
+		mqID = "2";
 		List<ReceiveAddress> adds = manageReceAddService.listUsableAddress(mqID,UUID.randomUUID().toString());
 		for(int i=0;i<adds.size();i++){
 			ReceiveAddress address = adds.get(i);
-			String province = addressService.getAddress(Integer.valueOf(address.getProvinceID()),UUID.randomUUID().toString()).getName();
-			String city     = addressService.getAddress(Integer.valueOf(address.getCityID()),UUID.randomUUID().toString()).getName();
-			String district = address.getDistrictID()!=null?addressService.getAddress(Integer.valueOf(address.getDistrictID()),UUID.randomUUID().toString()).getName():"";
+			String province = addressService.getAddress(address.getProvinceID(),UUID.randomUUID().toString()).getName();
+			String city     = addressService.getAddress(address.getCityID(),UUID.randomUUID().toString()).getName();
+			String district = address.getDistrictID()!=null?addressService.getAddress(address.getDistrictID(),UUID.randomUUID().toString()).getName():"";
 			
 			adds.get(i).setAddress(province+city+district+address.getAddress());
 			
@@ -117,8 +118,8 @@ public class ReceiveAddressController {
 			
 			ReceiveAddress address = manageReceAddService.getAddress(ID,UUID.randomUUID().toString());
 			model.addAttribute("add",address);
-			cities = addressService.getSubAddress(Integer.valueOf(address.getProvinceID()),UUID.randomUUID().toString());
-			districts = addressService.getSubAddress(Integer.valueOf(address.getCityID()),UUID.randomUUID().toString());
+			cities = addressService.getSubAddress(address.getProvinceID(),UUID.randomUUID().toString());
+			districts = addressService.getSubAddress(address.getCityID(),UUID.randomUUID().toString());
 			
 		}else{
 			cities = addressService.getSubAddress(10,UUID.randomUUID().toString());
