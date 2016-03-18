@@ -16,7 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -33,12 +35,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aladdin.interaction.wx.service.WxInteractionService;
 import com.aladdin.user.service.UserService;
+import com.alibaba.dubbo.common.json.JSON;
+import com.alibaba.dubbo.common.json.JSONObject;
 import com.maiquan.aladdin_mall.Principal;
 import com.maiquan.aladdin_mall.util.DecryptUtil;
 import com.maiquan.aladdin_mall.util.WebUtil;
-import com.maiquan.aladingfront.controller.ClientProtocolException;
-import com.maiquan.aladingfront.controller.HttpGet;
-import com.maiquan.aladingfront.controller.JSONObject;
 
 /**
  * 微信验证接口
