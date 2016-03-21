@@ -9,4 +9,7 @@
 	<toolbox scope="application">
 		<tool key="number" class="org.apache.velocity.tools.generic.NumberTool"/>
 	</toolbox>
+	<toolbox scope="application">
+		<tool key="math" class="org.apache.velocity.tools.generic.MathTool"/>
+	</toolbox>
 </tools>

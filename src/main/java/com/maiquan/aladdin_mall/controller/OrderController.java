@@ -1,18 +1,44 @@
 package com.maiquan.aladdin_mall.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aladdin.interaction.wx.service.WxInteractionService;
+import com.alibaba.dubbo.common.json.JSON;
+import com.alibaba.dubbo.common.json.JSONObject;
+import com.maiquan.aladdin_mall.util.DecryptUtil;
+import com.maiquan.aladdin_mall.util.WebUtil;
 import com.maiquan.aladdin_order.domain.Order;
 import com.maiquan.aladdin_order.domain.OrderProduct;
 import com.maiquan.aladdin_order.service.IOrderProductService;
@@ -28,12 +54,14 @@ import com.maiquan.aladdin_receadd.service.IAddressService;
 import com.maiquan.aladdin_receadd.service.IManageReceAddService;
 import com.maiquan.aladdin_shopcar.domain.ShopCarProduct;
 import com.maiquan.aladdin_shopcar.service.IShopCarService;
-import com.maiquan.aladdin_supplier.domain.Supplier;
 import com.maiquan.aladdin_supplier.service.ISupplierService;
 
 @Controller
 public class OrderController {
 
+	@Autowired
+	private WxInteractionService wxInteractionService;
+	
 	@Autowired
 	private IShopCarService shopCarService;
 	
@@ -64,13 +92,55 @@ public class OrderController {
 	//@Autowired
 	//private ISupplierService supplierService;
 	
-	@RequestMapping("/previewOrder")
+	@RequestMapping("/placeOrder")
+	public Map<String,String> placeOrder(String mqID, Integer[] skuIds, Integer[] buyNums, Long[] skuPrices, Long[] supplierAmounts, Long pFee, Long pSum, String invoiceName, String notes){
+		
+		mqID="2";
+		System.out.println("mqID"+mqID);
+		System.out.print("skuIDs  ");
+		for(int i=0;i<skuIds.length;i++){
+			System.out.print(skuIds[i]+" ");
+		}
+		System.out.println("buyNums  ");
+		for(int i=0;i<buyNums.length;i++){
+			System.out.print(buyNums[i]+" ");
+		}
+		System.out.println("skuPrices  ");
+		for(int i=0;i<skuPrices.length;i++){
+			System.out.print(skuPrices[i]+" ");
+		}
+		System.out.println("supplierAmounts");
+		for(int i=0;i<supplierAmounts.length;i++){
+			System.out.print(supplierAmounts[i]+" ");
+		}
+		System.out.println("pFee  "+pFee);
+		System.out.println("pSum  "+pSum);
+		
+		String openID = WebUtil.getCurrentPrincipal().getOpenId();
+		
+		if(openID==null){
+			System.out.println("openID is null");
+			return null;
+		}
+		
+		//TODO 此处应该返回orderCode 供下面使用
+		orderService.placeOrder(mqID, skuIds, buyNums, skuPrices, pFee, pSum, invoiceName, notes, "");
+
+		Map<String,String> parameters = new HashMap<String,String>();
+		parameters.put("openid", openID);
+		parameters.put("body", "null");
+		parameters.put("out_trade_no",new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date())+(new Random().nextInt(900)+100));
+		parameters.put("total_fee", pSum*100+"");
+		
+		return wxInteractionService.unifiedOrder(parameters);
+	}
+	
+	@RequestMapping("/order/previewOrder")
 	public String previewOrder(Model model){
 		//预览订单
 		String mqID = "2";//principal.getMqID();
 		
 		List<Map<String,Object>> supplierProducts = shopCarService.viewShopCar(mqID, UUID.randomUUID().toString());		
-		
 		
 		Long totalPrice = 0L;
 		double totalPostFee = 0L;
@@ -278,7 +348,7 @@ public class OrderController {
 		model.addAttribute("totalPrice",skuPrice*buyNum+totalPostFee/100.0);*/
 		
 		
-		return "redirect:previewOrder";
+		return "redirect:order/previewOrder";
 	}
 	
 	/**
@@ -329,7 +399,7 @@ public class OrderController {
 		int orderID = orderService.placeOrder(mqID, skuIDs, buyNums, skuPrices, UUID.randomUUID().toString());
 		shopCarService.emptyShopCar(2, UUID.randomUUID().toString());
 		System.out.println("订单号:------"+orderID);*/
-		return "redirect:previewOrder";
+		return "redirect:order/previewOrder";
 		
 	}
 	
@@ -423,4 +493,31 @@ public class OrderController {
 		
 		return "redirect:chooseReceAdd";
 	}
+	
+	/**
+	 * 获得signature 作为前台wx.config
+	 * @return
+	 */
+	@RequestMapping("/getConfig")
+	@ResponseBody
+	public Map<String,String> getConfig(){
+		
+		Map<String,String> retMap = new HashMap<String,String>();
+		retMap = wxInteractionService.getConfig();
+		
+		return retMap;
+	}
+	
+	/**
+	 * 统一下单通知
+	 * @param retXml
+	 * @return
+	 */
+	@RequestMapping("/unifiedorder_notify")
+	public String unifiedorder_notify(String retXml){
+		System.out.println("unifiedorder_notify");
+		System.out.println("retXml----"+retXml);
+		return "";
+	}
+	
 }

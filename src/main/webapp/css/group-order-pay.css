@@ -1,0 +1,61 @@
+body{margin:0;padding:0;background:url("../images/bg.png")}
+body a:hover{text-decoration: none;}
+body a:focus{outline:none;}
+body a{color:#666;text-decoration:none;}
+#container{width:100%;height:100%;;}
+.header{width:100%;height:50px;background:url("../images/title_bar.png");text-align: center;}
+.header-back{width:25px;height:25px;display:block;float:left;text-align: center;line-height: 25px;margin:12px;}
+.header-back img{width:100%;height:100%;}
+.header span{text-align: center;font-size:20px;color:#fff;line-height: 50px;position:relative;left:-20px;}
+.img2{display:none;}
+.order-address{width:100%;height:100%;background-color:#fff;padding-bottom:15px;float:left;box-shadow:0 0 5px #cecece;}
+.order-left{width:96%;margin-top:10px;float:left;font-size:12px;}
+.order-right{width:4%;float:left;margin-top:10px;}
+.order-left-top{width:100%;height:30px;line-height:30px;}
+.order-left-bottom{width:100%;height:40px;line-height:30px;}
+.order-tb{width:100%;position:relative;}
+.order-right img{width:20px;height:20px;margin-top:22px;margin-left:-8px;}
+.order-info{width:100%;height:100%;background-color:#fff;margin-top:10px;float:left;padding-bottom:10px;box-shadow:0 0 5px #cecece;}
+.order-info-main{width:94%;margin-left:3%;margin-top:5px;}
+.info-content p ,.info-title p{margin:0;padding:0;font-size:14px;margin-bottom:5px;}
+.info-bottom{width:100%;margin-top:10px;}
+.bottom-1{color:#666;font-size:16px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
+.bottom-2 span{font-size:12px;color:#666}
+.number{position:absolute;right:20px;color:#666;}
+.info-bottom-img{width:75px;height:70px;float:left;margin-right:10px;}
+.info-bottom-img img{width:100%;height:100%;}
+.info-title{border:0;padding-bottom:0;}
+.info-content{padding-top:0;padding-bottom:10px;}
+.order-freight p{margin:5px 0 0 0;padding:5px 0 0 0;}
+.p-left{display:none;font-size:12px;color:#E81959;border-top:1px solid #cecece;margin-top:10px;}
+.p-right{position:absolute;right:20px;color:#E81959;}
+.invoice{width:100%;height:100%;background-color:#fff;float:left;margin-top:10px;}
+.invoice-link{width:80px;height:30px;display:block;font-size:18px;margin-left:20px;margin-top:15px;}
+.invoice-link img{width:23px;height:23px;margin-right:10px;position:relative;top:5px;}
+.invoice-main{width:90%;height:150px;margin-left:5%;position:relative;margin-top:-12px;boorder-bottom:1px solid #cecece;}
+.invoice-main ul{list-style:none;}
+.invoice-main ul li input{width:250px;height:30px;background-color:#F3F3F3;border:0;border-radius:5px;text-align:center;margin-bottom:10px;}
+.invoice-main ul li{height:35px;}
+.optionS img{width:14px;height:14px;}
+.hidden{position:absolute;width:100%;height:100%;background:rgba(0,0,0,0.5);top:0;left:0;border-radius:5px;}
+.invoice-message{width:96%;height:40px;margin-left:2%;border-top:1px solid #cecece;margin-top:10px;padding-top:10px;padding-bottom:15px;}
+.invoice-message input{width:90%;;height:36px;margin-top:2px;margin-left:20px;text-align:center;border-radius:5px;background-color:#F3F3F3;border:0;}
+.pay-type{width:100%;height:100%;float:left;padding-bottom:10px;}
+.type{width:70%;margin-left:15%;height:40px;margin-top:20px;background-color:#fff;border-radius:5px;box-shadow:0 0 5px #cecece;}
+.type a{display:block;line-height:40px;text-align:center;}
+.order-pay-footer{width:100%;height:40px;line-height:40px;position:relative;font-size:14px;background-color:#fff;float:left;}
+.order-pay-footer a{width:60px;height:40px;display:block;background-color:#E81959;color:#fff;line-height:40px;text-align:center;float:right;}
+.bg1{background-color:#fff;color:#232323;}
+.bg2{background-color:#E81959;color:#fff;}
+.order-freight{width:96%;margin-left:2%;margin-top:10px;padding-top:5px;}
+.freight-p span:first-child{padding-left:10px;}
+.freight-div{width:96%;margin-left:2%;height:25px;position:relative;border-bottom:1px solid #cecece;padding-bottom:5px;border-top:1px solid #cecece;padding-top:5px;}
+.bg1{background-color:#fff;color:#555;}
+.bg2{background-color:#E81959;color:#fff;}
+.bottom-number{width:80px;height:20px;color:#666;float:left;position:absolute;right:10px;top:7px;}
+.info-bottom p{padding:0;margin:3px 0 0 0;}
+.number-1{width:20px;height:20px;float:left;}
+.subtract,.add{width:20px;height:20px;}
+.subtract img,.add img{width:100%;height:100%;}
+.suer-btn{background-color:}
+.number-2{width:40px;height:20px;float:left;background-color:#444444;text-align:center;color:#fff;font-size:12px;line-height:20px;}

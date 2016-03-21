@@ -4,16 +4,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>确认订单</title>
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<script src="js/jquery-2.1.3.min.js"></script>
-<link rel="stylesheet" href="css/mall.css" type="text/css" />
-<link rel="stylesheet" href="css/order-generate.css" type="text/css" />
+<script src="${link.contextPath}/js/jquery-2.1.3.min.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
+<link rel="stylesheet" href="${link.contextPath}/css/mall.css" type="text/css" />
+<link rel="stylesheet" href="${link.contextPath}/css/order-generate.css" type="text/css" />
 </head>
 <body>
 	<div id="container">
+    <form id="placeOrder" action="${link.contextPath}/placeOrder">
+    <input type="hidden" name="recaddID" value=""/>
     <div class="header">
         <a href="shop-car.html" class="header-back btn">
-			<img class="img1" src="images/classfiy/back_n.png">
-			<img class="img2" src="images/classfiy/back_p.png">
+			<img class="img1" src="${link.contextPath}/images/classfiy/back_n.png">
+			<img class="img2" src="${link.contextPath}/images/classfiy/back_p.png">
 		</a>
         <span>确认订单</span>
     </div>
@@ -43,15 +46,20 @@
 			#end
 		</div>
 		<div class="order-right">
-			<img src="images/img/arrow.png" />
+			<img src="${link.contextPath}/images/img/arrow.png" />
 		</div>
 	</div></a>
+	
 	#foreach($orderProduct in $supplierProducts)
+	<input type="hidden" name="supplierAmounts" value=""/>
 	<div class="order-info">
 		<div class="info-title">
 			<p>供应商：<span>${orderProduct.supName}</span></p>
 		</div>
 		#foreach($orderProductDetail in $orderProduct.shopCarProducts)
+		<input type="hidden" name="skuIds" value="${orderProductDetail.skuID}"/>
+		<input type="hidden" name="buyNums" value="${orderProductDetail.skuQuality}"/>
+		<input type="hidden" name="skuPrices" value="${orderProductDetail.skuPrice}"/>
 		<div class="info-content">
 			
 			<div class="info-bottom">
@@ -88,26 +96,26 @@
 	
 	<div class="invoice">
 		<a href="javascript:" class="btn invoice-link" id="invoice-btn">
-			<img class="img1 option-img1" src="images/img/select_n.png" />
-			<img class="img2 option-img2" src="images/img/select_p.png" />
+			<img class="img1 option-img1" src="${link.contextPath}/images/img/select_n.png" />
+			<img class="img2 option-img2" src="${link.contextPath}/images/img/select_p.png" />
 			发票
 		</a>
 		<div class="invoice-main" style="display:none">
 			<ul>
-				<li><input class="text" placeholder="输入发票抬头"/></li>
+				<li><input class="text" placeholder="输入发票抬头" name="invoiceName"/></li>
 				<li><a href="javascript:" class="optionS">
-					<img class="img1 option-img1" src="images/img/select_n.png" />
-					<img class="img2 option-img2" src="images/img/select_p.png" />
+					<img class="img1 option-img1" src="${link.contextPath}/images/img/select_n.png" />
+					<img class="img2 option-img2" src="${link.contextPath}/images/img/select_p.png" />
 					麦圈
 				<a></li>
 				<li><a href="javascript:" class="optionS">
-					<img class="img1 option-img1" src="images/img/select_n.png" />
-					<img class="img2 option-img2" src="images/img/select_p.png" />
+					<img class="img1 option-img1" src="${link.contextPath}/images/img/select_n.png" />
+					<img class="img2 option-img2" src="${link.contextPath}/images/img/select_p.png" />
 					品味滋味
 				<a></li>
 				<li><a href="javascript:" class="optionS">
-					<img class="img1 option-img1" src="images/img/select_n.png" />
-					<img class="img2 option-img2" src="images/img/select_p.png" />
+					<img class="img1 option-img1" src="${link.contextPath}/images/img/select_n.png" />
+					<img class="img2 option-img2" src="${link.contextPath}/images/img/select_p.png" />
 					熊无人
 				<a></li>
 			</ul>
@@ -115,13 +123,13 @@
 		</div>
 		
 		<div class="invoice-message">
-			<input type="text" placeholder="给卖家留言"/>
+			<input type="text" placeholder="给卖家留言" name="notes"/>
 		</div>
 	</div>
 	
 	<div class="pay-type">
 		<div class="type">
-			<a href="javascript:" class="type-btn bg1">微信支付</a>
+			<a href="javascript:" class="type-btn bg1 wxpay">微信支付</a>
 		</div>
 		<div class="type">
 			<a href="javascript:" class="type-btn bg1">支付宝支付</a>
@@ -129,15 +137,45 @@
 	</div>
 	
 	<div class="order-pay-footer">
-		<span style="margin-left:20px;">总运费：<span style="color:#E81959">￥$number.format("#0.00",${totalPostFee})</span>&nbsp;&nbsp;合计(含运费)：</span>
-		<span style="color:#E81959">￥$number.format("#0.00",${totalPrice})</span>
+		<input type="hidden" name="pFee" value=""/>
+		<input type="hidden" name="pSum" value=""/>
+		<span style="margin-left:20px;">总运费：<span style="color:#E81959" class="pFee">￥$number.format("#0.00",${totalPostFee})</span>&nbsp;&nbsp;合计(含运费)：</span>
+		<span style="color:#E81959" class="pSum">￥$number.format("#0.00",${totalPrice})</span>
 		<a href="pay-success.html" class="suer-btn">确认</a>
 	</div>
+	</form>
 </div>
 </body>
 <script>
     $(function(){
-		$(".btn").click(function(){
+		
+    	/* 初始化微信配置  */
+    	$.ajax({
+    		url:"${link.contextPath}/getConfig",
+    		type:"POST",
+    		dataType:"json",
+    		success:function(result){
+    			if(result.appId){
+    				alert("appId:  "+result.appId);
+    				wx.config({
+    					debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+						appId: result.appId, // 必填，公众号的唯一标识
+						timestamp: result.timestamp, // 必填，生成签名的时间戳
+						nonceStr: result.nonceStr, // 必填，生成签名的随机串
+						signature: result.signature,// 必填，签名，见附录1
+						jsApiList: [
+						'chooseWXPay',
+						'openProductSpecificView',
+						'addCard',
+						'chooseCard',
+						'openCard'
+						] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    				})
+    			}
+    		}
+    	});
+    	
+    	$(".btn").click(function(){
 			if($(this).find(".img1").is(":visible")){
 				$(this).find(".img1").hide();
 				$(this).find(".img2").show();
@@ -197,6 +235,69 @@
 			$(".invoice-main").slideDown();
 		}
 	})
+	
+	var payResult;//支付的参数
+	$.ajaxSettings.traditional = true;
+	$(".wxpay").click(function(){
+		//设置pFee pSum
+		var pattern = new RegExp("^[0-9]+\.{0,1}[0-9]{0,2}$");
+		var pFee = $(".pFee").text().substring(1);
+		var pSum = $(".pSum").text().substring(1);
+		pFee = parseInt(parseFloat(pFee)*100);
+		pSum = parseInt(parseFloat(pSum)*100);
+		$("input[name=pFee]").val(pFee);
+		$("input[name=pSum]").val(pSum);
+		$.ajax({
+			url:"${link.contextPath}/placeOrder",
+			type:"POST",
+			data:$("#placeOrder").serialize(),
+			dataType:"json",
+			success:function(payInfo){
+				if(payInfo&&payInfo.timeStamp){
+					payResult = payInfo;
+					payNow();
+				}				
+			}
+		});
+		
+	});
+	
+	function onBridgeReady(){
+		if(payResult){
+			WeixinJSBridge.invoke(
+			   'getBrandWCPayRequest', {
+				   "appId":payResult.appId,
+				   "nonceStr":payResult.nonceStr,
+				   "timeStamp":payResult.timeStamp,
+				   "package":payResult.package,
+				   "signType":payResult.signType,
+				   "paySign":payResult.paySign
+			   },
+			   function(res){
+				   if(confirm("完成支付")){
+						alert("跳转到查看订单页面");
+				   }else{
+						alert("跳转到待付款");
+				   }
+			   }
+		   );	
+		}
+	}
+	
+	function payNow(){
+		
+		if (typeof WeixinJSBridge == "undefined"){
+		   if( document.addEventListener ){
+			   document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+		   }else if (document.attachEvent){
+			   document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+			   document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+		   }
+		}else{
+		   onBridgeReady();
+		}
+		
+	}
 	
 </script>
 </html>
