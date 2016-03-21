@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.maiquan.aladdin_mall.util.WebUtil;
 import com.maiquan.aladdin_product.domain.Product;
 import com.maiquan.aladdin_product.domain.ProductAttr;
 import com.maiquan.aladdin_product.domain.ProductAttrValue;
@@ -213,7 +214,8 @@ public class ProductController {
 	 */
 	@RequestMapping(value = "/list/{categoryId}", method = RequestMethod.GET)
 	public String list(@PathVariable Integer categoryId,ModelMap modelMap) {
-		modelMap.addAttribute("products", productService.getProductListByCategoryID(categoryId,"fwef"));
+//		modelMap.addAttribute("products", productService.getProductListByCategoryID(categoryId,WebUtil.getCurrentPrincipal().getMqId()));
+		modelMap.addAttribute("products", productService.getProductListByCategoryID(categoryId,null));
 		return "product/list";
 	}
 }

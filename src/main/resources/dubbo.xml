@@ -11,7 +11,7 @@
 				        	
 	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
 	<dubbo:application name="aladdin_mall" /> 
-	<dubbo:registry protocol="zookeeper"  address="zookeeper://127.0.0.1:2181"  />        
+	<dubbo:registry protocol="zookeeper"  address="zookeeper://115.29.249.236:2181"  />        
 	
 	<dubbo:reference id="productService" interface="com.maiquan.aladdin_product.service.IProductService"/>
 	<dubbo:reference id="productSkuService" interface="com.maiquan.aladdin_product.service.IProductSkuService"/>

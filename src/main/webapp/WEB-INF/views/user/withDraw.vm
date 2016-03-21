@@ -43,7 +43,7 @@
 	<div class="reflect-area"> 
 		<div class="reflect-title">
 			<p>可用提现金额</p>
-			<p style="color:#E81959">￥100.00</p>
+			<p style="color:#E81959">￥$remainingSum</p>
 		</div>
 		<div class="reflect-tip">
 			<p style="margin-bottom:10px">《提现协议》</p>
@@ -55,12 +55,12 @@
 	<div class="reflect-content">
 		<p>提现到微信账余额</p>
 		<p>提现金额</p>
-		<p><input type="text" placeholder="" value="￥45"/></p>
-		<p class="centent1">当前余额为￥100.00</p>
+		<p>￥<input type="number" placeholder="" value=""/></p>
+		<p class="centent1">当前余额为￥$remainingSum</p>
 		<p class="centent2">提现金额不能超过当前余额</p>
 	</div>
 	<div class="reflect-footer">
-		<a href="javascript:" id="reflect-btn">提  现</a>
+		<a href="javascript:void();" id="reflect-btn">提  现</a>
 	</div>
 </div>
 </body>
