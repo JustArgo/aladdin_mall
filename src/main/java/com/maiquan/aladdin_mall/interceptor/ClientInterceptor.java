@@ -26,10 +26,6 @@ public class ClientInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		try {
-			System.out.println("openId:"+((Principal)WebUtil.getSession().getAttribute(Principal.ATTRIBUTE_KEY)).getOpenId());
-		} catch (Exception e) {
-		}
 		String ua = request.getHeader("user-agent").toLowerCase();
 		boolean isWx = ua.indexOf("micromessenger") > 0;// 是否微信浏览器
 		Principal principal = WebUtil.getCurrentPrincipal();
@@ -38,8 +34,7 @@ public class ClientInterceptor extends HandlerInterceptorAdapter {
 				/* 跳转到自动登陆页面 */
 				WebUtil.getSession().setAttribute(WebUtil.SAVE_REQUEST_KEY, request.getRequestURL());
 				if(!response.isCommitted()){
-					System.out.println("redirect to wx!!!!!!!!");
-					response.sendRedirect(wxInteractionService.oauth2buildAuthorizationUrl(WxConsts.OAUTH2_SCOPE_BASE, null));
+					response.sendRedirect(wxInteractionService.oauth2buildAuthorizationUrl(WxConsts.OAUTH2_SCOPE_BASE, ""));
 					return false;
 				}
 			}

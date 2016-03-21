@@ -3,6 +3,7 @@ package com.maiquan.aladdin_mall.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
@@ -14,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aladdin.interaction.wx.service.WxInteractionService;
+import com.aladdin.user.entity.WxUser;
 import com.aladdin.user.service.UserService;
 import com.maiquan.aladdin_mall.Principal;
 import com.maiquan.aladdin_mall.util.WebUtil;
+
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
 /**
  * 微信验证接口
@@ -62,7 +66,7 @@ public class WxController {
 	@RequestMapping(value = "/callback", method = RequestMethod.GET)
 	@ResponseBody
 	public void login(HttpServletResponse response, String code, String state) throws Exception {
-		
+
 		WxMpUser wxMpUser = wxInteractionService.getSnsapiBaseUserInfo(code);
 		String openId = wxMpUser.getOpenId();
 		System.out.println("get the openId:" + openId);
