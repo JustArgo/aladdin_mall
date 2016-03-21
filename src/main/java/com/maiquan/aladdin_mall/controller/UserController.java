@@ -48,6 +48,7 @@ public class UserController {
 	@RequestMapping(value = "/wealth", method = RequestMethod.GET)
 	public String wealth(ModelMap modelMap) {
 		Principal principal = WebUtil.getCurrentPrincipal();
+//		modelMap.addAttribute("accountInfo", accountService.getAccountInfo(principal.getMqId(), "1"));
 		modelMap.addAttribute("accountInfo", accountService.getAccountInfo(null, "1"));
 		return "user/wealth";
 	}
@@ -68,7 +69,10 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/withDraw", method = RequestMethod.GET)
-	public String withDraw() {
+	public String withDraw(ModelMap modelMap) {
+		Principal principal = WebUtil.getCurrentPrincipal();
+//		modelMap.addAttribute("accountInfo", accountService.getRemainingSum(principal.getMqId(), "1"));
+		modelMap.addAttribute("remainingSum", accountService.getRemainingSum(null, "1"));
 		return "user/withDraw";
 	}
 
@@ -93,7 +97,7 @@ public class UserController {
 	@RequestMapping(value = "/collect", method = RequestMethod.GET)
 	public String collect(ModelMap modelMap) {
 		Principal principal = WebUtil.getCurrentPrincipal();
-		modelMap.addAttribute("product", productCollectService.getProductCollectListByIDs("1", null));
+		modelMap.addAttribute("product", productCollectService.getProductCollectListByMqID("1", null));
 		return "user/collect";
 	}
 }
