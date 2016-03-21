@@ -29,6 +29,12 @@
 			<artifactId>aladdin_base</artifactId>
 			<version>0.2.0-SNAPSHOT</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.maiquan</groupId>
+			<artifactId>aladdin_groupbuy</artifactId>
+			<version>0.3.0-SNAPSHOT</version>
+		</dependency>
 
 		<!-- Spring -->
 		<dependency>
@@ -184,6 +190,9 @@
 							<port>9091</port>
 						</connector>
 					</connectors>
+					<webAppConfig> 
+			            <contextPath>/</contextPath>
+			        </webAppConfig>
 				</configuration>
 			</plugin>
 

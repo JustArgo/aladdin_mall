@@ -1,0 +1,218 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>拼团</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<script src="${link.contextPath}/js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="${link.contextPath}/css/invitation-group-detail.css" type="text/css" />
+</head>
+<body>
+<div id="container">
+    <div class="header">
+        <a href="cloud-shop.html" class="header-back btn">
+			<img class="img1" src="${link.contextPath}/images/back_n.png">
+			<img class="img2" src="${link.contextPath}/images/back_p.png">
+		</a>
+        <span>拼团</span>
+	</div>
+    <div class="carousel">
+		<div class="carousel-bigger">
+			<div class="bigger-img" style="display:block">
+				<a href="advertisement.html"><img src="${link.contextPath}/images/preview.png" /></a>
+			</div>
+			<div class="bigger-img">
+				<a href="advertisement.html"><img src="${link.contextPath}/images/preview.png" /></a>
+			</div>
+			<div class="bigger-img">
+				<a href="advertisement.html"><img src="${link.contextPath}/images/preview.png" /></a>
+			</div>
+			<div class="bigger-img">
+				<a href="advertisement.html"><img src="${link.contextPath}/images/preview.png" /></a>
+			</div>
+			<div class="bigger-img">
+				<a href="advertisement.html"><img src="${link.contextPath}/images/preview.png" /></a>
+			</div>
+		</div>
+		<div class="carsousel-smaller">
+			<div class="smaller-img carousel-select1"></div>
+			<div class="smaller-img carousel-select1"></div>
+			<div class="smaller-img carousel-select1"></div>
+			<div class="smaller-img carousel-select1"></div>
+			<div class="smaller-img carousel-select1"></div>
+		</div>
+	</div>
+	<div class="cloud-title-bottom">
+		<span>【三只松鼠】开口松子218g*2袋</span>
+		<span>原价：87.00</span>
+	</div>
+	<div class="detail-area">
+		<div class="detail-title">
+			<div class="title-tip">
+				商品简介
+			</div>
+		</div>
+		<div class="detail-1">
+			$!{productDesc}
+		</div>
+		
+		<div class="detail-title">
+			<div class="title-tip">
+				参团说明
+			</div>
+		</div>
+		<div class="group-state">
+			<div class="state-main">
+				<p class="state-p"><span class="span-1">参团所需人数</span><span class="span-2">${pinInfo.people}人</span></p>
+				<p class="state-p"><span class="span-1">限购</span><span class="span-2" style="position:relative;left:-8px;">${pinInfo.limitCount}件</span></p>
+				<p class="state-p"><span class="span-1">运费</span><span class="span-2">#if($postFee==0)包邮#else $postFee #end</span></p>
+			</div>
+		</div>
+		
+		<div class="detail-title">
+			<div class="title-tip">
+				参团情况
+			</div>
+		</div>
+		<div class="pragress-bar">
+			<div class="pragress-select">
+				$math.mul(10,${pinInfo.pinCount})%;
+			</div>
+		</div>
+		<div class="detail-number">
+			<div class="detail-num">
+				<p style="color:#000">${pinInfo.pinCount}</p>
+				<p class="detail-text">已参与</p>
+			</div>
+			<div class="detail-num">
+				<p style="color:#000">${pinInfo.people}</p>
+				<p class="detail-text">总需人数</p>
+			</div>
+			<div class="detail-num">
+				<p style="color:#000">$math.sub($pinInfo.people,$pinInfo.pinCount)</p>
+				<p class="detail-text">剩余</p>
+			</div>
+		</div>
+		<div class="detail-title">
+			<div class="title-tip">
+				参团价格
+			</div>
+		</div>
+		<div class="detail-price">
+			<span style="color:#232323;font-size:16px;">团购价：</span>￥44.90
+		</div>
+		<div class="detail-title">
+			<div class="title-tip">
+				活动流程
+			</div>
+		</div>
+		<div class="detail-process">
+			<ul>
+				<li class="bg2">
+					<div style="width:100%;height:50%;margin:0;padding:0;line-height:20px;">选择</div>
+					<div style="width:100%;height:50%;margin:0;padding:0;line-height:15px;">心仪商品</div>
+				</li>
+				<li class="bg1">
+					<div style="width:100%;height:50%;margin:0;padding:0;line-height:20px;">支付</div>
+					<div style="width:100%;height:50%;margin:0;padding:0;line-height:15px;">开团或参团</div>
+				</li>
+				<li class="bg1">
+					<div style="width:100%;height:50%;margin:0;padding:0;line-height:20px;">等待好有</div>
+					<div style="width:100%;height:50%;margin:0;padding:0;line-height:15px;">参团支付</div>
+				</li>
+				<li class="bg1">
+					<div style="width:100%;height:50%;margin:0;padding:0;line-height:20px;">达到人数</div>
+					<div style="width:100%;height:50%;margin:0;padding:0;line-height:15px;">组团成功</div>
+				</li>
+			</ul>
+			<div class="process-bottom">
+				商品揭晓后，请及时登录"我的1元购"完善个人资料，以便我们能够准确无误地为您配送商品。
+			</div>
+		</div>
+	</div>
+	<div class="footer-menu">
+		<div class="menu">
+			<a href="../product-detail.html" class="btn2"><div class="menu-top">
+				<img class="img1" src="${link.contextPath}/images/see_details_n.png" />
+				<img class="img2" src="${link.contextPath}/images/see_details_p.png" />
+			</div>
+			<div class="menu-bottom">
+				查看商品详情
+			</div></a>
+		</div>
+		<div class="menu">
+			<a href="${link.contextPath}/groupbuy/group-order?skuID=${skuID}" class="btn2"><div class="menu-top">
+				<img class="img1" src="${link.contextPath}/images/group_purchase_n.png" />
+				<img class="img2" src="${link.contextPath}/images/group_purchase_p.png" />
+			</div>
+			<div class="menu-bottom">
+				立即参团
+			</div></a>
+		</div>
+	</div>
+</div> 
+</body>
+<script>
+    $(function(){
+		var biggerImg = $(".bigger-img");
+		var smallerImg = $(".smaller-img");
+		var len = biggerImg.length;
+		var slen = smallerImg.length;
+		var index = 0;
+		function play(){
+			if(index < len){
+				biggerImg.eq(index).css({"display":"block"}).siblings(".bigger-img").css({"display":"none"});
+				smallerImg.eq(index).addClass("carousel-select2").siblings(".smaller-img").removeClass("carousel-select2").addClass("carousel-select1");
+				index ++;
+			}else{
+				index = 0;
+			}
+		}
+		var setTime = setInterval(play,2000);
+		
+		$(".carousel-bigger").hover(function(){
+			clearInterval(setTime);
+		},function(){
+			setTime = setInterval(play,2000);
+		});
+	
+	
+		$(".btn").click(function(){
+			if($(this).find(".img1").is(":visible")){
+				$(this).find(".img1").hide();
+				$(this).find(".img2").show();
+			}else{
+				$(this).find(".img1").show();
+				$(this).find(".img2").hide();
+			}
+		});
+		
+		$(".buy-btn").click(function(){
+			if($(this).hasClass("bg1")){
+				$(".buy-btn").removeClass("bg2").addClass("bg1");
+				$(this).removeClass("bg1").addClass("bg2");
+			}else{
+				$(this).removeClass("bg2").addClass("bg1");
+			}
+		});
+		$(".btn2").click(function(){
+			if($(this).find(".img1").is(":visible")){
+				$(this).find(".img1").hide();
+				$(this).find(".img2").show();
+				$(this).find(".menu-bottom").css({"color":"#E81959"});
+			}else{
+				$(this).find(".img1").show();
+				$(this).find(".img2").hide();
+				$(this).find(".menu-bottom").css({"color":"#fff"});
+			}
+			setTimeout(function(){
+				$(".btn2").find(".img1").show();
+				$(".btn2").find(".img2").hide();
+				$(".btn2").find(".menu-bottom").css({"color":"#555"});
+			},1000)
+		});
+		
+	});
+</script>
+</html>

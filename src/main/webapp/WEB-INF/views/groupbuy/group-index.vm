@@ -1,0 +1,100 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>拼团</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<script src="${link.contextPath}/js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="${link.contextPath}/css/group-index.css" type="text/css" />
+</head>
+<body>
+<div id="container">
+    <div class="header">
+        <a href="../index.html" class="header-back btn">
+			<img class="img1" src="${link.contextPath}/images/back_n.png">
+			<img class="img2" src="${link.contextPath}/images/back_p.png">
+		</a>
+        <span>拼团</span>
+		<a href="group-active.html" class="active-a">活动说明</a>
+	</div>
+	#foreach($pinInfo in $pinInfoList)
+	<div class="group-title">
+		<a href="${link.contextPath}/groupbuy/groupbuy-detail?id=${pinInfo.ID}"$><img src="${link.contextPath}/images/preview.png" /></a>
+	</div> 
+	<div class="group-content">
+		<div class="content-left">
+			<p class="left-name">【三只松鼠】 开口松子218g*2袋</p>
+			<p>团购价：<span class="price-1">￥44.90</span> <span class="price-2">原价：$number.format("#0.00",${pinInfo.price})</span></p>
+		</div>
+		<div class="content-right">
+			<a href="group-detail.html" class="group-btn bg2">${pinInfo.pinCount}人团</a>
+		</div>
+	</div>
+	#end
+	<div class="hide-div"></div>
+	<div class="footer-menu">
+		<div class="menu">
+			<a href="group-order.html" class="btn2"><div class="menu-top">
+				<img class="img1" src="${link.contextPath}/images/see_details_n.png" />
+				<img class="img2" src="${link.contextPath}/images/see_details_p.png" />
+			</div>
+			<div class="menu-bottom">
+				拼团订单
+			</div></a>
+		</div>
+		<div class="menu">
+			<a href="my-groupShopping.html" class="btn2"><div class="menu-top">
+				<img class="img1" src="${link.contextPath}/images/group_purchase_n.png" />
+				<img class="img2" src="${link.contextPath}/images/group_purchase_p.png" />
+			</div>
+			<div class="menu-bottom">
+				我的拼团
+			</div></a>
+		</div>
+	</div>
+</div>
+</body>
+<script>
+    $(function(){
+		$(".btn").click(function(){
+			if($(this).find(".img1").is(":visible")){
+				$(this).find(".img1").hide();
+				$(this).find(".img2").show();
+			}else{
+				$(this).find(".img1").show();
+				$(this).find(".img2").hide();
+			}
+		});
+		$(".group-btn").click(function(){
+			if($(this).hasClass("bg1")){
+				$(".group-btn").removeClass("bg2").addClass("bg1");
+				$(this).removeClass("bg1").addClass("bg2");
+			}else{
+				$(".group-btn").removeClass("bg1").addClass("bg2");
+				$(this).removeClass("bg2").addClass("bg1");
+			}
+			setTimeout(function(){
+				$(".group-btn").removeClass("bg1").addClass("bg2");
+			},1500)
+		});
+			$(".btn2").click(function(){
+			if($(this).find(".img1").is(":visible")){
+				$(this).find(".img1").hide();
+				$(this).find(".img2").show();
+				$(this).find(".menu-bottom").css({"color":"#E81959"});
+			}else{
+				$(this).find(".img1").show();
+				$(this).find(".img2").hide();
+				$(this).find(".menu-bottom").css({"color":"#fff"});
+			}
+			setTimeout(function(){
+				$(".btn2").find(".img1").show();
+				$(".btn2").find(".img2").hide();
+				$(".btn2").find(".menu-bottom").css({"color":"#555"});
+			},1000)
+		});
+	});
+</script>
+</html>
+ 

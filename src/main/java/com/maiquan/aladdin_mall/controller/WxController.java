@@ -1,9 +1,12 @@
 package com.maiquan.aladdin_mall.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -63,11 +66,30 @@ public class WxController {
 	@RequestMapping(value = "/callback", method = RequestMethod.GET)
 	@ResponseBody
 	public void login(HttpServletResponse response, String code, String state) throws Exception {
+
 		WxMpUser wxMpUser = wxInteractionService.getSnsapiBaseUserInfo(code);
 		String openId = wxMpUser.getOpenId();
 		System.out.println("get the openId:" + openId);
 		Principal principal = new Principal(null, openId);
 		WebUtil.login(principal);
 		response.sendRedirect(String.valueOf(WebUtil.getSession().getAttribute(WebUtil.SAVE_REQUEST_KEY)));
+		
 	}
+	
+	/**
+	 * 初始化wx js配置 允许支付
+	 * @return
+	 */
+	@RequestMapping(value="/config",method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String,String> config(){
+		
+		Map<String,String> config = new HashMap<String,String>();
+		
+		config = wxInteractionService.getConfig();
+		
+		return config;
+		 
+	}
+	
 }
