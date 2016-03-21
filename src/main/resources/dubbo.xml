@@ -53,5 +53,9 @@
 	
 	<!-- 供应商 -->
 	<dubbo:reference id="supplierService" interface="com.maiquan.aladdin_supplier.service.ISupplierService"/>
+	
+	<!-- 商品收藏 -->
+	<dubbo:reference id="productCollectService" interface="com.maiquan.aladdin_product.service.IProductCollectService"/>
+	
 </beans>	
 	
