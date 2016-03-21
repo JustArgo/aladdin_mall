@@ -50,5 +50,8 @@
 	
 	<!-- 用户现金账户 -->
 	<dubbo:reference id="accountService" interface="com.aladdin.account.service.AccountService"/>
+	
+	<!-- 供应商 -->
+	<dubbo:reference id="supplierService" interface="com.maiquan.aladdin_supplier.service.ISupplierService"/>
 </beans>	
 	
