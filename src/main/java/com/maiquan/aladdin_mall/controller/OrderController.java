@@ -132,7 +132,7 @@ public class OrderController {
 		parameters.put("out_trade_no",new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date())+(new Random().nextInt(900)+100));
 		parameters.put("total_fee", pSum*100+"");
 		
-		return wxInteractionService.unifiedOrder(parameters);
+		return wxInteractionService.unifiedOrder(UUID.randomUUID().toString().replaceAll("-",""), parameters);
 	}
 	
 	@RequestMapping("/order/previewOrder")
@@ -140,7 +140,7 @@ public class OrderController {
 		//预览订单
 		String mqID = "2";//principal.getMqID();
 		
-		List<Map<String,Object>> supplierProducts = shopCarService.viewShopCar(mqID, UUID.randomUUID().toString());		
+		List<Map<String,Object>> supplierProducts = shopCarService.viewShopCar(mqID, UUID.randomUUID().toString().replaceAll("-",""));		
 		
 		Long totalPrice = 0L;
 		double totalPostFee = 0L;
@@ -158,7 +158,7 @@ public class OrderController {
 		model.addAttribute("totalPrice",totalPrice);
 		model.addAttribute("supplierProducts",supplierProducts);
 		
-		ReceiveAddress receiveAddress = manageReceAddService.getDefaultAddress("2", UUID.randomUUID().toString());
+		ReceiveAddress receiveAddress = manageReceAddService.getDefaultAddress("2", UUID.randomUUID().toString().replaceAll("-",""));
 		
 		for(int i=0;i<supplierProducts.size();i++){
 			
@@ -168,9 +168,9 @@ public class OrderController {
 			double supplierAmount = 0.0;
 			for(int j=0;j<shopCarProducts.size();j++){
 				Integer skuID = (Integer) shopCarProducts.get(j).get("skuID");
-				Integer productID = productSkuService.getSkuByID(skuID, UUID.randomUUID().toString()).getProductID();
+				Integer productID = productSkuService.getSkuByID(skuID, UUID.randomUUID().toString().replaceAll("-","")).getProductID();
 				if(receiveAddress!=null){
-					Long postFee = postFeeService.calcPostFee(productID, (Integer) shopCarProducts.get(j).get("skuQuality"), receiveAddress.getCountryID(), receiveAddress.getProvinceID(), receiveAddress.getCityID(), receiveAddress.getDistrictID(), UUID.randomUUID().toString());
+					Long postFee = postFeeService.calcPostFee(productID, (Integer) shopCarProducts.get(j).get("skuQuality"), receiveAddress.getCountryID(), receiveAddress.getProvinceID(), receiveAddress.getCityID(), receiveAddress.getDistrictID(), UUID.randomUUID().toString().replaceAll("-",""));
 					supplierPostFee += postFee;
 				}
 				supplierAmount+=(Integer) shopCarProducts.get(j).get("skuQuality")*(Long) shopCarProducts.get(j).get("skuPrice");
@@ -185,7 +185,7 @@ public class OrderController {
 		if(receiveAddress!=null){
 			model.addAttribute("recName",receiveAddress.getRecName());
 			model.addAttribute("recMobile",receiveAddress.getRecMobile());
-			model.addAttribute("fullAddress",manageReceAddService.getFullAddress(receiveAddress, UUID.randomUUID().toString()));
+			model.addAttribute("fullAddress",manageReceAddService.getFullAddress(receiveAddress, UUID.randomUUID().toString().replaceAll("-","")));
 		}
 		model.addAttribute("totalPostFee",totalPostFee);
 		model.addAttribute("totalPrice",totalPrice+totalPostFee);
@@ -198,10 +198,10 @@ public class OrderController {
 	public String viewOrder(Integer orderID, Model model){
 		
 		//假设参数有一个orderID
-		Order order = orderService.getOrderByID(orderID, UUID.randomUUID().toString());
-		order = orderService.setReceAdd("2", order, UUID.randomUUID().toString());
+		Order order = orderService.getOrderByID(orderID, UUID.randomUUID().toString().replaceAll("-",""));
+		order = orderService.setReceAdd("2", order, UUID.randomUUID().toString().replaceAll("-",""));
 		
-		List<Order> childOrders = orderService.getChildOrdersByParentOrderID(orderID, UUID.randomUUID().toString());
+		List<Order> childOrders = orderService.getChildOrdersByParentOrderID(orderID, UUID.randomUUID().toString().replaceAll("-",""));
 		
 		List<Map<String,Object>> viewList = new ArrayList<Map<String,Object>>();
 		
@@ -220,33 +220,33 @@ public class OrderController {
 			childOrder.setDistrict(order.getDistrict());
 			
 //			一个订单商品对应多个子订单
-			List<OrderProduct> orderProducts = orderProductService.getOrderProductByOrderID(childOrder.getID(), UUID.randomUUID().toString());
+			List<OrderProduct> orderProducts = orderProductService.getOrderProductByOrderID(childOrder.getID(), UUID.randomUUID().toString().replaceAll("-",""));
 			
 			for(OrderProduct orderProduct:orderProducts){
 				//查找对应的商品
-				Product product = productService.queryProduct(orderProduct.getProductID(),UUID.randomUUID().toString());
+				Product product = productService.queryProduct(orderProduct.getProductID(),UUID.randomUUID().toString().replaceAll("-",""));
 				
 				//查找对应的sku
-				ProductSku productSku = productSkuService.getSkuByID(orderProduct.getSkuID(),UUID.randomUUID().toString());
+				ProductSku productSku = productSkuService.getSkuByID(orderProduct.getSkuID(),UUID.randomUUID().toString().replaceAll("-",""));
 				
 				
 				Map<String,Object> orderProductMap = new HashMap<String,Object>();
 				orderProductMap.put("supName", orderProduct.getSupName());						//设置供应商名字
 				orderProductMap.put("sellDesc", product.getSellDesc());							//商品描述
 				
-				List<String> skuStrs = productSkuService.getSkuStr(orderProduct.getSkuID(),UUID.randomUUID().toString());
+				List<String> skuStrs = productSkuService.getSkuStr(orderProduct.getSkuID(),UUID.randomUUID().toString().replaceAll("-",""));
 				
 				orderProductMap.put("skuStrs", skuStrs);										//sku描述  尺码:39 颜色:红色
 				orderProductMap.put("skuPrice", productSku.getSkuPrice());						//sku价格
 				orderProductMap.put("skuImg", productSku.getSkuImg());							//sku图片
 				orderProductMap.put("buyNum", orderProduct.getBuyNum());						//该sku的购买数量
 	//			
-				ReceiveAddress receiveAddress = manageReceAddService.getDefaultAddress("2", UUID.randomUUID().toString());
+				ReceiveAddress receiveAddress = manageReceAddService.getDefaultAddress("2", UUID.randomUUID().toString().replaceAll("-",""));
 				if(order.getRecName()==null){
 					orderProductMap.put("postFee", 0);
 				}else{
 					
-					Long postFee = postFeeService.calcPostFee(orderProduct.getProductID(), orderProduct.getBuyNum(), receiveAddress.getCountryID(), receiveAddress.getProvinceID(), receiveAddress.getCountryID(), receiveAddress.getDistrictID(), UUID.randomUUID().toString());
+					Long postFee = postFeeService.calcPostFee(orderProduct.getProductID(), orderProduct.getBuyNum(), receiveAddress.getCountryID(), receiveAddress.getProvinceID(), receiveAddress.getCountryID(), receiveAddress.getDistrictID(), UUID.randomUUID().toString().replaceAll("-",""));
 					if(postFee==0){
 						orderProductMap.put("postFee", "包邮");
 					}else{
@@ -289,9 +289,9 @@ public class OrderController {
 		//Principal principal = WebUtil.getCurrentPrincipal();
 		String mqID = "2";//principal.getMqID();
 		
-		shopCarService.emptyShopCar(2, UUID.randomUUID().toString());
+		shopCarService.emptyShopCar(2, UUID.randomUUID().toString().replaceAll("-",""));
 			
-		shopCarService.addToShopCar(2, productID, skuID, buyNum, UUID.randomUUID().toString());
+		shopCarService.addToShopCar(2, productID, skuID, buyNum, UUID.randomUUID().toString().replaceAll("-",""));
 
 		/*
 		List<Map<String,Object>> supplierList = new ArrayList<Map<String,Object>>();
@@ -305,20 +305,20 @@ public class OrderController {
 		double supplierAmount = 0.0;
 		
 		
-		Product product = productService.queryProduct(productID, UUID.randomUUID().toString());
-		Supplier supplier = supplierService.getSupplier(product.getSupplyID(), UUID.randomUUID().toString());
-		ProductSku sku = productSkuService.getSkuByID(skuID, UUID.randomUUID().toString());
-		List<String> skuStrs = productSkuService.getSkuStr(sku.getID(), UUID.randomUUID().toString());
+		Product product = productService.queryProduct(productID, UUID.randomUUID().toString().replaceAll("-",""));
+		Supplier supplier = supplierService.getSupplier(product.getSupplyID(), UUID.randomUUID().toString().replaceAll("-",""));
+		ProductSku sku = productSkuService.getSkuByID(skuID, UUID.randomUUID().toString().replaceAll("-",""));
+		List<String> skuStrs = productSkuService.getSkuStr(sku.getID(), UUID.randomUUID().toString().replaceAll("-",""));
 		
 		//查找默认收货地址
-		ReceiveAddress receAdd = manageReceAddService.getDefaultAddress(2+"", UUID.randomUUID().toString());
+		ReceiveAddress receAdd = manageReceAddService.getDefaultAddress(2+"", UUID.randomUUID().toString().replaceAll("-",""));
 		if(receAdd!=null){
 			//总运费 即是 该sku对应的运费
-			totalPostFee = postFeeService.calcPostFee(productID, buyNum, receAdd.getCountryID(), receAdd.getProvinceID(), receAdd.getCityID(), receAdd.getDistrictID(), UUID.randomUUID().toString());
+			totalPostFee = postFeeService.calcPostFee(productID, buyNum, receAdd.getCountryID(), receAdd.getProvinceID(), receAdd.getCityID(), receAdd.getDistrictID(), UUID.randomUUID().toString().replaceAll("-",""));
 			
 			model.addAttribute("recName",receAdd.getRecName());
 			model.addAttribute("recMobile",receAdd.getRecMobile());
-			model.addAttribute("fullAddress",manageReceAddService.getFullAddress(receAdd, UUID.randomUUID().toString()));
+			model.addAttribute("fullAddress",manageReceAddService.getFullAddress(receAdd, UUID.randomUUID().toString().replaceAll("-","")));
 		}
 		
 		//1 存储skuID
@@ -360,7 +360,7 @@ public class OrderController {
 		//Principal principal = WebUtil.getCurrentPrincipal();
 		String mqID = "2";//principal.getMqID();
 		
-		List<ShopCarProduct> shopCarProducts = shopCarService.getShopCarProducts(mqID, UUID.randomUUID().toString());
+		List<ShopCarProduct> shopCarProducts = shopCarService.getShopCarProducts(mqID, UUID.randomUUID().toString().replaceAll("-",""));
 		for(int i=0;i<skuIDs.length;i++){
 			for(int j=0;j<shopCarProducts.size();j++){
 				System.out.println(skuIDs[i]+" "+buyNums[i]);
@@ -368,7 +368,7 @@ public class OrderController {
 					if(!buyNums[i].equals(shopCarProducts.get(j).getQuality())){
 						ShopCarProduct shopCarProduct = shopCarProducts.get(j);
 						shopCarProduct.setQuality(buyNums[i]);
-						shopCarService.updateShopCarProduct(mqID, shopCarProduct, UUID.randomUUID().toString());
+						shopCarService.updateShopCarProduct(mqID, shopCarProduct, UUID.randomUUID().toString().replaceAll("-",""));
 					}
 				}
 			}
@@ -391,13 +391,13 @@ public class OrderController {
 		if(deletedSkuIDs.size()!=0){
 			Integer[] deletedSkuIDArray = new Integer[deletedSkuIDs.size()];
 			deletedSkuIDs.toArray(deletedSkuIDArray);
-			shopCarService.removeShopCarProduct(2, deletedSkuIDArray, UUID.randomUUID().toString());
+			shopCarService.removeShopCarProduct(2, deletedSkuIDArray, UUID.randomUUID().toString().replaceAll("-",""));
 		}
 		
 		/*mqID = 2+"";
 		System.out.println(skuIDs.length+"  ** "+buyNums.length+"    "+skuPrices.length);
-		int orderID = orderService.placeOrder(mqID, skuIDs, buyNums, skuPrices, UUID.randomUUID().toString());
-		shopCarService.emptyShopCar(2, UUID.randomUUID().toString());
+		int orderID = orderService.placeOrder(mqID, skuIDs, buyNums, skuPrices, UUID.randomUUID().toString().replaceAll("-",""));
+		shopCarService.emptyShopCar(2, UUID.randomUUID().toString().replaceAll("-",""));
 		System.out.println("订单号:------"+orderID);*/
 		return "redirect:order/previewOrder";
 		
@@ -409,9 +409,9 @@ public class OrderController {
 		//Principal principal = WebUtil.getPrincipal();
 		String mqID = "2";//principal.getMqID();
 		
-		List<ReceiveAddress> adds = manageReceAddService.listUsableAddress(mqID, UUID.randomUUID().toString());
+		List<ReceiveAddress> adds = manageReceAddService.listUsableAddress(mqID, UUID.randomUUID().toString().replaceAll("-",""));
 		for(int i=0;i<adds.size();i++){
-			adds.get(i).setAddress(manageReceAddService.getFullAddress(adds.get(i), UUID.randomUUID().toString()));
+			adds.get(i).setAddress(manageReceAddService.getFullAddress(adds.get(i), UUID.randomUUID().toString().replaceAll("-","")));
 		}
 		model.addAttribute("adds",adds);
 		return "orderReceAdd/manage";
@@ -427,21 +427,21 @@ public class OrderController {
 	@RequestMapping("/order_edit_rece_add")
 	private String edit(Integer ID,Model model) throws Exception{
 		
-		List<Address> provinces = addressService.getSubAddress(0,UUID.randomUUID().toString());
+		List<Address> provinces = addressService.getSubAddress(0,UUID.randomUUID().toString().replaceAll("-",""));
 		model.addAttribute("provinces",provinces);
 		List<Address> cities = new ArrayList<Address>();
 		List<Address> districts = new ArrayList<Address>();
 		
 		if(ID!=null){
 			
-			ReceiveAddress address = manageReceAddService.getAddress(ID,UUID.randomUUID().toString());
+			ReceiveAddress address = manageReceAddService.getAddress(ID,UUID.randomUUID().toString().replaceAll("-",""));
 			model.addAttribute("add",address);
-			cities = addressService.getSubAddress(address.getProvinceID(),UUID.randomUUID().toString());
-			districts = addressService.getSubAddress(address.getCityID(),UUID.randomUUID().toString());
+			cities = addressService.getSubAddress(address.getProvinceID(),UUID.randomUUID().toString().replaceAll("-",""));
+			districts = addressService.getSubAddress(address.getCityID(),UUID.randomUUID().toString().replaceAll("-",""));
 			
 		}else{
-			cities = addressService.getSubAddress(10,UUID.randomUUID().toString());
-			districts = addressService.getSubAddress(1010,UUID.randomUUID().toString());
+			cities = addressService.getSubAddress(10,UUID.randomUUID().toString().replaceAll("-",""));
+			districts = addressService.getSubAddress(1010,UUID.randomUUID().toString().replaceAll("-",""));
 		}
 		model.addAttribute("cities",cities);
 		model.addAttribute("districts",districts);
@@ -460,7 +460,7 @@ public class OrderController {
 	private String add(ReceiveAddress receiveAddress,Model model) throws Exception{
 		
 		System.out.println(receiveAddress.getIsDefault());
-		manageReceAddService.addAddress(receiveAddress,UUID.randomUUID().toString());
+		manageReceAddService.addAddress(receiveAddress,UUID.randomUUID().toString().replaceAll("-",""));
 		
 		//返回地址列表页面
 		return "redirect:chooseReceAdd";
@@ -475,7 +475,7 @@ public class OrderController {
 	@RequestMapping("/order_del_rece_add")
 	private String del(int ID,Model model){
 		
-		manageReceAddService.deleteAddress(ID,UUID.randomUUID().toString());
+		manageReceAddService.deleteAddress(ID,UUID.randomUUID().toString().replaceAll("-",""));
 
 		return "redirect:chooseReceAdd";
 	}
@@ -489,7 +489,7 @@ public class OrderController {
 	@RequestMapping("/order_update_rece_add")
 	private String update(ReceiveAddress receiveAddress,Model model){
 		
-		manageReceAddService.updateAddress(receiveAddress,UUID.randomUUID().toString());
+		manageReceAddService.updateAddress(receiveAddress,UUID.randomUUID().toString().replaceAll("-",""));
 		
 		return "redirect:chooseReceAdd";
 	}
@@ -503,7 +503,7 @@ public class OrderController {
 	public Map<String,String> getConfig(){
 		
 		Map<String,String> retMap = new HashMap<String,String>();
-		retMap = wxInteractionService.getConfig();
+		retMap = wxInteractionService.getConfig(UUID.randomUUID().toString().replaceAll("-",""));
 		
 		return retMap;
 	}

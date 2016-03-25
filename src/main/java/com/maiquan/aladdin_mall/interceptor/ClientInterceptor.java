@@ -1,5 +1,7 @@
 package com.maiquan.aladdin_mall.interceptor;
 
+import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,7 +36,7 @@ public class ClientInterceptor extends HandlerInterceptorAdapter {
 				/* 跳转到自动登陆页面 */
 				WebUtil.getSession().setAttribute(WebUtil.SAVE_REQUEST_KEY, request.getRequestURL());
 				if(!response.isCommitted()){
-					response.sendRedirect(wxInteractionService.oauth2buildAuthorizationUrl(WxConsts.OAUTH2_SCOPE_BASE, ""));
+					response.sendRedirect(wxInteractionService.oauth2buildAuthorizationUrl(UUID.randomUUID().toString(), WxConsts.OAUTH2_SCOPE_BASE, ""));
 					return false;
 				}
 			}

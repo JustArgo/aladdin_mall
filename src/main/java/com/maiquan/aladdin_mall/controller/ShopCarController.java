@@ -31,7 +31,7 @@ public class ShopCarController {
 		//Principal principal = (Principal) WebUtil.getSession().getAttribute(Principal.ATTRIBUTE_KEY);
 		String mqID = "2";//principal.getMqID();
 		
-		List<Map<String,Object>> supplierProducts = shopCarService.viewShopCar(mqID, UUID.randomUUID().toString());		
+		List<Map<String,Object>> supplierProducts = shopCarService.viewShopCar(mqID, UUID.randomUUID().toString().replaceAll("-",""));		
 		
 		Long totalPrice = 0L;
 		
@@ -65,7 +65,7 @@ public class ShopCarController {
 		if(mqID==null || skuIDs==null){
 			return "{\"errcode\":10042,\"errormsg\":\"invalid arguments\"}";
 		}
-		shopCarService.removeShopCarProduct(Integer.valueOf(mqID), skuIDs, UUID.randomUUID().toString());
+		shopCarService.removeShopCarProduct(Integer.valueOf(mqID), skuIDs, UUID.randomUUID().toString().replaceAll("-",""));
 		return "{\"errcode\":0,\"errormsg\":\"success\"}";
 	}
 	
@@ -73,7 +73,7 @@ public class ShopCarController {
 	@ResponseBody
 	public String add_to_shopcar(Integer productID, Integer skuID, Integer buyNum){
 		
-		shopCarService.addToShopCar(2, productID, skuID, buyNum, UUID.randomUUID().toString());
+		shopCarService.addToShopCar(2, productID, skuID, buyNum, UUID.randomUUID().toString().replaceAll("-",""));
 		
 		return "{\"errcode\":\"0\"}";
 	}

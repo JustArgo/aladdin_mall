@@ -2,6 +2,7 @@ package com.maiquan.aladdin_mall.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aladdin.interaction.wx.service.WxInteractionService;
-import com.aladdin.user.entity.WxUser;
 import com.aladdin.user.service.UserService;
 import com.maiquan.aladdin_mall.Principal;
 import com.maiquan.aladdin_mall.util.WebUtil;
@@ -52,7 +52,7 @@ public class WxController {
 	@RequestMapping(value = "/checkSignature", method = RequestMethod.GET)
 	@ResponseBody
 	public String checkSignature(String signature, String timestamp, String nonce, String echostr) {
-		if (wxInteractionService.checkSignature(timestamp, nonce, signature)) {
+		if (wxInteractionService.checkSignature(UUID.randomUUID().toString(), timestamp, nonce, signature)) {
 			return echostr;
 		}
 		return "invalid request";
@@ -67,7 +67,7 @@ public class WxController {
 	@ResponseBody
 	public void login(HttpServletResponse response, String code, String state) throws Exception {
 
-		WxMpUser wxMpUser = wxInteractionService.getSnsapiBaseUserInfo(code);
+		WxMpUser wxMpUser = wxInteractionService.getSnsapiBaseUserInfo(UUID.randomUUID().toString(), code);
 		String openId = wxMpUser.getOpenId();
 		System.out.println("get the openId:" + openId);
 		Principal principal = new Principal(null, openId);
@@ -86,7 +86,7 @@ public class WxController {
 		
 		Map<String,String> config = new HashMap<String,String>();
 		
-		config = wxInteractionService.getConfig();
+		config = wxInteractionService.getConfig(UUID.randomUUID().toString());
 		
 		return config;
 		 

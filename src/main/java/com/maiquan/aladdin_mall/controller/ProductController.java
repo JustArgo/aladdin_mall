@@ -61,7 +61,7 @@ public class ProductController {
 	public String productDetail(Integer productID, Model model) {
 
 		List<Map<String, Object>> attrItems = new ArrayList<Map<String, Object>>();
-		ProductVo productVo = productVoService.getProductVo(productID, UUID.randomUUID().toString());
+		ProductVo productVo = productVoService.getProductVo(productID, UUID.randomUUID().toString().replaceAll("-",""));
 
 		System.out.println(productVo);
 		//获得该商品 共有多少个sku
@@ -70,12 +70,12 @@ public class ProductController {
 			skuStock += sku.getSkuStock();
 		}
 		
-		Product p = productService.queryProduct(productID, UUID.randomUUID().toString());
+		Product p = productService.queryProduct(productID, UUID.randomUUID().toString().replaceAll("-",""));
 		model.addAttribute("productVo", productVo);
 
 		// 封装该产品的属性
 		List<ProductAttr> productAttrs = productService.getProductAttrByProductID(productID,
-				UUID.randomUUID().toString());
+				UUID.randomUUID().toString().replaceAll("-",""));
 		for (int i = 0; i < productAttrs.size(); i++) {
 
 			Map<String, Object> attrMap = new HashMap<String, Object>();
@@ -83,7 +83,7 @@ public class ProductController {
 			attrMap.put("attrID", productAttrs.get(i).getID());
 
 			List<ProductAttrValue> productAttrValues = productService.getAttrValuesByAttrID(productAttrs.get(i).getID(),
-					UUID.randomUUID().toString());
+					UUID.randomUUID().toString().replaceAll("-",""));
 			List<String[]> attrValues = new ArrayList<String[]>();
 			for (int j = 0; j < productAttrValues.size(); j++) {
 				String[] valueTwin = new String[2];
@@ -136,7 +136,7 @@ public class ProductController {
 			skuMap.put(attrs[i], values[i]);
 		}
 
-		List<ProductSku> skus = productSkuService.getSkuByProductID(productID, UUID.randomUUID().toString());
+		List<ProductSku> skus = productSkuService.getSkuByProductID(productID, UUID.randomUUID().toString().replaceAll("-",""));
 
 		System.out.println("该产品对应几个sku---" + skus.size());
 
@@ -147,7 +147,7 @@ public class ProductController {
 			ProductSku sku = skus.get(i);
 			System.out.println("当前是第" + (i + 1) + "个sku id--" + sku.getID());
 			List<ProductSkuAttr> skuAttrs = productSkuService.getSkuAttrBySkuID(sku.getID(),
-					UUID.randomUUID().toString());
+					UUID.randomUUID().toString().replaceAll("-",""));
 
 			if (skuMap.size() == skuAttrs.size()) {
 				for (int j = 0; j < skuAttrs.size(); j++) {
@@ -187,11 +187,11 @@ public class ProductController {
 		}
 		
 		if(collect==0){//0代表取消收藏
-			productService.uncollectProduct(mqID, productID, UUID.randomUUID().toString());
+			productService.uncollectProduct(mqID, productID, UUID.randomUUID().toString().replaceAll("-",""));
 			ret.put("errcode", 0);
 			ret.put("errmsg", "uncollect success");
 		}else{//1代表收藏
-			productService.collectProduct(mqID, productID, UUID.randomUUID().toString());
+			productService.collectProduct(mqID, productID, UUID.randomUUID().toString().replaceAll("-",""));
 			ret.put("errcode", 0);
 			ret.put("errmsg", "collect success");
 		}
@@ -203,7 +203,7 @@ public class ProductController {
 	@RequestMapping("/calcPostFee")
 	@ResponseBody
 	public Long calcPostFee(Integer productID, Integer buyNum, Integer countryID,Integer provinceID,Integer cityID,Integer districtID){
-		return postFeeService.calcPostFee(productID, buyNum, countryID, provinceID, cityID, districtID, UUID.randomUUID().toString());
+		return postFeeService.calcPostFee(productID, buyNum, countryID, provinceID, cityID, districtID, UUID.randomUUID().toString().replaceAll("-",""));
 	}
 
 	/**

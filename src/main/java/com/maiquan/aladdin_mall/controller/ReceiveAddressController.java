@@ -41,7 +41,7 @@ public class ReceiveAddressController {
 	private String add(ReceiveAddress receiveAddress,Model model) throws Exception{
 		
 		System.out.println(receiveAddress.getIsDefault());
-		manageReceAddService.addAddress(receiveAddress,UUID.randomUUID().toString());
+		manageReceAddService.addAddress(receiveAddress,UUID.randomUUID().toString().replaceAll("-",""));
 		
 		//返回地址列表页面
 		return "redirect:manage_rece_add";
@@ -56,7 +56,7 @@ public class ReceiveAddressController {
 	@RequestMapping("/del_rece_add")
 	private String del(int ID,Model model){
 		
-		manageReceAddService.deleteAddress(ID,UUID.randomUUID().toString());
+		manageReceAddService.deleteAddress(ID,UUID.randomUUID().toString().replaceAll("-",""));
 
 		return "redirect:manage_rece_add";
 	}
@@ -70,7 +70,7 @@ public class ReceiveAddressController {
 	@RequestMapping("/update_rece_add")
 	private String update(ReceiveAddress receiveAddress,Model model){
 		
-		manageReceAddService.updateAddress(receiveAddress,UUID.randomUUID().toString());
+		manageReceAddService.updateAddress(receiveAddress,UUID.randomUUID().toString().replaceAll("-",""));
 		
 		return "redirect:manage_rece_add";
 	}
@@ -84,12 +84,12 @@ public class ReceiveAddressController {
 	private String manage(String mqID, Model model){
 		
 		mqID = "2";
-		List<ReceiveAddress> adds = manageReceAddService.listUsableAddress(mqID,UUID.randomUUID().toString());
+		List<ReceiveAddress> adds = manageReceAddService.listUsableAddress(mqID,UUID.randomUUID().toString().replaceAll("-",""));
 		for(int i=0;i<adds.size();i++){
 			ReceiveAddress address = adds.get(i);
-			String province = addressService.getAddress(address.getProvinceID(),UUID.randomUUID().toString()).getName();
-			String city     = addressService.getAddress(address.getCityID(),UUID.randomUUID().toString()).getName();
-			String district = address.getDistrictID()!=null?addressService.getAddress(address.getDistrictID(),UUID.randomUUID().toString()).getName():"";
+			String province = addressService.getAddress(address.getProvinceID(),UUID.randomUUID().toString().replaceAll("-","")).getName();
+			String city     = addressService.getAddress(address.getCityID(),UUID.randomUUID().toString().replaceAll("-","")).getName();
+			String district = address.getDistrictID()!=null?addressService.getAddress(address.getDistrictID(),UUID.randomUUID().toString().replaceAll("-","")).getName():"";
 			
 			adds.get(i).setAddress(province+city+district+address.getAddress());
 			
@@ -109,21 +109,21 @@ public class ReceiveAddressController {
 	@RequestMapping("/edit_rece_add")
 	private String edit(Integer ID,Model model) throws Exception{
 		
-		List<Address> provinces = addressService.getSubAddress(0,UUID.randomUUID().toString());
+		List<Address> provinces = addressService.getSubAddress(0,UUID.randomUUID().toString().replaceAll("-",""));
 		model.addAttribute("provinces",provinces);
 		List<Address> cities = new ArrayList<Address>();
 		List<Address> districts = new ArrayList<Address>();
 		
 		if(ID!=null){
 			
-			ReceiveAddress address = manageReceAddService.getAddress(ID,UUID.randomUUID().toString());
+			ReceiveAddress address = manageReceAddService.getAddress(ID,UUID.randomUUID().toString().replaceAll("-",""));
 			model.addAttribute("add",address);
-			cities = addressService.getSubAddress(address.getProvinceID(),UUID.randomUUID().toString());
-			districts = addressService.getSubAddress(address.getCityID(),UUID.randomUUID().toString());
+			cities = addressService.getSubAddress(address.getProvinceID(),UUID.randomUUID().toString().replaceAll("-",""));
+			districts = addressService.getSubAddress(address.getCityID(),UUID.randomUUID().toString().replaceAll("-",""));
 			
 		}else{
-			cities = addressService.getSubAddress(10,UUID.randomUUID().toString());
-			districts = addressService.getSubAddress(1010,UUID.randomUUID().toString());
+			cities = addressService.getSubAddress(10,UUID.randomUUID().toString().replaceAll("-",""));
+			districts = addressService.getSubAddress(1010,UUID.randomUUID().toString().replaceAll("-",""));
 		}
 		model.addAttribute("cities",cities);
 		model.addAttribute("districts",districts);
@@ -135,7 +135,7 @@ public class ReceiveAddressController {
 	@ResponseBody
 	private int setUserDefaultAddress(Integer id,String isDefault){
 		
-		return manageReceAddService.setUserDefaultAddress(id, isDefault,UUID.randomUUID().toString());
+		return manageReceAddService.setUserDefaultAddress(id, isDefault,UUID.randomUUID().toString().replaceAll("-",""));
 		
 	}
 	
@@ -144,7 +144,7 @@ public class ReceiveAddressController {
 	private List<Address> getByPid(Integer pid){
 		
 		List<Address> addresses = new ArrayList<Address>();
-		addresses = addressService.getSubAddress(pid,UUID.randomUUID().toString());
+		addresses = addressService.getSubAddress(pid,UUID.randomUUID().toString().replaceAll("-",""));
 		return addresses;
 		
 	}

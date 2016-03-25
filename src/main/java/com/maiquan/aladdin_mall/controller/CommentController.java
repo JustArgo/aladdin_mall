@@ -39,7 +39,7 @@ public class CommentController {
 		
 		
 		//获得共有多少条未删除评论
-		int commentCount = commentService.getCountNoDeletedByProductID(productID,UUID.randomUUID().toString());
+		int commentCount = commentService.getCountNoDeletedByProductID(productID,UUID.randomUUID().toString().replaceAll("-",""));
 		model.addAttribute("commentCount", commentCount);
 		
 		//获得评论列表
@@ -47,7 +47,7 @@ public class CommentController {
 		
 		if(commentCount>0){
 			
-			List<Comment> commentList = commentService.getCommentNoDeletedList(productID,pageIndex,pageSize,UUID.randomUUID().toString());
+			List<Comment> commentList = commentService.getCommentNoDeletedList(productID,pageIndex,pageSize,UUID.randomUUID().toString().replaceAll("-",""));
 			System.out.println("评论个数:"+commentList.size());
 			//遍历每一条评论
 			for(int i=0;i<commentList.size();i++){
@@ -90,9 +90,9 @@ public class CommentController {
 	@ResponseBody
 	public List<Comment> getComments(Integer productID,Integer pageIndex,Integer pageSize){
 		System.out.println(productID+" "+pageIndex+" "+pageSize);
-		List<Comment> comments = commentService.getCommentNoDeletedList(productID,pageIndex,pageSize,UUID.randomUUID().toString());
+		List<Comment> comments = commentService.getCommentNoDeletedList(productID,pageIndex,pageSize,UUID.randomUUID().toString().replaceAll("-",""));
 		System.out.println(comments.size());
-		return commentService.getCommentNoDeletedList(productID,pageIndex,pageSize,UUID.randomUUID().toString());
+		return commentService.getCommentNoDeletedList(productID,pageIndex,pageSize,UUID.randomUUID().toString().replaceAll("-",""));
 	}
 	
 	/**

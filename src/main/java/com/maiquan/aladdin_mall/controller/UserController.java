@@ -3,6 +3,7 @@ package com.maiquan.aladdin_mall.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aladdin.account.service.AccountService;
-import com.aladdin.user.entity.BaseCollect;
 import com.aladdin.user.service.UserService;
 import com.maiquan.aladdin_mall.Principal;
 import com.maiquan.aladdin_mall.util.WebUtil;
@@ -72,7 +72,7 @@ public class UserController {
 	public String withDraw(ModelMap modelMap) {
 		Principal principal = WebUtil.getCurrentPrincipal();
 //		modelMap.addAttribute("accountInfo", accountService.getRemainingSum(principal.getMqId(), "1"));
-		modelMap.addAttribute("remainingSum", accountService.getRemainingSum(null, "1"));
+		modelMap.addAttribute("remainingSum", accountService.getRemainingSum(UUID.randomUUID().toString().replaceAll("-", ""), "1"));
 		return "user/withDraw";
 	}
 
@@ -97,7 +97,7 @@ public class UserController {
 	@RequestMapping(value = "/collect", method = RequestMethod.GET)
 	public String collect(ModelMap modelMap) {
 		Principal principal = WebUtil.getCurrentPrincipal();
-		modelMap.addAttribute("product", productCollectService.getProductCollectListByMqID("1", ""));
+		modelMap.addAttribute("product", productCollectService.getProductCollectListByMqID("1", UUID.randomUUID().toString().replaceAll("-", "")));
 		return "user/collect";
 	}
 }
