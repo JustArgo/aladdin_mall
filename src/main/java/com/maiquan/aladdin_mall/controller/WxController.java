@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aladdin.interaction.wx.service.WxInteractionService;
 import com.aladdin.user.service.UserService;
+import com.aladdin.vertical.distribution.service.DistributionService;
 import com.maiquan.aladdin_mall.Principal;
+import com.maiquan.aladdin_mall.util.MapUtil.MapData;
+import com.maiquan.aladdin_mall.util.MapUtil;
 import com.maiquan.aladdin_mall.util.WebUtil;
 
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
@@ -33,6 +36,8 @@ import me.chanjar.weixin.mp.bean.result.WxMpUser;
 public class WxController {
 	@Autowired
 	private WxInteractionService wxInteractionService;
+	@Autowired
+	private DistributionService distributionService;
 	@Autowired
 	private UserService userService;
 
@@ -66,11 +71,25 @@ public class WxController {
 	@RequestMapping(value = "/callback", method = RequestMethod.GET)
 	@ResponseBody
 	public void login(HttpServletResponse response, String code, String state) throws Exception {
-
-		WxMpUser wxMpUser = wxInteractionService.getSnsapiBaseUserInfo(UUID.randomUUID().toString(), code);
+		String requestId=UUID.randomUUID().toString().replace("-", "");
+		WxMpUser wxMpUser = wxInteractionService.getSnsapiBaseUserInfo(requestId, code);
 		String openId = wxMpUser.getOpenId();
-		System.out.println("get the openId:" + openId);
-		Principal principal = new Principal(null, openId);
+		String mqId=null;
+		MapData data=MapUtil.newInstance(userService.findByOpenId(requestId, openId));
+		if (data.getString("errcode").equals(UserService.FindByOpenIdErrcode.e0.getClass())) {
+			mqId=data.getString("result");
+			if(mqId==null){
+				MapData data2=MapUtil.newInstance(userService.createWx(requestId,state, openId, null, null));
+				if (data2.getString("errcode").equals(UserService.CreateWxErrcode.e0.getCode())) {
+					mqId=data2.getString("result");
+				}else {
+					throw new Exception();
+				}
+			}
+		}else{
+			throw new Exception();
+		}
+		Principal principal = new Principal(mqId, openId);
 		WebUtil.login(principal);
 		response.sendRedirect(String.valueOf(WebUtil.getSession().getAttribute(WebUtil.SAVE_REQUEST_KEY)));
 		

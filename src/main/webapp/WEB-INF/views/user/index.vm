@@ -55,7 +55,7 @@
 				<img src="${link.contextPath}/images/arrow.png">
 			</span>
 		</div></a>
-		<a href="my-sale.html" class="btn2"><div class="order-1">
+		<a href="${link.contextPath}/user/sales?page=1&pageSize=10" class="btn2"><div class="order-1">
 			<img class="img1" src="${link.contextPath}/images/sell_n.png" />
 			<img class="img2" src="${link.contextPath}/images/sell_p.png" />
 			我的销售

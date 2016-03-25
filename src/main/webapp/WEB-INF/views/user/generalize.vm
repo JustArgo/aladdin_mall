@@ -27,7 +27,7 @@
 			投放方式：长按下图，可以保存到手机上，您还可以在微信以外的平台发布，如：微博，贴吧
 			</p>
 			<div class="qr-code">
-				<img src="${link.contextPath}/images/two_dimension_code.png" /> 
+				<img src="${link.contextPath}/user/qrCode" /> 
 			</div>
 			<a href="javascript:" class="code-btn">码上有惊喜</a>
 		</div>
@@ -37,7 +37,7 @@
 			<p style="font-size:16px;padding-top:10px">您的分享链接</p>
 			<p>您可以复制候直接分享给微信朋友或朋友圈哦</p>
 			<div class="link-area">
-				<p style="color:#E81959">我的分享链接https://detail.tmall.hk/hk/item.html?id</p>
+				<p style="color:#E81959">我的分享链接${link.contextPath}?invitation=$mqId</p>
 			</div>
 			<a href="javascript:" class="code-btn">我要分享</a>
 			<div class="link-footer">
