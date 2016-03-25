@@ -11,51 +11,51 @@
 				        	
 	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
 	<dubbo:application name="aladdin_mall" /> 
-	<dubbo:registry protocol="zookeeper"  address="zookeeper://115.29.249.236:2181"  />        
+	<dubbo:registry protocol="zookeeper"  address="zookeeper://115.29.249.236:2181" timeout="30000" />        
 	
-	<dubbo:reference id="productService" interface="com.maiquan.aladdin_product.service.IProductService"/>
-	<dubbo:reference id="productSkuService" interface="com.maiquan.aladdin_product.service.IProductSkuService"/>
-	<dubbo:reference id="productVoService" interface="com.maiquan.aladdin_product.service.IProductVoService"/>
-	<dubbo:reference id="commentVoService" interface="com.maiquan.aladdin_comment.service.ICommentVoService"/>
+	<dubbo:reference id="productService" interface="com.maiquan.aladdin_product.service.IProductService" check="false"/>
+	<dubbo:reference id="productSkuService" interface="com.maiquan.aladdin_product.service.IProductSkuService" check="false"/>
+	<dubbo:reference id="productVoService" interface="com.maiquan.aladdin_product.service.IProductVoService" check="false"/>
+	<dubbo:reference id="commentVoService" interface="com.maiquan.aladdin_comment.service.ICommentVoService" check="false"/>
 	
 	<!-- 引用购物车微服务 -->
-	<dubbo:reference id="shopCarService" interface="com.maiquan.aladdin_shopcar.service.IShopCarService"/>
+	<dubbo:reference id="shopCarService" interface="com.maiquan.aladdin_shopcar.service.IShopCarService" check="false"/>
 	
 	<!-- 引用订单微服务 -->
-	<dubbo:reference id="orderService" interface="com.maiquan.aladdin_order.service.IOrderService"/>
+	<dubbo:reference id="orderService" interface="com.maiquan.aladdin_order.service.IOrderService" check="false"/>
 	
 	<!-- 引用订单商品微服务 -->
-	<dubbo:reference id="orderProductService" interface="com.maiquan.aladdin_order.service.IOrderProductService"/>
+	<dubbo:reference id="orderProductService" interface="com.maiquan.aladdin_order.service.IOrderProductService" check="false"/>
 	
 	<!-- 引用收货地址管理微服务 -->
-	<dubbo:reference id="manageReceAddService" interface="com.maiquan.aladdin_receadd.service.IManageReceAddService"/>
+	<dubbo:reference id="manageReceAddService" interface="com.maiquan.aladdin_receadd.service.IManageReceAddService" check="false"/>
 	
 	<!-- 引用地区管理微服务 -->
-	<dubbo:reference id="addressService" interface="com.maiquan.aladdin_receadd.service.IAddressService"/>
+	<dubbo:reference id="addressService" interface="com.maiquan.aladdin_receadd.service.IAddressService" check="false"/>
 	
 	<!-- 引用评论微服务 -->
-	<dubbo:reference id="commentService" interface="com.maiquan.aladdin_comment.service.ICommentService"/>
+	<dubbo:reference id="commentService" interface="com.maiquan.aladdin_comment.service.ICommentService" check="false"/>
 	
 	<!-- 引用邮费计算服务 -->
-	<dubbo:reference id="postFeeService" interface="com.maiquan.aladdin_product.service.IPostFeeService"/>
+	<dubbo:reference id="postFeeService" interface="com.maiquan.aladdin_product.service.IPostFeeService" check="false"/>
 	
 	<!-- 用户 -->
-	<dubbo:reference id="userService" interface="com.aladdin.user.service.UserService"/>
+	<dubbo:reference id="userService" interface="com.aladdin.user.service.UserService" check="false"/>
 	
 	<!-- 商品分类 -->
-	<dubbo:reference id="productCategoryService" interface="com.aladdin.product.category.service.ProductCategoryService"/>
+	<dubbo:reference id="productCategoryService" interface="com.aladdin.product.category.service.ProductCategoryService" check="false"/>
 	
 	<!-- 微信交互 -->
-	<dubbo:reference id="wxInteractionService" interface="com.aladdin.interaction.wx.service.WxInteractionService"/>
+	<dubbo:reference id="wxInteractionService" interface="com.aladdin.interaction.wx.service.WxInteractionService" check="false"/>
 	
 	<!-- 用户现金账户 -->
-	<dubbo:reference id="accountService" interface="com.aladdin.account.service.AccountService"/>
+	<dubbo:reference id="accountService" interface="com.aladdin.account.service.AccountService" check="false"/>
 
 	<!-- 引用供应商 -->
-	<dubbo:reference id="supplierService" interface="com.maiquan.aladdin_supplier.service.ISupplierService"/>
+	<dubbo:reference id="supplierService" interface="com.maiquan.aladdin_supplier.service.ISupplierService" check="false"/>
 	
 	<!-- 商品收藏 -->
-	<dubbo:reference id="productCollectService" interface="com.maiquan.aladdin_product.service.IProductCollectService"/>
+	<dubbo:reference id="productCollectService" interface="com.maiquan.aladdin_product.service.IProductCollectService" check="false"/>
 	
 </beans>	
 	
