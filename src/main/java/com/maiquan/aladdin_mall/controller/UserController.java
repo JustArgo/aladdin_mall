@@ -97,7 +97,7 @@ public class UserController {
 	@RequestMapping(value = "/collect", method = RequestMethod.GET)
 	public String collect(ModelMap modelMap) {
 		Principal principal = WebUtil.getCurrentPrincipal();
-		modelMap.addAttribute("product", productCollectService.getProductCollectListByMqID("1", null));
+		modelMap.addAttribute("product", productCollectService.getProductCollectListByMqID("1", ""));
 		return "user/collect";
 	}
 }
