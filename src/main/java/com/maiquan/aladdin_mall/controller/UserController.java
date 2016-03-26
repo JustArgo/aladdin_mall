@@ -107,7 +107,10 @@ public class UserController {
 	@RequestMapping(value = "/applyWithDraw", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> applyWithDraw(Integer money) {
-		return accountService.applyWithDraw(money);
+		String requestId = UUID.randomUUID().toString().replace("-", "");
+		Principal principal = WebUtil.getCurrentPrincipal();
+		String mqId = principal.getMqId();
+		return accountService.applyWithDraw(requestId, money, mqId);
 	}
 
 	/**
