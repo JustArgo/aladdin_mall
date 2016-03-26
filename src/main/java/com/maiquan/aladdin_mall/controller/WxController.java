@@ -19,11 +19,10 @@ import com.aladdin.interaction.wx.service.WxInteractionService;
 import com.aladdin.user.service.UserService;
 import com.aladdin.vertical.distribution.service.DistributionService;
 import com.maiquan.aladdin_mall.Principal;
-import com.maiquan.aladdin_mall.util.MapUtil.MapData;
-import com.maiquan.aladdin_mall.util.MapUtil;
 import com.maiquan.aladdin_mall.util.WebUtil;
+import com.util.MapUtil;
+import com.util.MapUtil.MapData;
 
-import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
 /**
  * 微信验证接口
@@ -71,17 +70,23 @@ public class WxController {
 	@RequestMapping(value = "/callback", method = RequestMethod.GET)
 	@ResponseBody
 	public void login(HttpServletResponse response, String code, String state) throws Exception {
+		System.out.println("--------------->");
 		String requestId=UUID.randomUUID().toString().replace("-", "");
 		WxMpUser wxMpUser = wxInteractionService.getSnsapiBaseUserInfo(requestId, code);
 		String openId = wxMpUser.getOpenId();
 		String mqId=null;
 		MapData data=MapUtil.newInstance(userService.findByOpenId(requestId, openId));
-		if (data.getString("errcode").equals(UserService.FindByOpenIdErrcode.e0.getClass())) {
+		if (data.getString("errcode").equals(UserService.FindByOpenIdErrcode.e0.getCode())) {
 			mqId=data.getString("result");
+			System.out.println("mq:"+mqId);
+			System.out.println(mqId==null);
+			System.out.println(mqId=="null");
 			if(mqId==null){
 				MapData data2=MapUtil.newInstance(userService.createWx(requestId,state, openId, null, null));
+				System.out.println("errcode:"+data2.getString("errcode"));
 				if (data2.getString("errcode").equals(UserService.CreateWxErrcode.e0.getCode())) {
 					mqId=data2.getString("result");
+					System.out.println("--------mqId:"+mqId);
 				}else {
 					throw new Exception();
 				}
@@ -91,7 +96,10 @@ public class WxController {
 		}
 		Principal principal = new Principal(mqId, openId);
 		WebUtil.login(principal);
-		response.sendRedirect(String.valueOf(WebUtil.getSession().getAttribute(WebUtil.SAVE_REQUEST_KEY)));
+		response.sendRedirect("http://www.baidu.com");
+		
+
+//		response.sendRedirect(String.valueOf(WebUtil.getSession().getAttribute(WebUtil.SAVE_REQUEST_KEY)));
 		
 	}
 	

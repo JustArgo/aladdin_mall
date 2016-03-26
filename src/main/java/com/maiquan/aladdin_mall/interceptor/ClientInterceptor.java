@@ -31,18 +31,24 @@ public class ClientInterceptor extends HandlerInterceptorAdapter {
 		String ua = request.getHeader("user-agent").toLowerCase();
 		boolean isWx = ua.indexOf("micromessenger") > 0;// 是否微信浏览器
 		Principal principal = WebUtil.getCurrentPrincipal();
-		if (principal==null) {
+		System.out.println(principal==null);
+		if (principal!=null) {
+			System.out.println(principal.getMqId()+"   "+principal.getOpenId());
+		}
+//		if (principal==null) {
 			if (isWx) {
+				System.out.println("------------------------------");
 				/* 跳转到自动登陆页面 */
 				WebUtil.getSession().setAttribute(WebUtil.SAVE_REQUEST_KEY, request.getRequestURL());
 				if(!response.isCommitted()){
 					String requestId=UUID.randomUUID().toString().replace("-", "");
 					String invitation=request.getParameter("invitation");
+					System.out.println("**********************"+invitation);
 					response.sendRedirect(wxInteractionService.oauth2buildAuthorizationUrl(requestId, WxConsts.OAUTH2_SCOPE_BASE, invitation));
 					return false;
 				}
 			}
-		}
+//		}
 		return true;
 	}
 
