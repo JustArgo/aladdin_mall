@@ -36,8 +36,6 @@ public class WxController {
 	@Autowired
 	private WxInteractionService wxInteractionService;
 	@Autowired
-	private DistributionService distributionService;
-	@Autowired
 	private UserService userService;
 
 	/**
@@ -70,7 +68,6 @@ public class WxController {
 	@RequestMapping(value = "/callback", method = RequestMethod.GET)
 	@ResponseBody
 	public void login(HttpServletResponse response, String code, String state) throws Exception {
-		System.out.println("--------------->");
 		String requestId=UUID.randomUUID().toString().replace("-", "");
 		WxMpUser wxMpUser = wxInteractionService.getSnsapiBaseUserInfo(requestId, code);
 		String openId = wxMpUser.getOpenId();
@@ -78,15 +75,11 @@ public class WxController {
 		MapData data=MapUtil.newInstance(userService.findByOpenId(requestId, openId));
 		if (data.getString("errcode").equals(UserService.FindByOpenIdErrcode.e0.getCode())) {
 			mqId=data.getString("result");
-			System.out.println("mq:"+mqId);
-			System.out.println(mqId==null);
-			System.out.println(mqId=="null");
 			if(mqId==null){
 				MapData data2=MapUtil.newInstance(userService.createWx(requestId,state, openId, null, null));
 				System.out.println("errcode:"+data2.getString("errcode"));
 				if (data2.getString("errcode").equals(UserService.CreateWxErrcode.e0.getCode())) {
 					mqId=data2.getString("result");
-					System.out.println("--------mqId:"+mqId);
 				}else {
 					throw new Exception();
 				}
@@ -96,11 +89,7 @@ public class WxController {
 		}
 		Principal principal = new Principal(mqId, openId);
 		WebUtil.login(principal);
-		response.sendRedirect("http://www.baidu.com");
-		
-
-//		response.sendRedirect(String.valueOf(WebUtil.getSession().getAttribute(WebUtil.SAVE_REQUEST_KEY)));
-		
+		response.sendRedirect(String.valueOf(WebUtil.getSession().getAttribute(WebUtil.SAVE_REQUEST_KEY)));
 	}
 	
 	/**
