@@ -36,7 +36,9 @@ public class ClientInterceptor extends HandlerInterceptorAdapter {
 				/* 跳转到自动登陆页面 */
 				WebUtil.getSession().setAttribute(WebUtil.SAVE_REQUEST_KEY, request.getRequestURL());
 				if(!response.isCommitted()){
-					response.sendRedirect(wxInteractionService.oauth2buildAuthorizationUrl(UUID.randomUUID().toString(), WxConsts.OAUTH2_SCOPE_BASE, ""));
+					String requestId=UUID.randomUUID().toString().replace("-", "");
+					String invitation=request.getParameter("invitation");
+					response.sendRedirect(wxInteractionService.oauth2buildAuthorizationUrl(requestId, WxConsts.OAUTH2_SCOPE_BASE, invitation));
 					return false;
 				}
 			}

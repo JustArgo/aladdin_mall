@@ -28,6 +28,7 @@
 		<mvc:interceptor>
 			<!-- 拦截所有请求， -->
 			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/wx/**" />
 			<bean id="clientInterceptor"
 				class="com.maiquan.aladdin_mall.interceptor.ClientInterceptor" />
 		</mvc:interceptor>
