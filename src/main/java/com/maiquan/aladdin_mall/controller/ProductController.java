@@ -39,17 +39,12 @@ public class ProductController {
 	@Autowired
 	private IProductVoService productVoService;
 
-	// @Autowired
-	// private ICommentVoService commentVoService;
-
 	@Autowired
 	private IProductSkuService productSkuService;
 	
 	@Autowired
 	private IPostFeeService postFeeService;
 	
-	
-
 	/**
 	 * 查看商品详情
 	 * 
@@ -101,17 +96,6 @@ public class ProductController {
 		model.addAttribute("productID", productID);
 		model.addAttribute("productStock",skuStock);
 		return "productdetail";
-	}
-
-	@RequestMapping("/commentVo")
-	public void getCommentVo() {
-		System.out.println("java");
-		// CommentVo commentVo = commentVoService.getCommentVo(1);
-		try {
-			System.out.println(JSON.json(""/* commentVo */));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@RequestMapping("querySku")
