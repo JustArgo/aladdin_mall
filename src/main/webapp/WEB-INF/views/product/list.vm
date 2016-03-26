@@ -46,7 +46,42 @@
 			</a>
 	   </div>
     </div>
+    
+    
+    
     <div class="share-product">
+    	#set($index = 0)
+    	#foreach($product in $products)
+		    #if($index % 2 == 0)
+		    <div class="product">
+	            <div class="product-1">
+	                <div class="product-img"><a href="product-list.html"><img src="${link.contextPath}/images/img/commodity_image.png"></a></div>
+	                <div class="product-price">
+						<span>$!{product.sellDesc}</span>
+						<div class="price-footer">
+							<div class="price-1">￥$number.format("#0.00",${product.price})</div>
+							<div class="price-2">￥$number.format("#0.00",${product.applyPrice})</div>
+						</div>
+					</div>
+	            </div>
+		    #else
+		    	<div class="product-2">
+                  <div class="product-img"><a href="product-list.html"><img src="${link.contextPath}/images/img/commodity_image.png"></a></div>
+               		<div class="product-price">
+						<span>柯玫娅 欧美风貂皮大衣..</span>
+						<div class="price-footer">
+							<div class="price-1">￥$number.format("#0.00",${product.price})</div>
+							<div class="price-2">￥$number.format("#0.00",${product.applyPrice})</div>
+						</div>
+					</div>
+            	</div>
+            </div>
+		    #end	
+		    
+		    #set($index=$index+1)
+    	
+    	#end
+    	<!-- 
         <div class="product">
             <div class="product-1">
                 <div class="product-img"><a href="product-list.html"><img src="${link.contextPath}/images/img/commodity_image.png"></a></div>
@@ -113,6 +148,8 @@
 				</div>
             </div>
         </div>
+        
+        -->
     </div>
 </div>
 </body>
