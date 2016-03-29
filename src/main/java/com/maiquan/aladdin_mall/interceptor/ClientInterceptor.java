@@ -37,7 +37,7 @@ public class ClientInterceptor extends HandlerInterceptorAdapter {
 				WebUtil.getSession().setAttribute(WebUtil.SAVE_REQUEST_KEY, request.getRequestURL());
 				if(!response.isCommitted()){
 					String requestId=UUID.randomUUID().toString().replace("-", "");
-					String invitation=request.getParameter("invitation");
+					String invitation=request.getParameter("invite");
 					response.sendRedirect(wxInteractionService.oauth2buildAuthorizationUrl(requestId, WxConsts.OAUTH2_SCOPE_BASE, invitation));
 					return false;
 				}

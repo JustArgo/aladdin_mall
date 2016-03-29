@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,8 +31,8 @@ import com.maiquan.aladdin_product.service.IProductCollectService;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-	@Autowired
-	private UserService userService;
+	@Value("${hostName}")
+	private String hostName;
 	@Autowired
 	private AccountService accountService;
 	@Autowired
@@ -77,7 +78,7 @@ public class UserController {
 		String mqId = principal.getMqId();
 		response.setContentType("image/jpeg");
 		OutputStream os = response.getOutputStream();
-		QRCodeUtil.encode(os, "http://aladdin.mi360.me?invitation=" + mqId);
+		QRCodeUtil.encode(os, "http://aldtest.mi360.me?invite=" + mqId);
 		os.flush();
 		os.close();
 	}
