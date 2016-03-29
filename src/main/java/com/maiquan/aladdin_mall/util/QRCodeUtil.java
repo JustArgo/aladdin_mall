@@ -19,8 +19,8 @@ import com.google.zxing.common.BitMatrix;
  */
 public class QRCodeUtil {
 	public static void encode(OutputStream os, String content) throws Exception {
-		int width = 200;
-		int height = 200;
+		int width = 300;
+		int height = 300;
 		Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();
 		hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
 		BitMatrix matrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);// 生成矩阵
