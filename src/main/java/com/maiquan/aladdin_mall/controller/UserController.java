@@ -78,7 +78,8 @@ public class UserController {
 		String mqId = principal.getMqId();
 		response.setContentType("image/jpeg");
 		OutputStream os = response.getOutputStream();
-		QRCodeUtil.encode(os, "http://aldtest.mi360.me?invite=" + mqId);
+		String content="http://"+hostName+"?invite="+mqId;
+		QRCodeUtil.encode(os, content);
 		os.flush();
 		os.close();
 	}
