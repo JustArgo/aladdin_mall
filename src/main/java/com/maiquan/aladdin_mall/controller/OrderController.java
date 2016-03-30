@@ -194,6 +194,16 @@ public class OrderController {
 		
 	}
 	
+	@RequestMapping("/return-goods")
+	public String returnGoods(String requestID, String orderCode, Model model){
+		
+		Order order = orderService.getOrderByOrderCode(orderCode, requestID);
+		model.addAttribute("refundLimit",order.getPaySum());//支付多少钱 最多退款多少钱
+		model.addAttribute("orderCode",orderCode);
+		return "order/return-goods";
+		
+	}
+	
 	@RequestMapping("/viewOrder")
 	public String viewOrder(Integer orderID, Model model){
 		
