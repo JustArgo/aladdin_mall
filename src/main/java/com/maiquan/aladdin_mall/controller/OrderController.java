@@ -194,16 +194,6 @@ public class OrderController {
 		
 	}
 	
-	@RequestMapping("/return-goods")
-	public String returnGoods(String requestID, String orderCode, Model model){
-		
-		Order order = orderService.getOrderByOrderCode(orderCode, requestID);
-		model.addAttribute("refundLimit",order.getPaySum());//支付多少钱 最多退款多少钱
-		model.addAttribute("orderCode",orderCode);
-		return "order/return-goods";
-		
-	}
-	
 	@RequestMapping("/viewOrder")
 	public String viewOrder(Integer orderID, Model model){
 		
@@ -528,6 +518,39 @@ public class OrderController {
 		System.out.println("unifiedorder_notify");
 		System.out.println("retXml----"+retXml);
 		return "";
+	}
+	
+	/**
+	 * 点击 某个订单的退货按钮 跳转到这里 然后查找出相关的信息 再跳转到申请退货页面
+	 * @param requestID
+	 * @param orderCode
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/return-goods")
+	public String returnGoods(String requestID, String orderCode, Model model){
+		
+		Order order = orderService.getOrderByOrderCode(orderCode, requestID);
+		model.addAttribute("refundLimit",order.getPaySum()/100.0);//支付多少钱 最多退款多少钱
+		model.addAttribute("orderCode",orderCode);
+		return "order/return-goods";
+		
+	}
+	
+	/**
+	 * 在退货页面 点击 申请退货
+	 * @param requestID
+	 * @param orderCode
+	 * @param returnReason 退货原因
+	 * @param refundFee    退款金额
+	 * @param returnDesc   退货说明
+	 * @return
+	 */
+	@RequestMapping("/apply-return-goods")
+	public String applyReturnGoods(String requestID, String orderCode, String returnReason, Long refundFee, String returnDesc){
+		
+		
+		return "order/return-goods-detail";
 	}
 	
 }
