@@ -1,0 +1,138 @@
+body{margin:0;padding:0;background:url("../images/classfiy/bg.png")}
+body a:hover{text-decoration: none;}
+body a:focus{outline:none;}
+body a{color:#666;text-decoration:none;}
+#container{width:100%;height:100%;}
+.header{width:100%;height:60px;background:url("../images/classfiy/title_bar.png");text-align: center;}
+.header-0,.header-1{width:19%;height:58px;float:left;line-height:25px;font-size:12px;color:#fff;}
+.header-1 img{width:25px;height:25px;margin-top:8px;}
+.header-0 img{width:25px;25px;margin-top:18px}
+.back,.car,.wealth{width:100%;height:100%text-align:center;}
+.back-1{width:50%;height:50%;margin-left:25%;}
+.back-2{width:50%;height:50%;margin-left:25%;}
+.header-2{width:65%;height:58px;float:left;}
+.header-2 input{width:90%;height:35px;margin-top:12px;border-radius:30px;border:0;background:url("../images/classfiy/search_box.png");background-size:100% 100%;padding-left:20px;color:#fff;font-size:14px;}
+.header-3{width:15%;height:58px;float:left;}
+.header-3 img{width:30px;height:30px;margin-top:15px;}
+.img2{display:none;}
+.carousel{width:100%;height:235px;}
+.carousel img{width:100%;height:100%;}
+.carousel-bigger{width:100%;height:230px;}
+.bigger-img{width:100%;height:100%;display:none;}
+.carsousel-smaller{width:100%;height:5px;}
+.smaller-img{width:20%;height:5px;float:left;}
+.smaller-img img{width:100%;height:100%;}
+.carousel-select1{background:url("../images/img/index/select_bar_bg.png");background-size:100% 100%;}
+.carousel-select2{background:url("../images/img/index/select_bar.png");background-size:100% 100%;}
+.show{width:100%;height:185px;background-color:#fff;}
+.show-1{width:65%;height:90px;float:left;}
+.show-left{width:45%;height:90px;float:left;}
+.show-right{width:55%;height:90px;float:left;text-align:center;padding-top:10px;position:relative;}
+.tip{width:35px;height:35px;position:absolute;right:0;top:0;}
+ .show-3{width:65%;height:90px;float:left;}
+.show-2{width:35%;height:180px;float:right;}
+.show-2-right{width:80%;height:100%;margin-left:10%;}
+.show-top{width:100%;height:110px;}
+.show-bottom{width:100%;height:70px;text-align:center;}
+.show-1 img,.show-2 img,.show-3 img{width:100%;height:100%;}
+.mall-title{width:100%;height:150px;box-shadow:0 0 5px #cecece;margin-top:10px;}
+.mall-title img{width:100%;height:100%;}
+.share-product{width:100%;height:100%;}
+ .product{width:100%;height:180px;margin-bottom:10px;}
+.product-1,.product-2{width:46%;height:200px;margin-top:5px;float:left;margin-left:8px;border:1px solid #cecece;box-shadow:0 0 5px #cecece;background-color:#fff;}
+.product-img{width:100%;height:150px;}
+.product-img img{width:100%;height:100%;}
+.product-price{width:100%;height:50px;}
+.product-price span{font-size:12px;margin-left:10px;}
+.price-footer{width:100%;height:30px;}
+.share-product{width:100%;height:100%;}
+.price-1{width:50%;height:30px;text-align:center;font-size:14px;color:#F385A7;float:left;line-height:30px;}
+.price-2{width:50%;height:30px;text-align:center;font-size:12px;color:#cecece;float:left;line-height:30px;text-decoration:line-through;}
+.price-2:last-child{margin-bottom:20px;}
+
+
+
+.logo{width:100%;height:45px;border:1px solid #cecece;box-shadow:0 0 5px #cecece;background-color:#fff;position:fixed;bottom:0;left:0;}
+.logo-main{width:100%;height:50px;}
+.logo-circle{display:block;width:60px;height:60px;border-radius:50%;position:absolute;background-color:#fff; border:1px solid #cecece;box-shadow:0 0 5px #cecece;z-index:99;top:-25px;left:40%;text-align:center;color:#b1b1b1}
+.logo-style{width:100px;height:30px;line-height:40px;text-align:center;}
+.logo-car{float:left;margin-left:10%;}
+.logo-wealth{float:right;margin-right:10%;}
+.logo-1{wdith:100%;height:50%;padding-top:5px;}
+.logo-2{wdith:100%;height:50%;line-height:35px;}
+.logo-1 img{width:35px;height:35px;}
+.car-1,.wealth-1{width:50%;height:50%;margin-left:25%;}
+.car-2,.wealth-2{width:50%;height:50%;margin-left:25%;}
+.car-1 img,.wealth-1 img{
+	width:30px;
+	height:30px;
+}
+
+
+.success-search{width:100%;height:40px;line-height:30px;background-color:#fff;}
+.success-1{width:50%;height:40px;border-right:1px solid #cecece;line-height:40px;text-align:center;float:left;}
+.success-2{width:49%;height:40px;line-height:40px;text-align:center;float:left;position:relative;}
+.up{position:absolute;right:35px;top:12px;}
+.down{position:absolute;right:35px;top:22px;}
+.color{color:#E81959;}
+.img2{display:none;}
+@media only screen and (max-width:335px){
+.up{right:25px;top:12px;}
+.down{right:25px;top:22px;}
+}
+
+
+.fail-search{width:100%;height:30px;line-height:30px;}
+.fail-search p{text-align:center;font-size:14px;color:#666;}
+.recommend{width:100%;height:30px;background-size:100% 100%;}
+.recommend-main{margin-top:10px;width:96%;height:10px;margin-left:2%;background:url("../images/img/embellish_label.png");background-size:100% 100%;text-align:center;line-height:10px;font-size:14px;}
+
+
+.search-main{width:100%;height:100%;background-color:#fff;}
+.search-content{width:96%;margin-left:2%;font-size:16px;background-color:#fff;padding-top:10px;}
+.search-history span{font-size:12px;color:#cecece;}
+.search-history{width:100%;height:40px;line-height:40px;font-size:14px;border-bottom:1px solid #cecece;}
+.search-history:last-child{border-bottom:0;}
+.search-history a{color:#666;}
+
+.classfiy-menu{width:38%;height:100%;background:url("../images/classfiy/classify_bg.png");background-size:100% 100%;float:left;padding-bottom:100px;}
+.classfiy-main{width:60%;height:100%;float:left;background:url("../images/classfiy/reclassify_bg.png");background-size:100% 100%;padding-bottom:20px;}
+.classfiy-menu ul{width:100%;list-style:none;margin:0;padding:0;}
+.classfiy-menu li{width:100%;}
+.classfiy-menu li a{display:block;height:50px;width:88%;height:100%;line-height:50px;color:#cecece;padding-left:15px;font-size:14px;position:relative;border-bottom:1px solid #232323;}
+.flag{width:30px;height:50px;position:absolute;right:0;top:0;text-align:center;display:none;}
+.flag img{width:15px;height:15px;margin-top:18px;}
+.classfiy-content{width:100%;padding-top:10px;padding-left:8px;float:left;display:none;}
+.classfiy-content p{font-size:14px;color:#555}
+.classfiy-content ul{list-style:none;margin:0;padding:0;}
+.classfiy-content ul li{float:left;margin-right:5px;}
+.classfiy-content ul li a{display:block;height:28px;font-size:12px;line-height:28px;padding-left:5px;padding-right:5px;}
+.bg{background:url("../images/classfiy/classify_select_bg.png");background-size:100% 100%;}
+.bg2{background:url("../images/classfiy/select_bar.png");background-size:100% 100%;color:#fff;}
+
+
+
+.advertisement-title{width:100%;height:225px;}
+.advertisement-title img{width:100%;height:100%;}
+.product-list{width:100%;height:100%;float:left;}
+.produce-name{width:100%;height:30px;background-size:100% 100%;}
+.name-main{margin-top:10px;width:96%;height:12px;margin-left:2%;background:url("../images/img/embellish_label2.png");background-size:100% 100%;text-align:center;line-height:10px;font-size:12px;}
+.show-product{width:50%;height:180px;float:left;position:relative;box-shadow:0 0 5px #cecece;}
+.show-product img{width:100%;height:100%;}
+.show-product span{width:100%;height:40px;position:absolute;bottom:0;left:0;color:#fff;background:url("../images/img/price_bg.png");font-size:16px;line-height:40px;text-align:center;}
+.product-info{width:100%;height:100%;background-color:#fff;float:left;padding-bottom:15px;}
+.info-main{width:96%;margin-left:2%;margin-top:10px;}
+.info-1{font-size:16px;}
+.info-2{font-size:14px;color:#555;}
+
+.venue-title{width:100%;height:225px;}
+.venue-title2{width:100%;height:140px;margin-top:10px;}
+.venue-title img,.venue-title2 img{width:100%;height:100%;}
+.venue-title-note{width:100%;height:100%;background-color:#fff;padding-bottom:10px;position:relative;}
+.venue-title-note span:last-child{position:absolute;right:0;}
+.note-header{width:96%;height:40px;margin-left:2%;line-height:40px;}
+.note-content{width:92%;margin-left:4%;letter-spacing:2px;font-size:14px;margin-bottom:10px;}
+.time{width:100%;height:50px;background-color:#fff;margin-top:10px;text-align:center;line-height:50px;}
+.time img{width:20px;height:20px;position:relative;top:4px;}
+
+

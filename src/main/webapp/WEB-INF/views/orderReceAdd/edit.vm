@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>#if($add.iD)修改收货地址#else新增收货地址#end</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<script src="js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="css/address.css" type="text/css" />
+<style>
+</style>
+</head>
+<body>
+	<div id="container">
+    <div class="header">
+        <a href="${link.contextPath}/chooseReceAdd" class="header-back"><img src="images-newAddress/back_n.png"></a>
+        <span>#if($add.iD)${i18n.get("editReceiveAddress")}#else${i18n.get("newReceiveAddress")}#end</span>
+    </div>
+    <form id="addressForm" #if($add.ID)action="order_update_rece_add" #else action="order_add_rece_address"#end>
+    	<input type="hidden" name="ID" value="$!{add.iD}"/>
+    	<input type="hidden" class="isDefault" name="isDefault" #if($add.isDefault)value="$add.isDefault"#else value="NOR" #end/>
+	    <div class="addAddress-main">
+	        <div class="select-main">
+	            国家：
+				<div class="select-option">
+					<div class="option-text">中国</div>
+					<div class="option-img">
+						<img class="img1" src="images-newAddress/pull_down.png"/>
+						<img class="img2" src="images-newAddress/up_down.png"/>
+					</div>
+				</div>
+	            <select name="countryID" class="select">
+	                <option value="0">中国</option>
+	                <option value="1">美国</option>
+	                <option value="2">英国</option>
+	                <option value="3">法国</option>
+	            </select>
+	        </div>
+	        <div class="select-main">
+	            省份：
+				<div class="select-option">
+					<div class="option-text curProvince">北京市</div>
+					<div class="option-img">
+						<img class="img1" src="images-newAddress/pull_down.png"/>
+						<img class="img2" src="images-newAddress/up_down.png"/>
+					</div>
+				</div>
+	            <select name="provinceID" class="select">
+	                #foreach($p in $provinces)
+						<option value="$p.id" #if($add.provinceID==$p.id)selected="selected"#end>$p.name</option>
+					#end
+	            </select>
+	        </div>
+	        <div class="select-main">
+	            城市：
+				<div class="select-option">
+					<div class="option-text curCity">广州市</div>
+					<div class="option-img">
+						<img class="img1" src="images-newAddress/pull_down.png"/>
+						<img class="img2" src="images-newAddress/up_down.png"/>
+					</div>
+				</div>
+	            <select name="cityID" class="select">
+	                #foreach($c in $cities)
+						<option value="$c.id" #if($add.cityID==$c.id)selected="selected"#end>$c.name</option>
+					#end
+	            </select>
+	        </div>
+	        <div class="select-main">
+	            区/县：
+				<div class="select-option">
+					<div class="option-text curDistrict">天河区</div>
+					<div class="option-img">
+						<img class="img1" src="images-newAddress/pull_down.png"/>
+						<img class="img2" src="images-newAddress/up_down.png"/>
+					</div>
+				</div>
+	            <select name="districtID" class="select">
+	               #foreach($d in $districts)
+						<option value="$d.id" #if($add.districtID==$d.id)selected="selected"#end>$d.name</option>
+				   #end
+	            </select>
+			</div>
+	        <div class="address-info">
+	             <input type="text" name="address" id="address" class="form-control input-lg" placeholder="详细地址" value="$!{add.address}" />
+	            <input type="text" name="recName" id="name" class="form-control input-lg" placeholder="收货人姓名" value="$!{add.recName}" />
+	            <input type="text" name="recMobile" id="phone" class="form-control input-lg" placeholder="联系电话" value="$!{add.recMobile}" />
+	            <input type="text" id="code" class="form-control input-lg" placeholder="邮编" value="51000" />
+	        </div>
+	    </div>
+    </form>
+    <div class="address-edit">
+    	
+        <img class="img1" src="images-newAddress/check_box_n.png" #if($add.isDefault=='DEF')style="display:none;"#end>
+        <img class="img2" src="images-newAddress/check_box_p.png" #if($add.isDefault=='DEF')style="display:inline-block;"#end>
+        <a href="javascript:" class="changeAddress">${i18n.get("setDefaultAddress")}(每次购买时会默认使用该地址)</a>
+        
+    </div>
+    <div class="address-btn">
+        <a href="javascript:" class="addAddress">${i18n.get("confirm")}</a>
+    </div>
+</div>
+</body>
+<script>
+    $(function(){
+    	
+    	//改变当前选中状态
+    	$(".curProvince").text($("select[name=provinceID]").find("option:selected").text());
+    	$(".curCity").text($("select[name=cityID]").find("option:selected").text());
+    	$(".curDistrict").text($("select[name=districtID]").find("option:selected").text());
+    	<!--$districts.size() -->
+    	#if($districts.size()==0)
+    		$(".curDistrict").text("");
+    		$("select[name=districtID]").attr("disabled","disabled");
+    	#end
+    	
+        $(".changeAddress").click(function(){
+         if($(this).siblings(".img1").is(":visible")){
+             $(this).siblings(".img1").hide();
+            	 $(this).siblings(".img2").show();
+            	 $(".isDefault").val("DEF");
+             }else{
+            	 $(this).siblings(".img1").show();
+            	 $(this).siblings(".img2").hide();
+            	 $(".isDefault").val("NOR");
+             }
+         });
+		
+		$(".select").click(function(){
+			if($(this).siblings(".select-option").find(".img1").is(":visible")){
+                $(this).siblings(".select-option").find(".img1").hide();
+                $(this).siblings(".select-option").find(".img2").show();
+                
+            }else{
+                $(this).siblings(".select-option").find(".img1").show();
+                $(this).siblings(".select-option").find(".img2").hide();
+               
+            }
+		})
+		
+		$(".select").change(function(){
+			var divTxt = $(this).siblings(".select-option").find(".option-text");
+			var optionTxt = $(this).find("option:selected").text();
+			divTxt.text(optionTxt);
+			$(this).siblings(".select-option").find(".img2").hide();
+			$(this).siblings(".select-option").find(".img1").show();
+		});
+		
+		//当省份变化的时候 城市和地区也要跟着变化
+		$("select[name=provinceID]").change(function(){
+			
+			var pid = $(this).val();
+			
+			$.ajax({
+					
+				url:"${link.contextPath}/getAddressByPid",
+				type:"POST",
+				data:{"pid":pid},
+				dataType:"json",
+				success:function(ret){
+					$("select[name=cityID]").empty();
+					$(".curCity").text(ret[0].name);
+					var cityOption = "";
+					for(var i=0;i<ret.length;i++){
+						cityOption+='<option value="'+ret[i].id+'">'+ret[i].name+'</option>'
+					}
+					$("select[name=cityID]").append(cityOption);
+					
+					var cityId = ret[0].id;
+					$.ajax({
+						
+						url:"${link.contextPath}/getAddressByPid",
+						type:"POST",
+						data:{"pid":cityId},
+						dataType:"json",
+						success:function(ret){
+							//如果该城市 没有下级地区
+							if(ret.length==0){
+								$(".curDistrict").text("");
+					    		$("select[name=districtID]").attr("disabled","disabled");
+							}else{
+								$("select[name=districtID]").removeAttr("disabled","disabled");
+								$("select[name=districtID]").empty();
+								$(".curDistrict").text(ret[0].name);
+								var districtOption = "";
+								for(var i=0;i<ret.length;i++){
+									districtOption+='<option value="'+ret[i].id+'">'+ret[i].name+'</option>'
+								}
+								$("select[name=districtID]").append(districtOption);
+							}							
+							
+						}
+					});
+					
+				}
+				
+			});
+			
+			
+		});
+		
+		$("select[name=cityID]").change(function(){
+			
+			var pid = $(this).val();
+			
+			$.ajax({
+				url:"${link.contextPath}/getAddressByPid",
+				type:"POST",
+				data:{"pid":pid},
+				dataType:"json",
+				success:function(ret){
+					//如果该城市 没有下级地区
+					if(ret.length==0){
+						$(".curDistrict").text("");
+			    		$("select[name=districtID]").attr("disabled","disabled");
+					}else{
+						$("select[name=districtID]").removeAttr("disabled","disabled");
+						$("select[name=districtID]").empty();
+						$(".curDistrict").text(ret[0].name);
+						var districtOption = "";
+						for(var i=0;i<ret.length;i++){
+							districtOption+='<option value="'+ret[i].id+'">'+ret[i].name+'</option>'
+						}
+						$("select[name=districtID]").append(districtOption);
+					}		
+				}
+			});
+			
+		});
+		
+		
+	$(".addAddress").click(function(){
+		if($("#address").val() == "" || $("#name").val() == "" || $("#phone").val() == "" || $("#code").val() == ""){
+			alert("修改失败，信息填写不完整");
+		}else{
+			//$(".addAddress").attr("href","address.html")
+			$("#addressForm").submit();
+		}
+	});
+    });
+</script>
+</html>
+ 

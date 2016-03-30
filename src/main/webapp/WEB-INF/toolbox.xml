@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tools>
+	<toolbox scope="application">
+		<tool key="i18n" class="org.apache.velocity.tools.generic.ResourceTool" bundles="messages" locale="zh_CN"/>
+	</toolbox>
+	<toolbox scope="request">  
+        <tool key="link" class="org.apache.velocity.tools.view.LinkTool"/>
+	</toolbox>
+	<toolbox scope="application">
+		<tool key="number" class="org.apache.velocity.tools.generic.NumberTool"/>
+	</toolbox>
+	<toolbox scope="application">
+		<tool key="math" class="org.apache.velocity.tools.generic.MathTool"/>
+	</toolbox>
+</tools>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+				        http://www.springframework.org/schema/beans/spring-beans.xsd
+				        http://code.alibabatech.com/schema/dubbo
+				        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+				        http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context.xsd ">
+	
+	<context:property-placeholder location="classpath*:/aladdin.properties" />
+				 
+	<dubbo:consumer check="false" timeout="30000" />				 
+				        	
+	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
+	<dubbo:application name="aladdin_mall" /> 
+	<dubbo:registry address="${dubbo.registry_address}" timeout="30000" />        
+	
+	<dubbo:reference id="productService" interface="com.maiquan.aladdin_product.service.IProductService" check="false"/>
+	<dubbo:reference id="productSkuService" interface="com.maiquan.aladdin_product.service.IProductSkuService" check="false"/>
+	<dubbo:reference id="productVoService" interface="com.maiquan.aladdin_product.service.IProductVoService" check="false"/>
+	<dubbo:reference id="commentVoService" interface="com.maiquan.aladdin_comment.service.ICommentVoService" check="false"/>
+	
+	<!-- 引用购物车微服务 -->
+	<dubbo:reference id="shopCarService" interface="com.maiquan.aladdin_shopcar.service.IShopCarService" check="false"/>
+	
+	<!-- 引用订单微服务 -->
+	<dubbo:reference id="orderService" interface="com.maiquan.aladdin_order.service.IOrderService" check="false"/>
+	
+	<!-- 引用订单商品微服务 -->
+	<dubbo:reference id="orderProductService" interface="com.maiquan.aladdin_order.service.IOrderProductService" check="false"/>
+	
+	<!-- 引用收货地址管理微服务 -->
+	<dubbo:reference id="manageReceAddService" interface="com.maiquan.aladdin_receadd.service.IManageReceAddService" check="false"/>
+	
+	<!-- 引用地区管理微服务 -->
+	<dubbo:reference id="addressService" interface="com.maiquan.aladdin_receadd.service.IAddressService" check="false"/>
+	
+	<!-- 引用评论微服务 -->
+	<dubbo:reference id="commentService" interface="com.maiquan.aladdin_comment.service.ICommentService" check="false"/>
+	
+	<!-- 引用邮费计算服务 -->
+	<dubbo:reference id="postFeeService" interface="com.maiquan.aladdin_product.service.IPostFeeService" check="false"/>
+	
+	<!-- 用户 -->
+	<dubbo:reference id="userService" interface="com.aladdin.user.service.UserService" check="false"/>
+	
+	<!-- 商品分类 -->
+	<dubbo:reference id="productCategoryService" interface="com.aladdin.product.category.service.ProductCategoryService" check="false"/>
+	
+	<!-- 微信交互 -->
+	<dubbo:reference id="wxInteractionService" interface="com.aladdin.interaction.wx.service.WxInteractionService" check="false"/>
+	
+	<!-- 用户现金账户 -->
+	<dubbo:reference id="accountService" interface="com.aladdin.account.service.AccountService" check="false"/>
+
+	<!-- 引用供应商 -->
+	<dubbo:reference id="supplierService" interface="com.maiquan.aladdin_supplier.service.ISupplierService" check="false"/>
+	
+	<!-- 商品收藏 -->
+	<dubbo:reference id="productCollectService" interface="com.maiquan.aladdin_product.service.IProductCollectService" check="false"/>
+	
+	<!-- 纵向分销 -->
+	<dubbo:reference id="distributionService" interface="com.aladdin.vertical.distribution.service.DistributionService" check="false"/>
+	
+</beans>	
+	

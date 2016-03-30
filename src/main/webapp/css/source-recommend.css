@@ -1,0 +1,22 @@
+body{margin:0;padding:0;background:url("../images/bg.png")}
+body a:hover{text-decoration: none;}
+body a:focus{outline:none;}
+body a{color:#666;text-decoration:none;}
+#container{width:100%;height:100%;}
+.header{width:100%;height:50px;background:url("../images/title_bar.png");text-align: center;}
+.header-back{width:25px;height:25px;display:block;float:left;text-align: center;line-height: 25px;margin:12px;}
+.header-back img{width:100%;height:100%;}
+.header span{text-align: center;font-size:20px;color:#fff;line-height: 50px;position:relative;left:-20px;}
+.img2{display:none;}
+.share-product{width:100%;height:100%;}
+ .product{width:100%;height:180px;margin-bottom:10px;}
+.product-1,.product-2{width:46%;height:200px;margin-top:5px;float:left;margin-left:8px;border:1px solid #cecece;box-shadow:0 0 5px #cecece;background-color:#fff;}
+.product-img{width:100%;height:150px;}
+.product-img img{width:100%;height:100%;}
+.product-price{width:100%;height:50px;}
+.product-price span{display:block;width:90%;font-size:12px;margin-left:10px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.price-footer{width:100%;height:30px;}
+.share-product{width:100%;height:100%;}
+.price-1{width:50%;height:30px;text-align:center;font-size:14px;color:#F385A7;float:left;line-height:30px;}
+.price-2{width:50%;height:30px;text-align:center;font-size:12px;color:#cecece;float:left;line-height:30px;text-decoration:line-through;}
+.price-2:last-child{margin-bottom:20px;}

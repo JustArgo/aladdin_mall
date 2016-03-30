@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>分类</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<script src="${link.contextPath}/js/jquery-2.1.3.min.js"></script>
+<script src="${link.contextPath}/js/js.js"></script>
+<link rel="stylesheet" href="${link.contextPath}/css/index.css" type="text/css" />
+</head>
+<style>
+.img1{position:relative;top:5px;left:-5px;width:25px;height:25px;}
+</style>
+<body>
+<div id="container">
+    <div class="header">
+		<a href="${link.contextPath}"><div class="header-0">
+			<img src="${link.contextPath}/images/classfiy/back_n.png" />
+		</div></a>
+		<div class="header-2">	
+			<input type="text" class="search-text" placeholder="输入关键字"/>
+		</div>
+		<a href="javascript:" class="btn" ><div class="header-3">
+			<img src="${link.contextPath}/images/classfiy/search_n.png" />
+			<img src="${link.contextPath}/images/classfiy/search_p.png" style="display:none" />
+		</div></a>
+    </div>
+	<div class="classfiy-menu">
+		<ul>
+			#foreach( $item in $productCategory) 
+			<li><a href="#" class="select bg">
+				<img class="img1" src="${link.contextPath}/images/classfiy/import_n.png" />
+				<img class="img2" src="${link.contextPath}/images/classfiy/import_p.png" />
+				$item.parent.classname
+				<div class="flag" style="display:block;"><img src="${link.contextPath}/images/classfiy/arrow.png" /></div>
+			</a><li>
+			#end
+		</ul>
+	</div>
+	<div class="classfiy-main">
+		#foreach( $item in $productCategory)
+		<div class="classfiy-content" #if($velocityCount==1) style="display:block" #end>
+			<p>$item.parent.classname</p>
+			<ul>
+				#foreach( $item2 in $item.leafs)
+				<li><a href="${link.contextPath}/product/list/$item2.id" class="select-2 #if($velocityCount==1) bg2 #end ">$item2.classname</a></li>
+				#end
+			</ul>
+		</div>
+		#end
+	</div>
+</div>
+</body>
+<script>
+$(function(){
+	$(".select").each(function(index){
+		$(this).click(function(){
+			$(".classfiy-content").eq(index).siblings().hide();
+			$(".classfiy-content").eq(index).show();
+		})
+	})
+});
+</script>
+</html>
+ 

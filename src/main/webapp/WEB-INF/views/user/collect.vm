@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>我的收藏</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<script src="${link.contextPath}/js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="${link.contextPath}/css/my-save.css" type="text/css" />
+</head>
+<!-- 
+批量删除功能 -216-3-10
+-->
+<body>
+	<div id="container">
+    <div class="header">
+        <a href="${link.contextPath}/user/index" class="header-back btn">
+			<img class="img1" src="${link.contextPath}/images/back_n.png">
+			<img class="img2" src="${link.contextPath}/images/back_p.png">
+		</a>
+        <span>我的收藏</span>
+		<a href="javascript:" id="edit">
+			<img src="${link.contextPath}/images/edit_n.png" />
+			<!-- <img class="img2" src="${link.contextPath}/images/img/edit_p.png" style="display:none" /> -->
+		</a>
+		<a href="javascript:" id="edit2">删除</a>
+    </div>
+	<div class="save-title">共收藏了3件商品</div>
+	
+	#foreach( $item in $products)
+	<div class="car-content">
+		<div class="bottom-title">供应商：$item.阿里巴巴天猫商城</div>
+		<div class="info-bottom">
+			<div class="car-select">
+				<a href="#" class="btn option">
+					<img class="img1 option-img1" src="${link.contextPath}/images/select_n.png" />
+					<img class="img2 option-img2" src="${link.contextPath}/images/select_p.png" />
+				</a>
+			</div>
+			<div class="info-bottom-img">
+				<a href="#"><img src="${link.contextPath}/images/thumbnail.png" /></a>
+			</div>
+			<p class="bottom-1" style="font-size:14px;">岚爵 冬季新款狐狸毛领长款羊毛皮草...</p>
+			<p class="bottom-3">
+				<span style="color:#F389AA;font-size:14px;">￥3990.00</span>
+			</p>
+		</div>
+		<div class="botton-delete" >
+			<a href="#" class="btn delete" > 
+				<img class="img1 option-img" src="${link.contextPath}/images/delete2_n.png" />
+				<img class="img2" src="${link.contextPath}/images/delete2_p.png" />
+			</a>
+		</div>
+	</div>
+	#end
+	<div class="car-footer">
+		<div class="car-footer-1">
+			<a href="javascript:" id="selectAll">
+				<img class="img1 option-img1" src="${link.contextPath}/images/select_n.png" />
+				<img class="img2 option-img2" src="${link.contextPath}/images/select_p.png" />
+				<span class="optionAll">全选</span>
+			</a>
+		</div>
+	</div>
+</div>
+</body>
+<script>
+    $(function(){
+		$(".btn").click(function(){
+			if($(this).find(".img1").is(":visible")){
+				$(this).find(".img1").hide();
+				$(this).find(".img2").show();
+			}else{
+				$(this).find(".img1").show();
+				$(this).find(".img2").hide();
+			}
+		});
+		
+		$(".subtract").each(function(){
+			$(this).click(function(){
+				var divTxt = $(this).parents(".number-1").siblings(".number-2");
+				num = divTxt.text();
+				if(num < 2){
+					alert("数量已经最少")
+				}else{
+					num--;
+				}
+				divTxt.text(num);
+				$(".add").find(".img1").show();
+				$(".add").find(".img2").hide();
+				$(this).find(".img1").hide();
+				$(this).find(".img2").show();
+			})
+		});
+		$(".add").each(function(){
+			$(this).click(function(){
+				var divTxt = $(this).parents(".number-1").siblings(".number-2");
+				num = divTxt.text();
+				num++;
+				divTxt.text(num);
+				$(".subtract").find(".img1").show();
+				$(".subtract").find(".img2").hide();
+				$(this).find(".img1").hide();
+				$(this).find(".img2").show();
+			})
+		});
+		
+		
+		$("#edit").click(function(){
+				$("#edit").hide();
+				$("#edit2").show();
+				$(".botton-delete").show();
+				$(".car-select").css({"opacity":"1"});
+				$(".car-footer").show();
+		});
+		$("#edit2").click(function(){
+			if($(".car-content").find(".car-select").find(".img2").is(":visible")){
+				if(confirm('确定要批量删除商品吗?')){
+					$(".car-content").each(function(){
+							if($(this).find(".car-select").find(".img2").is(":visible")){
+									$(this).remove();
+							}
+						});
+					$("#edit").show();
+					$("#edit2").hide();
+					$(".botton-delete").hide();
+					$(".option-img1").show();
+					$(".option-img2").hide();
+					$(".optionAll").text("全选");
+				}else{
+					$(".img1").show();
+					$(".img2").hide();
+					$(".option-img1").show();
+					$(".option-img2").hide();
+					$(".optionAll").text("全选");
+				}
+			}else{
+				alert("请选择商品");
+			}
+		});
+
+		$(".delete").click(function(){
+			if($(this).parent(".botton-delete").siblings(".info-bottom").children(".car-select").find(".img1").is(":visible")){
+				alert("对不起，请先选择删除的商品");
+			}else{
+				if(confirm('确定要删除该商品吗?')){
+					$(this).parents(".car-content").remove();
+				}else{
+					$(".img1").show();
+					$(".img2").hide();
+				}
+			}
+			setTimeout(function () {
+				$(".delete").find(".img2").hide();
+				$(".delete").find(".img1").show();
+			 }, 50);
+		});
+		
+		$("#selectAll").click(function(){
+			if($(this).find(".option-img1").is(":visible")){
+				$(".option-img1").hide();
+				$(".option-img2").show();
+				$(".optionAll").text("取消全选");
+			}else{
+				$(".option-img1").show();
+				$(".option-img2").hide();
+				$(".optionAll").text("全选");
+			}
+		});
+	});
+</script>
+</html>
+ 

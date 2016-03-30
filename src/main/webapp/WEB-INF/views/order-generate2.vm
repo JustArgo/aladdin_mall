@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>确认订单</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<script src="js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="css/mall.css" type="text/css" />
+<link rel="stylesheet" href="css/order-generate.css" type="text/css" />
+</head>
+<body>
+	<div id="container">
+    <div class="header">
+        <a href="shop-car.html" class="header-back btn">
+			<img class="img1" src="images/classfiy/back_n.png">
+			<img class="img2" src="images/classfiy/back_p.png">
+		</a>
+        <span>确认订单</span>
+    </div>
+	<a href="${link.contextPath}/manage_rece_add?mqID=2"><div class="order-address">
+		<div class="order-left">
+			#if($recName && $recName!="")
+			<div class="order-left-top">
+				<table class="order-tb">
+					<tr>
+						<td style="width:50px;text-align:right;padding-right:5px;">收货人:</td>
+						<td><span>${recName}</span><span style="position:absolute;right:30px;color:#666">${recMobile}</span></td>
+					</tr>
+				</table>
+			</div>
+			<div class="order-left-bottom">
+				<table class="order-tb">
+					<tr>
+						<td style="width:55px;">收货地址:</td>
+						<td style="text-align:left:color:#cecece;color:#666">${fullAddress}</td>
+					</tr>
+				</table>
+			</div>
+			#else
+			<div style="height:55px;line-height:55px;text-align:center;">
+			尚未设置收货地址，前往设置
+			</div>
+			#end
+		</div>
+		<div class="order-right">
+			<img src="images/img/arrow.png" />
+		</div>
+	</div></a>
+	#foreach($orderProduct in $viewList)
+	<div class="order-info">
+		<div class="info-title">
+			<p>供应商：<span>${orderProduct.supName}</span></p>
+		</div>
+		<div class="info-content">
+			<div class="info-bottom">
+				<div class="info-bottom-img">
+					<a href="#"><img src="images/img/thumbnail2.png" /></a>
+				</div>
+					<p class="bottom-1">岚爵 冬季新款狐狸毛领长款羊毛皮草...</p>
+					<p class="bottom-2"><span>购买尺码：M</span><span style="margin-left:30px;">颜色：深驼</span></p>
+					<p class="bottom-3"><span style="color:#F389AA;font-size:14px;">￥3990.00</span><span class="number">x1</span></p>
+			</div>
+		</div>
+		<div class="info-content">
+			<div class="info-bottom">
+				<div class="info-bottom-img">
+					<a href="#"><img src="${orderProduct.skuImg}" /></a>
+				</div>
+					<p class="bottom-1">${orderProduct.sellDesc}</p>
+					<p class="bottom-2">
+						#foreach($skuStr in ${orderProduct.skuStrs})
+							<span style="margin-right:30px;">$skuStr</span>
+						#end
+					</p>
+					<p class="bottom-3"><span style="color:#F389AA;font-size:14px;">￥${orderProduct.skuPrice}</span><span class="number">x${orderProduct.buyNum}</span></p>
+			</div>
+		</div>
+		<div class="order-freight">
+			<p class="freiht-p">
+				<span>运费</span><span class="p-right">${orderProduct.postFee}</span>
+			</p>
+			<p class="p-left">温馨提示：如果超重物品需要另外加费</p>
+		</div>
+	</div>
+	#end
+	
+	
+	<div class="invoice">
+		<a href="javascript:" class="btn invoice-link" id="invoice-btn">
+			<img class="img1 option-img1" src="images/img/select_n.png" />
+			<img class="img2 option-img2" src="images/img/select_p.png" />
+			发票
+		</a>
+		<div class="invoice-main" style="display:none">
+			<ul>
+				<li><input class="text" placeholder="输入发票抬头"/></li>
+				<li><a href="javascript:" class="optionS">
+					<img class="img1 option-img1" src="images/img/select_n.png" />
+					<img class="img2 option-img2" src="images/img/select_p.png" />
+					麦圈
+				<a></li>
+				<li><a href="javascript:" class="optionS">
+					<img class="img1 option-img1" src="images/img/select_n.png" />
+					<img class="img2 option-img2" src="images/img/select_p.png" />
+					品味滋味
+				<a></li>
+				<li><a href="javascript:" class="optionS">
+					<img class="img1 option-img1" src="images/img/select_n.png" />
+					<img class="img2 option-img2" src="images/img/select_p.png" />
+					熊无人
+				<a></li>
+			</ul>
+			
+		</div>
+		
+		<div class="invoice-message">
+			<input type="text" placeholder="给卖家留言"/>
+		</div>
+	</div>
+	
+	<div class="pay-type">
+		<div class="type">
+			<a href="javascript:" class="type-btn bg1">微信支付</a>
+		</div>
+		<div class="type">
+			<a href="javascript:" class="type-btn bg1">支付宝支付</a>
+		</div>
+	</div>
+	
+	<div class="order-pay-footer">
+		<span style="margin-left:20px;">共${productNum}件商品合计：</span>
+		<span style="color:#E81959">￥${orderSum}</span>
+		<a href="pay-success.html" class="suer-btn">确认</a>
+	</div>
+</div>
+</body>
+<script>
+    $(function(){
+		$(".btn").click(function(){
+			if($(this).find(".img1").is(":visible")){
+				$(this).find(".img1").hide();
+				$(this).find(".img2").show();
+			}else{
+				$(this).find(".img1").show();
+				$(this).find(".img2").hide();
+			}
+		});
+		$(".optionS").click(function(){
+			$(".optionS").find(".img2").hide();
+			$(".optionS").find(".img1").show();
+			$(this).find(".img2").show();
+			$(this).find(".img1").hide();
+			$(".text").val($(this).get(0).innerText);
+			
+		});
+		$(".text").focus(function(){
+			$(".optionS").find(".img2").hide();
+			$(".optionS").find(".img1").show();
+		});
+		$(".btn2").click(function(){
+			if($(this).find(".img1").is(":visible")){
+				$(this).find(".img1").hide();
+				$(this).find(".img2").show();
+				$(this).removeClass("bg1").addClass("bg2");
+			}else{
+				$(this).find(".img1").show();
+				$(this).find(".img2").hide();
+				$(this).removeClass("bg2").addClass("bg1");
+			}
+		});
+	});
+	
+	$(".p-right").each(function(){
+		if($(this).text()!= "包邮"){
+			$(this).parent(".freiht-p").siblings(".p-left").show();
+		}else{
+			$(this).parent(".freiht-p").siblings(".p-left").hide();
+		}
+	});
+	
+	$(".type-btn").click(function(){
+		if($(this).hasClass("bg1")){
+			$(".type-btn").removeClass("bg2").addClass("bg1");
+			$(this).removeClass("bg1").addClass("bg2");
+		}
+	});
+	
+	$(".suer-btn").click(function(){
+		$(this).css({"background-color":"#E81959","color":"#fff"})
+	});
+	
+	$("#invoice-btn").click(function(){
+		if($(".invoice-main").is(":visible")){
+			$(".invoice-main").slideUp();
+		}else{
+			$(".invoice-main").slideDown();
+		}
+	})
+	
+</script>
+</html>
+ 

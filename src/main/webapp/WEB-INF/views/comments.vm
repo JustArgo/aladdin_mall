@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>更多评论</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<script src="${link.contextPath}/js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="${link.contextPath}/css/mall.css" type="text/css" />
+</head>
+<style>
+ #container{background-color:#fff;padding-bottom:30px;
+ }
+</style>
+<body style="overflow:scroll;">
+	<div id="container">
+    <div class="header">
+        <a href="product-detail.html" class="header-back btn">
+			<img class="img1" src="${link.contextPath}/images/classfiy/back_n.png">
+			<img class="img2" src="${link.contextPath}/images/classfiy/back_p.png">
+		</a>
+        <span>更多评论($commentCount)</span>
+    </div>
+    #foreach($m in $comments)
+	 <div class="comment-main">
+        <div class="comment-img">
+			<img src="${link.contextPath}/images/img/head_portrait.png" />
+		</div>
+        <div class="comment-name">$m.get("userName")</div>
+        <p class="comment-time">$!date.format('yyyy-MM-dd HH:mm',$!m.get("comment").createTime)<p>
+        <span class="comment-tip">$m.get("comment").commentDesc</span>
+        <div class="show-productC">
+        	#foreach($img in $m.get("comment").imgs)
+            <div class="productC-img">
+				<a href="#"><img src="${link.contextPath}/${img.imgPath}" /></a>
+			</div>
+			#end
+        </div>
+        <div class="productC-size">
+            <p>购买尺码：<span>M</span>颜色：<span>深驼</span></p>
+        </div>
+    </div>
+    #end
+</div>
+</body>
+<script>
+    $(function(){
+    	
+    	var pageIndexPrev = -3;
+    	var pageIndexNext = 10;
+    	var isBottom = false;
+    	
+		$(".btn").click(function(){
+			if($(this).find(".img1").is(":visible")){
+				$(this).find(".img1").hide();
+				$(this).find(".img2").show();
+			}else{
+				$(this).find(".img1").show();
+				$(this).find(".img2").hide();
+			}
+		});
+		$(".btn2").click(function(){
+			if($(this).find(".img1").is(":visible")){
+				$(this).find(".img1").hide();
+				$(this).find(".img2").show();
+				$(this).removeClass("bg1").addClass("bg2");
+			}else{
+				$(this).find(".img1").show();
+				$(this).find(".img2").hide();
+				$(this).removeClass("bg2").addClass("bg1");
+			}
+		});
+		
+		$(window).scroll(function(){
+		   var scrollTop = $(this).scrollTop();
+		　　  var scrollHeight = $(document).height();
+		　　  var windowHeight = $(this).height();
+		　　  if(scrollTop + windowHeight == scrollHeight){
+			  if(!isBottom){
+				  $.ajax({
+						
+						url:'${link.contextPath}/comments/page_comments',
+						type:'POST',
+						data:{"productID":1,"pageIndex":pageIndexNext,"pageSize":3},
+						dataType:'json',
+						success:function(ret){
+				
+							if(ret.length<3){
+								isBottom = true;
+							}
+							if(ret.length==0){
+								return;
+							}
+							for(var i=0;i<ret.length;i++){
+								var comment = ret[i];
+								var imgs = comment.imgs;
+								var createTime = new Date(comment.createTime);
+								
+								var year = createTime.getFullYear();
+								var month = createTime.getMonth()+1;
+								var date = createTime.getDate();
+								
+								var hour = createTime.getHours();
+								var minute = createTime.getMinutes();
+								
+								var time = year+"-"+month+"-"+date+" "+hour+":"+minute;
+								
+								var tmpStr = '<div class="comment-main"><div class="comment-img"><img src="${link.contextPath}/images/img/head_portrait.png" /></div><div class="comment-name">$m.get("userName")</div><p class="comment-time">'+time+'<p><span class="comment-tip">$m.get("comment").commentDesc</span><div class="show-productC">';
+								
+								for(var j=0;j<imgs.length;j++){
+									tmpStr+='<div class="productC-img"><a href="#"><img src="${link.contextPath}/'+imgs[j].imgPath+'" /></a></div>'
+								}
+								tmpStr+='</div><div class="productC-size"><p>购买尺码：<span>M</span>颜色：<span>深驼</span></p></div></div>';
+								
+								$("#container").append(tmpStr);
+							}
+							
+							pageIndexNext+=ret.length;
+							
+						}
+						
+					});
+			  }
+		　　  }
+		});
+		
+		/*
+		$(window).scroll(function(){
+				
+			var top = $(window).scrollTop();
+			var documentHeight = $(document).height();
+			var windowHeight = $(window).height();
+			var maxTop = documentHeight-windowHeight;
+			if(maxTop==top){
+				if(isBottom){
+					
+				}else{
+					
+					$.ajax({
+						
+						url:'${link.contextPath}/comments/page_comments',
+						type:'POST',
+						data:{"productID":1,"pageIndex":pageIndexNext,"pageSize":3},
+						dataType:'json',
+						success:function(ret){
+				
+							if(ret.length<3){
+								isBottom = true;
+							}
+							if(ret.length==0){
+								return;
+							}
+							for(var i=0;i<ret.length;i++){
+								var comment = ret[i];
+								var imgs = comment.imgs;
+								var createTime = new Date(comment.createTime);
+								
+								var year = createTime.getFullYear();
+								var month = createTime.getMonth()+1;
+								var date = createTime.getDate();
+								
+								var hour = createTime.getHours();
+								var minute = createTime.getMinutes();
+								
+								var time = year+"-"+month+"-"+date+" "+hour+":"+minute;
+								
+								var tmpStr = '<div class="comment-main"><div class="comment-img"><img src="${link.contextPath}/images/img/head_portrait.png" /></div><div class="comment-name">$m.get("userName")</div><p class="comment-time">'+time+'<p><span class="comment-tip">$m.get("comment").commentDesc</span><div class="show-productC">';
+								
+								for(var j=0;j<imgs.length;j++){
+									tmpStr+='<div class="productC-img"><a href="#"><img src="${link.contextPath}/'+imgs[j].imgPath+'" /></a></div>'
+								}
+								tmpStr+='</div><div class="productC-size"><p>购买尺码：<span>M</span>颜色：<span>深驼</span></p></div></div>';
+								
+								$("#container").append(tmpStr);
+							}
+							
+							//var curTop = $(window).scrollTop(curTop);
+							//如果是加载5个 把前面5个删除
+							$(".comment-main:lt("+ret.length+")").remove();
+							pageIndexNext+=ret.length;
+							pageIndexPrev+=ret.length;
+							$(window).scrollTop(1);
+						}
+						
+					});
+				}
+				
+			}else if(top==0){
+				//如果 pageIndexPrev小于0 则刷新页面 以为在这段时间内 针对本商品可能有新的评论
+				if(pageIndexPrev<0){
+					location.reload();
+				}else{
+					$.ajax({
+						
+						url:'${link.contextPath}/comments/page_comments',
+						type:'POST',
+						data:{"productID":1,"pageIndex":pageIndexPrev,"pageSize":3},
+						dataType:'json',
+						success:function(ret){
+
+							console.log(ret.length);
+							$(".comment-main:gt("+(10-ret.length-1)+")").remove();	
+							
+							for(var i=ret.length-1;i>=0;i--){
+								var comment = ret[i];
+								var imgs = comment.imgs;
+								var createTime = new Date(comment.createTime);
+								
+								var year = createTime.getFullYear();
+								var month = createTime.getMonth()+1;
+								var date = createTime.getDate();
+								
+								var hour = createTime.getHours();
+								var minute = createTime.getMinutes();
+								
+								var time = year+"-"+month+"-"+date+" "+hour+":"+minute;
+								
+								var tmpStr = '<div class="comment-main"><div class="comment-img"><img src="${link.contextPath}/images/img/head_portrait.png" /></div><div class="comment-name">$m.get("userName")</div><p class="comment-time">'+time+'<p><span class="comment-tip">$m.get("comment").commentDesc</span><div class="show-productC">';
+								
+								for(var j=0;j<imgs.length;j++){
+									tmpStr+='<div class="productC-img"><a href="#"><img src="${link.contextPath}/'+imgs[j].imgPath+'" /></a></div>'
+								}
+								tmpStr+='</div><div class="productC-size"><p>购买尺码：<span>M</span>颜色：<span>深驼</span></p></div></div>';
+								$(".header").after(tmpStr);
+							}
+							
+							isBottom=false;
+							pageIndexNext-=ret.length;
+							pageIndexPrev-=ret.length;
+								
+							
+						}
+						
+					});
+				}
+				
+			}*/
+			
+			
+			
+			
+			
+			
+		
+	});
+</script>
+</html>
+ 
