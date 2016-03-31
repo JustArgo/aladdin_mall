@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aladdin.interaction.wx.service.WxInteractionService;
 import com.maiquan.aladdin_mall.Principal;
 import com.maiquan.aladdin_mall.util.WebUtil;
+import com.maiquan.aladdin_order.domain.GoodsReturn;
+import com.maiquan.aladdin_order.domain.MoneyReturn;
 import com.maiquan.aladdin_order.domain.Order;
 import com.maiquan.aladdin_order.domain.OrderProduct;
 import com.maiquan.aladdin_order.service.IOrderProductService;
@@ -74,11 +76,14 @@ public class OrderController {
 	//private ISupplierService supplierService;
 	
 	@RequestMapping("/placeOrder")
-	public Map<String,String> placeOrder(String requestId,String mqID, Integer[] skuIds, Integer[] buyNums, Long[] skuPrices, Long[] supplierAmounts, Long pFee, Long pSum, String invoiceName, String notes){
+	public Map<String,String> placeOrder(String requestId, Integer[] skuIds, Integer[] buyNums, Long[] skuPrices, Long[] supplierAmounts, Long pFee, Long pSum, String invoiceName, String notes){
 		
-		mqID="2";
-		System.out.println("mqID"+mqID);
-		System.out.print("skuIDs  ");
+		Principal principal = WebUtil.getCurrentPrincipal();
+		
+//if(principal==null) principal=new Principal("2", "");		
+		
+		String mqID = principal.getMqId();		
+		
 		for(int i=0;i<skuIds.length;i++){
 			System.out.print(skuIds[i]+" ");
 		}
@@ -119,7 +124,12 @@ public class OrderController {
 	@RequestMapping("/order/previewOrder")
 	public String previewOrder(String requestId,Model model){
 		//预览订单
-		String mqID = "2";//principal.getMqID();
+		
+		Principal principal = WebUtil.getCurrentPrincipal();
+		
+//if(principal==null) principal=new Principal("2", "");		
+		
+		String mqID = principal.getMqId();
 		
 		List<Map<String,Object>> supplierProducts = shopCarService.viewShopCar(mqID, UUID.randomUUID().toString().replaceAll("-",""));		
 		
@@ -267,8 +277,11 @@ public class OrderController {
 		
 		System.out.println("productID"+productID);
 		
-		//Principal principal = WebUtil.getCurrentPrincipal();
-		String mqID = "2";//principal.getMqID();
+		Principal principal = WebUtil.getCurrentPrincipal();
+		
+//if(principal==null) principal=new Principal("2", "");		
+		
+		String mqID = principal.getMqId();
 		
 		shopCarService.emptyShopCar(2, UUID.randomUUID().toString().replaceAll("-",""));
 			
@@ -338,8 +351,11 @@ public class OrderController {
 	@RequestMapping("settle")
 	public String settle(String requestId,Integer[] skuIDs,Integer[] buyNums,Long[] skuPrices){
 		
-		//Principal principal = WebUtil.getCurrentPrincipal();
-		String mqID = "2";//principal.getMqID();
+		Principal principal = WebUtil.getCurrentPrincipal();
+		
+//if(principal==null) principal=new Principal("2", "");		
+		
+		String mqID = principal.getMqId();
 		
 		List<ShopCarProduct> shopCarProducts = shopCarService.getShopCarProducts(mqID, UUID.randomUUID().toString().replaceAll("-",""));
 		for(int i=0;i<skuIDs.length;i++){
@@ -387,8 +403,9 @@ public class OrderController {
 	@RequestMapping("chooseReceAdd")
 	public String chooseReceAdd(Model model){
 		
-		//Principal principal = WebUtil.getPrincipal();
-		String mqID = "2";//principal.getMqID();
+		Principal principal = WebUtil.getCurrentPrincipal();
+//if(principal==null) principal=new Principal("2", "");		
+		String mqID = principal.getMqId();
 		
 		List<ReceiveAddress> adds = manageReceAddService.listUsableAddress(mqID, UUID.randomUUID().toString().replaceAll("-",""));
 		for(int i=0;i<adds.size();i++){
@@ -501,21 +518,31 @@ public class OrderController {
 		return "";
 	}
 	
+	
 	/**
 	 * 点击 某个订单的退货按钮 跳转到这里 然后查找出相关的信息 再跳转到申请退货页面
-	 * @param requestID
-	 * @param orderCode
-	 * @param model
-	 * @return
 	 */
 	@RequestMapping("/return-goods")
-	public String returnGoods(String requestID, String orderCode, Model model){
+	public String returnGoods(String requestID, String orderCode, Integer orderProductID, Model model){
 		
 		Order order = orderService.getOrderByOrderCode(orderCode, requestID);
 		model.addAttribute("refundLimit",order.getPaySum()/100.0);//支付多少钱 最多退款多少钱
 		model.addAttribute("orderCode",orderCode);
+		model.addAttribute("orderProductID", orderProductID);
 		return "order/return-goods";
 		
+	}
+	
+	/**
+	 * 点击某个已支付订单的退款按钮  经过这里 再跳转到申请退款的页面
+	 */
+	@RequestMapping("/return-money")
+	public String returnMoney(String requestID, String orderCode, Model model){
+		
+		Order order = orderService.getOrderByOrderCode(orderCode, requestID);
+		model.addAttribute("refundLimit",order.getPaySum()/100.0);//支付多少钱 最多退款多少钱
+		model.addAttribute("orderCode",orderCode);
+		return "order/return-money";
 	}
 	
 	/**
@@ -528,14 +555,202 @@ public class OrderController {
 	 * @return
 	 */
 	@RequestMapping("/apply-return-goods")
-	public String applyReturnGoods(String requestID, String orderCode, Integer orderProductID, String returnReason, Long refundFee, String returnDesc){
+	public String applyReturnGoods(String requestID, String orderCode, Integer orderProductID, String returnReason, Long refundFee, String returnDesc, Model model){
 		
 		Principal principal = WebUtil.getCurrentPrincipal();
 		
+//if(principal==null) principal=new Principal("2", "");
+		
+		String mqID = principal.getMqId();
+		try{
+			GoodsReturn goodsReturn = orderService.applyReturnGoods(mqID, orderCode, orderProductID, refundFee, returnReason, returnDesc, requestID);
+			model.addAttribute("goodsReturn", goodsReturn);
+			if(goodsReturn.getReturnReason().equals("SJ#")){
+				model.addAttribute("returnReason","少件/漏发");
+			}else if(goodsReturn.getReturnReason().equals("FP#")){
+				model.addAttribute("returnReason","发票问题");
+			}else{
+				model.addAttribute("returnReason",GoodsReturn.ReturnReason.valueOf(goodsReturn.getReturnReason()).getValue());
+			}
+		}catch(RuntimeException e){
+			//返回错误页面
+			return "404";
+		}
+		
+		return "order/returnG-examine";
+	}
+	
+	@RequestMapping("/modify-return-goods")
+	public String modifyReturnGoods(String requestID, Integer goodsReturnID, Model model){
+		
+		GoodsReturn goodsReturn = orderService.getGoodsReturnByID(goodsReturnID, requestID);
+		Order order = orderService.getOrderByID(goodsReturn.getOrderID(), requestID);
+		model.addAttribute("orderCode",goodsReturn.getOrderCode());
+		model.addAttribute("orderProductID",goodsReturn.getOrderProductID());
+		model.addAttribute("returnReasonCode",goodsReturn.getReturnReason());
+		if(goodsReturn.getReturnReason().equals("SJ#")){
+			model.addAttribute("returnReason","少件/漏发");
+		}else if(goodsReturn.getReturnReason().equals("FP#")){
+			model.addAttribute("returnReason","发票问题");
+		}else{
+			model.addAttribute("returnReason",GoodsReturn.ReturnReason.valueOf(goodsReturn.getReturnReason()).getValue());
+		}
+		model.addAttribute("refundLimit",order.getPaySum()/100.0);
+		model.addAttribute("applySum",goodsReturn.getApplySum()/100.0);
+		model.addAttribute("returnDesc",goodsReturn.getReturnDesc());
+		return "order/modify-returnG";
+		
+	}
+	
+	
+	/**
+	 * 点击 提交申请 按钮  
+	 * @param requestID
+	 * @param orderCode 订单编号
+	 * @param returnReason 退款原因
+	 * @param refundFee    退款金额
+	 * @param returnDesc   退款描述
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/apply-return-money")
+	public String applyReturnMoney(String requestID, String orderCode, String returnReason, Long refundFee, String returnDesc, Model model){
+		
+		Principal principal = WebUtil.getCurrentPrincipal();
+		
+//if(principal==null) principal=new Principal("2", "");
+				
+		String mqID = principal.getMqId();
+		try{
+			MoneyReturn moneyReturn = orderService.applyReturnMoney(mqID, orderCode, refundFee, returnReason, returnDesc, requestID);
+			model.addAttribute("moneyReturn", moneyReturn);
+			if(moneyReturn.getReturnReason().equals("SJ#")){
+				model.addAttribute("returnReason","少件/漏发");
+			}else if(moneyReturn.getReturnReason().equals("FP#")){
+				model.addAttribute("returnReason","发票问题");
+			}else{
+				model.addAttribute("returnReason",MoneyReturn.ReturnReason.valueOf(moneyReturn.getReturnReason()).getValue());
+			}
+		}catch(RuntimeException e){
+			//返回错误页面
+			return "404";
+		}
+		
+		return "order/returnR-examine";
+	}
+	
+	/**
+	 * 点击 修改退款申请  只有在 前一次申请 还没有审核的情况下 才能 修改
+	 * @param requestID
+	 * @param moneyReturnID
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/modify-return-money")
+	public String modifyReturnMoney(String requestID, Integer moneyReturnID, Model model){
+		
+		MoneyReturn moneyReturn = orderService.getMoneyReturnByID(moneyReturnID, requestID);
+		Order order = orderService.getOrderByID(moneyReturn.getOrderID(), requestID);
+		model.addAttribute("orderCode",moneyReturn.getOrderCode());
+		model.addAttribute("returnReasonCode",moneyReturn.getReturnReason());
+		if(moneyReturn.getReturnReason().equals("SJ#")){
+			model.addAttribute("returnReason","少件/漏发");
+		}else if(moneyReturn.getReturnReason().equals("FP#")){
+			model.addAttribute("returnReason","发票问题");
+		}else{
+			model.addAttribute("returnReason",MoneyReturn.ReturnReason.valueOf(moneyReturn.getReturnReason()).getValue());
+		}
+		model.addAttribute("refundLimit",order.getPaySum()/100.0);
+		model.addAttribute("applySum",moneyReturn.getApplySum()/100.0);
+		model.addAttribute("returnDesc",moneyReturn.getReturnDesc());
+		return "order/modify-returnR";
+		
+	}
+	
+	/**
+	 * 查看我的订单
+	 * @param requestID
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/order-index")
+	public String orderIndex(String requestID, Model model){
+		return "/order/order-index";
+	}
+	
+	@RequestMapping("/return-goods-detail")
+	public String returnGoodsDetail(String requestID, Integer goodsReturnID, Model model){
+		
+		Principal principal = WebUtil.getCurrentPrincipal();
+		
+//if(principal==null)principal = new Principal("2","");
 
 		String mqID = principal.getMqId();
-		orderService.applyReturnGoods(mqID, orderCode, orderProductID, refundFee, returnReason, returnDesc, requestID);
-		return "order/return-goods-detail";
+		GoodsReturn goodsReturn = orderService.getGoodsReturnByID(goodsReturnID, requestID);
+		ReceiveAddress receiveAddress = manageReceAddService.getDefaultAddress(mqID, requestID);
+		if(receiveAddress!=null){
+			model.addAttribute("fullAddress",manageReceAddService.getFullAddress(receiveAddress, requestID));
+			model.addAttribute("recName",receiveAddress.getRecName());
+			model.addAttribute("recMobile",receiveAddress.getRecMobile());
+		}
+		model.addAttribute("goodsReturn",goodsReturn);
+		//退货原因
+		if(goodsReturn.getReturnReason().equals("SJ#")){
+			model.addAttribute("returnReason","少件/漏发");
+		}else if(goodsReturn.getReturnReason().equals("FP#")){
+			model.addAttribute("returnReason","发票问题");
+		}else{
+			model.addAttribute("returnReason",GoodsReturn.ReturnReason.valueOf(goodsReturn.getReturnReason()).getValue());
+		}
+		if(goodsReturn.getAuditStatus()==null){//此处auditStatus==null  则下面必然不会==null
+			model.addAttribute("applySum",goodsReturn.getApplySum()/100.0);
+			model.addAttribute("returnDesc",goodsReturn.getReturnDesc());
+			return "order/returnG-examine";
+		}else if(goodsReturn.getAuditStatus().equals("NO#")){
+			return "order/returnG-reject";
+		}else if(goodsReturn.getAuditStatus().equals("YES") && goodsReturn.getStatus()==null){//审核通过且商家还未收到 退货
+			return "order/returnG-pass";
+		}else if(goodsReturn.getAuditStatus().equals("YES") && goodsReturn.getStatus().equals("THZ")){//审核通过 且商家收到退货 但是还没有将钱退给用户
+			return "order/returnG-takeG";
+		}else if(goodsReturn.getAuditStatus().equals("YES") && (goodsReturn.getStatus().equals("TKZ")||goodsReturn.getStatus().equals("COM"))){
+			return "order/returnG-success";
+		}
+		
+		return "404";
+	}
+	
+	@RequestMapping("/return-money-detail")
+	public String returnMoneyDetail(String requestID, Integer moneyReturnID, Model model){
+		
+		Principal principal = WebUtil.getCurrentPrincipal();
+		
+//if(principal==null)principal = new Principal("2","");
+
+		String mqID = principal.getMqId();
+		
+		MoneyReturn moneyReturn = orderService.getMoneyReturnByID(moneyReturnID, requestID);
+		
+		model.addAttribute("moneyReturn",moneyReturn);
+		//退货原因
+		if(moneyReturn.getReturnReason().equals("SJ#")){
+			model.addAttribute("returnReason","少件/漏发");
+		}else if(moneyReturn.getReturnReason().equals("FP#")){
+			model.addAttribute("returnReason","发票问题");
+		}else{
+			model.addAttribute("returnReason",MoneyReturn.ReturnReason.valueOf(moneyReturn.getReturnReason()).getValue());
+		}
+		
+		if(moneyReturn.getAuditStatus()==null){//此处auditStatus==null  则下面必然不会==null
+			return "order/returnR-examine";
+		}else if(moneyReturn.getAuditStatus().equals("NO#")){
+			return "order/returnR-reject";
+		}else if(moneyReturn.getAuditStatus().equals("YES") && moneyReturn.getStatus().equals("ING")){//审核通过 正在退款中
+			return "order/returnR-pass";
+		}else if(moneyReturn.getAuditStatus().equals("YES") && moneyReturn.getStatus().equals("YES")){//后台确认退款
+			return "order/returnR-success";
+		}
+		
+		return "404";
 	}
 	
 }
