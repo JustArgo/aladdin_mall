@@ -35,7 +35,7 @@ public class CommentController {
 	private String[] names = new String[]{"jimi","halei","jiu"};
 	
 	@RequestMapping("/commentlist")
-	public String getCommentList(Integer productID,Integer pageIndex,Integer pageSize,Model model){
+	public String getCommentList(String requestId,Integer productID,Integer pageIndex,Integer pageSize,Model model){
 		
 		
 		//获得共有多少条未删除评论
@@ -75,7 +75,7 @@ public class CommentController {
 	
 	@RequestMapping("/uptoken")
 	@ResponseBody
-	public String getUpToken(){
+	public String getUpToken(String requestId){
 		return "6EZmwsqQYeHvlaA44_LwiBAePez-rjpOv4jwg4t4:UENCitOcA8BGmi7roBWnC86g-W8=:IntcInNjb3BlXCI6XCJhbGFkZGluOnN1bmZsb3dlci5qcGdcIixcImRlYWRsaW5lXCI6MTQ1MTQ5MTIwMCxcInJldHVybkJvZHlcIjpcIntcIm5hbWVcIjokKGZuYW1lKSxcInNpemVcIjokKGZzaXplKSxcIndcIjokKGltYWdlSW5mby53aWR0aCksXCJoXCI6JChpbWFnZUluZm8uaGVpZ2h0KSxcImhhc2hcIjokKGV0YWcpfVwifSI=";
 	}
 	
@@ -88,7 +88,7 @@ public class CommentController {
 	 */
 	@RequestMapping("/page_comments")
 	@ResponseBody
-	public List<Comment> getComments(Integer productID,Integer pageIndex,Integer pageSize){
+	public List<Comment> getComments(String requestId,Integer productID,Integer pageIndex,Integer pageSize){
 		System.out.println(productID+" "+pageIndex+" "+pageSize);
 		List<Comment> comments = commentService.getCommentNoDeletedList(productID,pageIndex,pageSize,UUID.randomUUID().toString().replaceAll("-",""));
 		System.out.println(comments.size());
@@ -99,7 +99,7 @@ public class CommentController {
 	 * 
 	 */
 	@RequestMapping("/product_detail")
-	public String productDetail(){
+	public String productDetail(String requestId){
 		return "productdetail";
 	}
 }
