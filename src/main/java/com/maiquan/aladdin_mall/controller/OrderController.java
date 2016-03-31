@@ -532,7 +532,6 @@ public class OrderController {
 		
 		Principal principal = WebUtil.getCurrentPrincipal();
 		
-if(principal==null)principal = new Principal(new Random().nextInt(50)+"", "");
 
 		String mqID = principal.getMqId();
 		orderService.applyReturnGoods(mqID, orderCode, orderProductID, refundFee, returnReason, returnDesc, requestID);
