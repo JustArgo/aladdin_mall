@@ -4,15 +4,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>我的财富</title>
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<script src="${link.contextPath}/js/jquery-2.1.3.min.js"></script>
-<link rel="stylesheet" href="${link.contextPath}/css/my-wealth.css" type="text/css" />
+<script src="http://$request.serverName/js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="http://$request.serverName/css/my-wealth.css" type="text/css" />
 </head>
 <body>
 <div id="container">
     <div class="header">
-        <a href="personal-index.html" class="header-back btn">
-			<img class="img1" src="${link.contextPath}/images/back_n.png">
-			<img class="img2" src="${link.contextPath}/images/back_p.png">
+        <a href="http://$request.serverName/user/index" class="header-back btn">
+			<img class="img1" src="http://$request.serverName/images/back_n.png">
+			<img class="img2" src="http://$request.serverName/images/back_p.png">
 		</a>
         <span>我的财富</span>
     </div>
@@ -20,11 +20,11 @@
 		<ul>
 			<li>
 				<p>可用余额</p>
-				<p style="color:#E81959">￥$accountInfo.remainingSum</p>
+				<p style="color:#E81959">￥$accountInfo.result.remainingSum</p>
 			</li>
 			<li>
 				<p>冻结余额</p>
-				<p style="color:#E81959">￥$accountInfo.frozenSum</p>
+				<p style="color:#E81959">￥$accountInfo.result.frozenSum</p>
 			</li>
 		</ul>
 	</div>
@@ -32,16 +32,16 @@
 		<ul>
 			<li style="border:1px dashed #6DA6F3">
 				<p>累计收入</p>
-				<p style="color:#E81959">￥$accountInfo.totalEaring</p>
+				<p style="color:#E81959">￥$accountInfo.result.totalEaring</p>
 			</li>
 			<li style="border:1px dashed #E81959">
 				<p>已提现</p>
-				<p style="color:#E81959">￥$accountInfo.totalWithdraw</p>
+				<p style="color:#E81959">￥$accountInfo.result.totalWithdraw</p>
 			</li>
 		</ul>
 	</div>
 	<div class="footer-btn">
-		<a href="${link.contextPath}/user/withDraw" id="money-btn">我要提现</a>
+		<a href="http://$request.serverName/user/withDraw" id="money-btn">我要提现</a>
 	</div>
 	<div class="footer-tip">
 		<p style="color:#E81959">温馨提示：</p>

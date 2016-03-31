@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>我的团队</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<script src="../js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="css/my-team.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+    <div class="header">
+        <a href="personal-index.html" class="header-back btn">
+			<img class="img1" src="images/back_n.png">
+			<img class="img2" src="images/back_p.png">
+		</a>
+        <span>我的团队</span>
+    </div>
+	<div class="team-menu">
+		<ul>
+			<li><a href="javascript:" class="menu-btn" style="color:#E81959">第一级(68)</a></li>
+			<li><a href="javascript:" class="menu-btn" >第二级(168)</a></li>
+			<li><a href="javascript:" class="menu-btn" >第三级(568)</a></li>
+			<li><a href="javascript:" class="menu-btn" >更多(999)</a></li>
+		</ul>
+	</div>
+	<div id="team-area1">
+		<div class="search">
+			<input type="type" placeholder="输入关键字" />
+			<a href="javscript:">
+				<img src="images/search_n.png"></a>
+			</a>
+		</div>
+		<div class="area-title">
+			第一级(共68人)
+			<a href="my-team2.html"><span>群发消息</span></a>
+		</div>
+		<div id="team-main">
+			<div class="member">
+				<img src="images/head_portrait01.png" />
+				Wiopder
+			</div>
+			<div class="member">
+				<img src="images/head_portrait01.png" />
+				Knero
+			</div>
+			<div class="member">
+				<img src="images/head_portrait01.png" />
+				诺万
+			</div>
+			<div class="member">
+				<img src="images/head_portrait01.png" />
+				四儿
+			</div>
+			<div class="member">
+				<img src="images/head_portrait01.png" />
+				李成伟
+			</div>
+			<div class="member">
+				<img src="images/head_portrait01.png" />
+				兔牙子
+			</div>
+			<div class="member">
+				<img src="images/head_portrait01.png" />
+				小碟
+			</div>
+			<div class="member">
+				<img src="images/head_portrait01.png" />
+				吴丽芳
+			</div>
+			<div class="member">
+				<img src="images/head_portrait01.png" />
+				小米人鱼
+			</div>
+			<div class="member">
+				<img src="images/head_portrait01.png" />
+				大兵
+			</div>
+			<div class="member">
+				<img src="images/head_portrait01.png" />
+				A Ken
+			</div>
+			<div class="member">
+				<img src="images/head_portrait01.png" />
+				麦兜
+			</div>
+			<div class="member">
+				<img src="images/head_portrait01.png" />
+				大兵
+			</div>
+			<div class="member">
+				<img src="images/head_portrait01.png" />
+				A Ken
+			</div>
+			<div class="member">
+				<img src="images/head_portrait01.png" />
+				麦兜
+			</div>
+		</div>
+	</div>
+	<div class="footer">滑动刷新</div>
+</div>
+</body>
+<script>
+    $(function(){
+		$(".btn").click(function(){
+			if($(this).find(".img1").is(":visible")){
+				$(this).find(".img1").hide();
+				$(this).find(".img2").show();
+			}else{
+				$(this).find(".img1").show();
+				$(this).find(".img2").hide();
+			}
+		});
+		
+		$(".menu-btn").click(function(){
+			$(".menu-btn").css({"color":"#666"});
+			$(this).css({"color":"#E81959"});
+		});
+		$(window).scroll(function(){
+	　var scrollTop = $(this).scrollTop();
+　　  var scrollHeight = $(document).height();
+　　  var windowHeight = $(this).height();
+　　  if(scrollTop + windowHeight == scrollHeight){
+　　　	$("#team-main").append("<div class='member'><img src='images/head_portrait01.png' />Wiopder</div>");
+	}
+});
+});
+</script>
+</html>
+ 

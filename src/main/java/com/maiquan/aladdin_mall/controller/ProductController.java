@@ -197,9 +197,8 @@ public class ProductController {
 	 * @return
 	 */
 	@RequestMapping(value = "/list/{categoryId}", method = RequestMethod.GET)
-	public String list(@PathVariable Integer categoryId,ModelMap modelMap) {
-//		modelMap.addAttribute("products", productService.getProductListByCategoryID(categoryId,WebUtil.getCurrentPrincipal().getMqId()));
-		modelMap.addAttribute("products", productService.getProductListByCategoryID(categoryId,null));
+	public String list(String requestId,@PathVariable Integer categoryId,ModelMap modelMap) {
+		modelMap.addAttribute("products", productService.getProductListByCategoryID(categoryId,requestId));
 		return "product/list";
 	}
 }

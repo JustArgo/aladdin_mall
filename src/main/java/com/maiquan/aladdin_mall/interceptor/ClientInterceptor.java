@@ -42,6 +42,9 @@ public class ClientInterceptor extends HandlerInterceptorAdapter {
 					return false;
 				}
 			}
+		}else{
+			System.out.println("mqId:"+principal.getMqId());
+			System.out.println("openId:"+principal.getOpenId());
 		}
 		return true;
 	}
