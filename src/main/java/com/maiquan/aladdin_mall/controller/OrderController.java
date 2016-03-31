@@ -74,7 +74,7 @@ public class OrderController {
 	//private ISupplierService supplierService;
 	
 	@RequestMapping("/placeOrder")
-	public Map<String,String> placeOrder(String mqID, Integer[] skuIds, Integer[] buyNums, Long[] skuPrices, Long[] supplierAmounts, Long pFee, Long pSum, String invoiceName, String notes){
+	public Map<String,String> placeOrder(String requestId,String mqID, Integer[] skuIds, Integer[] buyNums, Long[] skuPrices, Long[] supplierAmounts, Long pFee, Long pSum, String invoiceName, String notes){
 		
 		mqID="2";
 		System.out.println("mqID"+mqID);
@@ -117,7 +117,7 @@ public class OrderController {
 	}
 	
 	@RequestMapping("/order/previewOrder")
-	public String previewOrder(Model model){
+	public String previewOrder(String requestId,Model model){
 		//预览订单
 		String mqID = "2";//principal.getMqID();
 		
@@ -176,7 +176,7 @@ public class OrderController {
 	}
 	
 	@RequestMapping("/viewOrder")
-	public String viewOrder(Integer orderID, Model model){
+	public String viewOrder(String requestId,Integer orderID, Model model){
 		
 		//假设参数有一个orderID
 		Order order = orderService.getOrderByID(orderID, UUID.randomUUID().toString().replaceAll("-",""));
@@ -263,7 +263,7 @@ public class OrderController {
 	 * @return
 	 */
 	@RequestMapping("/buyNow")
-	public String order(Integer productID, Integer skuID,Integer buyNum, Long skuPrice, Model model){
+	public String order(String requestId,Integer productID, Integer skuID,Integer buyNum, Long skuPrice, Model model){
 		
 		System.out.println("productID"+productID);
 		
@@ -336,7 +336,7 @@ public class OrderController {
 	 * 在购物车点击结算
 	 */
 	@RequestMapping("settle")
-	public String settle(Integer[] skuIDs,Integer[] buyNums,Long[] skuPrices){
+	public String settle(String requestId,Integer[] skuIDs,Integer[] buyNums,Long[] skuPrices){
 		
 		//Principal principal = WebUtil.getCurrentPrincipal();
 		String mqID = "2";//principal.getMqID();
@@ -481,7 +481,7 @@ public class OrderController {
 	 */
 	@RequestMapping("/getConfig")
 	@ResponseBody
-	public Map<String,String> getConfig(){
+	public Map<String,String> getConfig(String requestId){
 		
 		Map<String,String> retMap = new HashMap<String,String>();
 		retMap = wxInteractionService.getConfig(UUID.randomUUID().toString().replaceAll("-",""));
@@ -495,7 +495,7 @@ public class OrderController {
 	 * @return
 	 */
 	@RequestMapping("/unifiedorder_notify")
-	public String unifiedorder_notify(String retXml){
+	public String unifiedorder_notify(String requestId,String retXml){
 		System.out.println("unifiedorder_notify");
 		System.out.println("retXml----"+retXml);
 		return "";

@@ -44,7 +44,8 @@ public class UserController {
 	 * 个人中心
 	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index() {
+	public String index(String requestId) {
+		System.out.println("注入陈宫："+requestId);
 		return "user/index";
 	}
 
@@ -52,7 +53,7 @@ public class UserController {
 	 * 我的财富
 	 */
 	@RequestMapping(value = "/wealth", method = RequestMethod.GET)
-	public String wealth(ModelMap modelMap) {
+	public String wealth(String requestId,ModelMap modelMap) {
 		Principal principal = WebUtil.getCurrentPrincipal();
 		// modelMap.addAttribute("accountInfo",
 		// accountService.getAccountInfo(principal.getMqId(), "1"));
@@ -66,19 +67,19 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/generalize", method = RequestMethod.GET)
-	public String generalize(ModelMap modelMap) {
+	public String generalize(String requestId,ModelMap modelMap) {
 		Principal principal = WebUtil.getCurrentPrincipal();
 		modelMap.addAttribute("mqId", principal.getMqId());
 		return "user/generalize";
 	}
 
 	@RequestMapping(value = "/qrCode", method = RequestMethod.GET)
-	public void qrCode(HttpServletResponse response, ModelMap modelMap) throws Exception {
+	public void qrCode(String requestId,HttpServletResponse response, ModelMap modelMap) throws Exception {
 		Principal principal = WebUtil.getCurrentPrincipal();
 		String mqId = principal.getMqId();
 		response.setContentType("image/jpeg");
 		OutputStream os = response.getOutputStream();
-		String content="http://"+hostName+"?invite="+mqId;
+		String content = "http://" + hostName + "?invite=" + mqId;
 		QRCodeUtil.encode(os, content);
 		os.flush();
 		os.close();
@@ -90,7 +91,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/withDraw", method = RequestMethod.GET)
-	public String withDraw(ModelMap modelMap) {
+	public String withDraw(String requestId,ModelMap modelMap) {
 		Principal principal = WebUtil.getCurrentPrincipal();
 		// modelMap.addAttribute("accountInfo",
 		// accountService.getRemainingSum(principal.getMqId(), "1"));
@@ -108,8 +109,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/applyWithDraw", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> applyWithDraw(Integer money) {
-		String requestId = UUID.randomUUID().toString().replace("-", "");
+	public Map<String, Object> applyWithDraw(String requestId,Integer money) {
 		Principal principal = WebUtil.getCurrentPrincipal();
 		String mqId = principal.getMqId();
 		return accountService.applyWithDraw(requestId, money, mqId);
@@ -121,7 +121,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/collect", method = RequestMethod.GET)
-	public String collect(ModelMap modelMap) {
+	public String collect(String requestId,ModelMap modelMap) {
 		Principal principal = WebUtil.getCurrentPrincipal();
 		modelMap.addAttribute("product", productCollectService.getProductCollectListByMqID("1",
 				UUID.randomUUID().toString().replaceAll("-", "")));
@@ -134,12 +134,20 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/sales", method = RequestMethod.GET)
-	public String sales(ModelMap modelMap, int page, int pageSize) {
+	public String sales(String requestId,ModelMap modelMap, int page, int pageSize) {
 		Principal principal = WebUtil.getCurrentPrincipal();
 		String mqId = principal.getMqId();
-		String requestId = UUID.randomUUID().toString().replace("-", "");
 		modelMap.addAttribute("sales", distributionService.findSales(requestId, mqId, page, pageSize));
 		modelMap.addAttribute("memberSales", distributionService.findMemberSales(requestId, mqId, page, pageSize));
 		return "user/sales";
+	}
+
+	/**
+	 * 我的团队
+	 * 
+	 * @return
+	 */
+	public String team(String requestId) {
+		return "user/team";
 	}
 }

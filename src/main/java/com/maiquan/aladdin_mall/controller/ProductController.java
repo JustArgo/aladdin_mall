@@ -53,7 +53,7 @@ public class ProductController {
 	 * @return
 	 */
 	@RequestMapping("/product_detail")
-	public String productDetail(Integer productID, Model model) {
+	public String productDetail(String requestId,Integer productID, Model model) {
 
 		List<Map<String, Object>> attrItems = new ArrayList<Map<String, Object>>();
 		ProductVo productVo = productVoService.getProductVo(productID, UUID.randomUUID().toString().replaceAll("-",""));
@@ -100,7 +100,7 @@ public class ProductController {
 
 	@RequestMapping("querySku")
 	@ResponseBody
-	public Map<String, Object> querySku(Integer productID, Integer[] attrs, Integer[] values) {
+	public Map<String, Object> querySku(String requestId,Integer productID, Integer[] attrs, Integer[] values) {
 
 		Map<String, Object> retMap = new HashMap<String, Object>();
 		Map<Integer, Integer> skuMap = new HashMap<Integer, Integer>();
@@ -160,7 +160,7 @@ public class ProductController {
 	
 	@RequestMapping("/collect")
 	@ResponseBody
-	public Map<String,Object> collect(String mqID, Integer productID, Integer collect){
+	public Map<String,Object> collect(String requestId,String mqID, Integer productID, Integer collect){
 		
 		Map<String,Object> ret = new HashMap<String,Object>();
 		
@@ -186,7 +186,7 @@ public class ProductController {
 	
 	@RequestMapping("/calcPostFee")
 	@ResponseBody
-	public Long calcPostFee(Integer productID, Integer buyNum, Integer countryID,Integer provinceID,Integer cityID,Integer districtID){
+	public Long calcPostFee(String requestId,Integer productID, Integer buyNum, Integer countryID,Integer provinceID,Integer cityID,Integer districtID){
 		return postFeeService.calcPostFee(productID, buyNum, countryID, provinceID, cityID, districtID, UUID.randomUUID().toString().replaceAll("-",""));
 	}
 

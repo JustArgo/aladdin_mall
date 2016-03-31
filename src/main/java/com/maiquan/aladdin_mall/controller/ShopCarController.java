@@ -26,7 +26,7 @@ public class ShopCarController {
 	 * @return
 	 */
 	@RequestMapping("/shop_car")
-	public String shopping_cart(Model model){
+	public String shopping_cart(String requestId,Model model){
 		
 		//Principal principal = (Principal) WebUtil.getSession().getAttribute(Principal.ATTRIBUTE_KEY);
 		String mqID = "2";//principal.getMqID();
@@ -53,7 +53,7 @@ public class ShopCarController {
 	
 	@RequestMapping("/remove_shopcar_product")
 	@ResponseBody
-	public String remove_shopcar_product(Integer[] skuIDs){
+	public String remove_shopcar_product(String requestId,Integer[] skuIDs){
 		Principal principal = WebUtil.getCurrentPrincipal();
 		String mqID = "2";
 //		if(principal!=null){
@@ -71,7 +71,7 @@ public class ShopCarController {
 	
 	@RequestMapping("/add_to_shopcar")
 	@ResponseBody
-	public String add_to_shopcar(Integer productID, Integer skuID, Integer buyNum){
+	public String add_to_shopcar(String requestId,Integer productID, Integer skuID, Integer buyNum){
 		
 		shopCarService.addToShopCar(2, productID, skuID, buyNum, UUID.randomUUID().toString().replaceAll("-",""));
 		

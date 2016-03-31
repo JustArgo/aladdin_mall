@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,7 @@ import com.util.MapUtil.MapData;
 @Controller
 @RequestMapping("/wx")
 public class WxController {
+	Logger logger=Logger.getLogger(this.getClass());
 	@Autowired
 	private WxInteractionService wxInteractionService;
 	@Autowired
@@ -53,7 +55,7 @@ public class WxController {
 	 */
 	@RequestMapping(value = "/checkSignature", method = RequestMethod.GET)
 	@ResponseBody
-	public String checkSignature(String signature, String timestamp, String nonce, String echostr) {
+	public String checkSignature(String requestId,String signature, String timestamp, String nonce, String echostr) {
 		if (wxInteractionService.checkSignature(UUID.randomUUID().toString(), timestamp, nonce, signature)) {
 			return echostr;
 		}
@@ -67,8 +69,7 @@ public class WxController {
 	 */
 	@RequestMapping(value = "/callback", method = RequestMethod.GET)
 	@ResponseBody
-	public void login(HttpServletResponse response, String code, String state) throws Exception {
-		String requestId=UUID.randomUUID().toString().replace("-", "");
+	public void login(String requestId,HttpServletResponse response, String code, String state) throws Exception {
 		WxMpUser wxMpUser = wxInteractionService.getSnsapiBaseUserInfo(requestId, code);
 		String openId = wxMpUser.getOpenId();
 		String mqId=null;
@@ -77,7 +78,6 @@ public class WxController {
 			mqId=data.getString("result");
 			if(mqId==null){
 				MapData data2=MapUtil.newInstance(userService.createWx(requestId,state, openId, null, null));
-				System.out.println("errcode:"+data2.getString("errcode"));
 				if (data2.getString("errcode").equals(UserService.CreateWxErrcode.e0.getCode())) {
 					mqId=data2.getString("result");
 				}else {
@@ -87,6 +87,7 @@ public class WxController {
 		}else{
 			throw new Exception();
 		}
+		logger.info("");
 		Principal principal = new Principal(mqId, openId);
 		WebUtil.login(principal);
 		response.sendRedirect(String.valueOf(WebUtil.getSession().getAttribute(WebUtil.SAVE_REQUEST_KEY)));
@@ -98,7 +99,7 @@ public class WxController {
 	 */
 	@RequestMapping(value="/config",method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String,String> config(){
+	public Map<String,String> config(String requestId){
 		
 		Map<String,String> config = new HashMap<String,String>();
 		
