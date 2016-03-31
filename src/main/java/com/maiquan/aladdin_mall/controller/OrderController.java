@@ -1,9 +1,5 @@
 package com.maiquan.aladdin_mall.controller;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,23 +7,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.dom4j.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aladdin.interaction.wx.service.WxInteractionService;
-import com.alibaba.dubbo.common.json.JSON;
-import com.alibaba.dubbo.common.json.JSONObject;
-import com.maiquan.aladdin_mall.util.DecryptUtil;
+import com.maiquan.aladdin_mall.Principal;
 import com.maiquan.aladdin_mall.util.WebUtil;
 import com.maiquan.aladdin_order.domain.Order;
 import com.maiquan.aladdin_order.domain.OrderProduct;
@@ -547,9 +528,14 @@ public class OrderController {
 	 * @return
 	 */
 	@RequestMapping("/apply-return-goods")
-	public String applyReturnGoods(String requestID, String orderCode, String returnReason, Long refundFee, String returnDesc){
+	public String applyReturnGoods(String requestID, String orderCode, Integer orderProductID, String returnReason, Long refundFee, String returnDesc){
 		
+		Principal principal = WebUtil.getCurrentPrincipal();
 		
+if(principal==null)principal = new Principal(new Random().nextInt(50)+"", "");
+
+		String mqID = principal.getMqId();
+		orderService.applyReturnGoods(mqID, orderCode, orderProductID, refundFee, returnReason, returnDesc, requestID);
 		return "order/return-goods-detail";
 	}
 	
