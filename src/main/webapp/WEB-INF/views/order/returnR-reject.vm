@@ -1,0 +1,94 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>退款详情</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<script src="${link.contextPath}/js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="${link.contextPath}/css/returnR-success.css" type="text/css" />
+</head>
+<body>
+<div id="container">
+    <div class="header">
+        <a href="order-index.html" class="header-back btn">
+			<img class="img1" src="${link.contextPath}/images/back_n.png">
+			<img class="img2" src="${link.contextPath}/images/back_p.png">
+		</a>
+        <span>退款详情</span>
+    </div>
+	<div class="returnG-title">
+		<div class="title1">
+			<p>退款编号：${moneyReturn.returnCode}</p>
+			<p>申请时间：$!date.format('yyyy-MM-dd HH:mm ',$!moneyReturn.createTime)</p>
+		</div>
+		<div class="detail-process">
+			<ul>
+				<li class="bg1">
+					<div style="width:100%;height:50%;margin:0;padding:0;line-height:20px;">提交</div>
+					<div style="width:100%;height:50%;margin:0;padding:0;line-height:15px;">退款申请</div>
+				</li>
+				<li class="bg2">
+					<div style="width:100%;height:50%;margin:0;padding:0;line-height:20px;">商家</div>
+					<div style="width:100%;height:50%;margin:0;padding:0;line-height:15px;">审核不通过</div>
+				</li>
+				<li class="bg1">退款成功</li>
+			</ul>
+			<div class="process-bottom">
+				<p>商家审核不通过</p>
+			</div>
+			<div class="process-footer">
+				<a href="modify-returnR.html" id="apply">修改退款申请</a>
+			</div>
+		</div>
+	</div>
+	<div class="returnG-area">
+		<div class="area-list">
+			<span style="font-size:16px;color:#5e5b5c">退款详情</span><span></span>
+		</div>
+		<div class="area-list">
+			<span>申请类型</span><span>退款</span>
+		</div>
+		<div class="area-list">
+			<span>退款金额</span><span>￥$number.format("#0.00",$math.div(${moneyReturn.applySum},100.0))</span>
+		</div>
+		<div class="area-list">
+			<span>退款原因</span><span>$!{returnReason}</span>
+		</div>
+		<div class="area-list">
+			<span>退款说明</span><span>$!{moneyReturn.returnDesc}</span>
+		</div>
+		<div class="area-list">
+			<span>退款编号</span><span>$!{moneyReturn.returnCode}</span>
+		</div>
+		<div class="area-list">
+			<span>申请时间</span><span>$!date.format('yyyy-MM-dd HH:mm ',$!moneyReturn.createTime)</span>
+		</div>
+	</div>
+</div>
+</body>
+<script>
+    $(function(){
+		$(".btn").click(function(){
+			if($(this).find(".img1").is(":visible")){
+				$(this).find(".img1").hide();
+				$(this).find(".img2").show();
+			}else{
+				$(this).find(".img1").show();
+				$(this).find(".img2").hide();
+			}
+			setTimeout(function(){
+				$(".btn").find(".img1").show();
+				$(".btn").find(".img2").hide();
+			},1000)
+		});
+		$("#apply").click(function(){
+			$(this).css({"color":"#fff","background":"#E81959"});
+			setTimeout(function(){
+				 $("#apply").css({"color":"#666","background":"#fff"});
+			},1000)
+	   })
+	});
+</script>
+</html>
+ 

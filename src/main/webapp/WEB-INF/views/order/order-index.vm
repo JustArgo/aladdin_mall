@@ -1,0 +1,392 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>我的订单</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<script src="${link.contextPath}/js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="${link.contextPath}/css/order-index.css" type="text/css" />
+</head>
+<body>
+<!--  
+	发货订单详情，待评论订单详情跳转
+	取消了退货款中的链接，点击出现选择框-2016-3-14
+-->
+<div id="container">
+    <div class="header">
+        <a href="../personal-index.html" class="header-back btn">
+			<img class="img1" src="${link.contextPath}/images/back_n.png">
+			<img class="img2" src="${link.contextPath}/images/back_p.png">
+		</a>
+        <span>我的订单</span>
+    </div>
+	<div class="header-menu">
+		<ul>
+			<li><a href="#" id="menu-all" style="color:#E81959">全部</a></li>
+			<li><a href="#" id="menu-1">待付款</a></li>
+			<li><a href="#" id="menu-2">待发货</a></li>
+			<li><a href="#" id="menu-3">待评论</a></li>
+			<li><a href="#" id="menu-4">退货款</a></li>
+		<ul>
+	</div>
+	<div class="order-info">
+		<div class="info-content">
+			<div class="info-bottom">
+			<div class="titleb">供应商：阿里巴巴天猫商城<span>待付款<span></div>
+				<a href="noPayorder-detail.html"><div class="info-bottom-img">
+					<img src="${link.contextPath}/images/thumbnail2.png" />
+				</div>
+				<p class="bottom-1" style="font-size:16px;">送杯 名馨进口滤泡式咖啡礼...</p>
+				<p class="bottom-3"><span style="color:#F389AA;font-size:16px;">￥1.00</span><!-- <span style="position:relative;left:80px;top:-2px;color:#666;">套装包装</span> --></p>
+				<div class="bottom-4">
+					<div class="bottom-number">数量x1</div>
+					<a href="noPayorder-detail.html" class="btn-select"><div class="bottom-number-right bg1">
+						查看订单详情
+					</div></a>
+				</div></a>
+				<!-- <div class="fixed-img">
+					<a href="#"><img src="images/green.png" /></a>
+				</div> -->
+			</div>
+		</div>
+		<div class="info-content">
+			<div class="info-bottom">
+			<div class="titleb">供应商：阿里巴巴天猫商城<span>待付款<span></div>
+				<a href="noPayorder-detail.html"><div class="info-bottom-img">
+					<img src="${link.contextPath}/images/thumbnail2.png" />
+				</div>
+				<p class="bottom-1" style="font-size:16px;">送杯 名馨进口滤泡式咖啡礼...</p>
+				<p class="bottom-3"><span style="color:#F389AA;font-size:16px;">￥1.00</span><!-- <span style="position:relative;left:80px;top:-2px;color:#666;">套装包装</span> --></p>
+				<div class="bottom-4">
+					<div class="bottom-number">数量x1</div>
+					<a href="noPayorder-detail.html" class="btn-select"><div class="bottom-number-right bg1">
+						查看订单详情
+					</div></a>
+				</div></a>
+				<!-- <div class="fixed-img">
+					<a href="#"><img src="images/green.png" /></a>
+				</div> -->
+			</div>
+		</div>
+		<div class="info-content">
+			<div class="info-bottom">
+			<div class="titleb">供应商：阿里巴巴天猫商城<span>待付款<span></div>
+				<a href="noPayorder-detail.html"><div class="info-bottom-img">
+					<img src="${link.contextPath}/images/thumbnail2.png" />
+				</div>
+				<p class="bottom-1" style="font-size:16px;">送杯 名馨进口滤泡式咖啡礼...</p>
+				<p class="bottom-3"><span style="color:#F389AA;font-size:16px;">￥1.00</span><!-- <span style="position:relative;left:80px;top:-2px;color:#666;">套装包装</span> --></p>
+				<div class="bottom-4">
+					<div class="bottom-number">数量x1</div>
+					<a href="noPayorder-detail.html" class="btn-select"><div class="bottom-number-right bg1">
+						查看订单详情
+					</div></a>
+				</div></a>
+				<!-- <div class="fixed-img">
+					<a href="#"><img src="images/green.png" /></a>
+				</div> -->
+			</div>
+		</div>
+		
+	</div>
+	<div class="order-info2">
+		<div class="info-content">
+			<div class="info-bottom">
+			<div class="titleb">供应商：阿里巴巴天猫商城<span>待发货<span></div>
+				<a href="../../order-detail.html"><div class="info-bottom-img">
+					<img src="${link.contextPath}/images/thumbnail2.png" />
+				</div>
+				<p class="bottom-1" style="font-size:16px;">美国蜂蜜幸运签饼干派对零食...</p>
+				<p class="bottom-3"><span style="color:#F389AA;font-size:16px;">￥1.00</span><!-- <span style="position:relative;left:80px;top:-2px;color:#666;">套装包装</span> --></p>
+				<div class="bottom-4">
+					<div class="bottom-number">数量x1</div>
+					<a href="return-refund.html" class="btn-select"><div class="bottom-number-right bg1">
+						退款
+					</div></a>
+				</div></a>
+				<!-- <div class="fixed-img">
+					<a href="#"><img src="images/red.png" /></a>
+				</div> -->
+			</div>
+		</div>
+		<div class="info-content">
+			<div class="info-bottom">
+			<div class="titleb">供应商：阿里巴巴天猫商城<span>待发货<span></div>
+				<a href="../../order-detail.html"><div class="info-bottom-img">
+					<img src="${link.contextPath}/images/thumbnail2.png" />
+				</div>
+				<p class="bottom-1" style="font-size:16px;">美国蜂蜜幸运签饼干派对零食...</p>
+				<p class="bottom-3"><span style="color:#F389AA;font-size:16px;">￥1.00</span><!-- <span style="position:relative;left:80px;top:-2px;color:#666;">套装包装</span> --></p>
+				<div class="bottom-4">
+					<div class="bottom-number">数量x1</div>
+					<a href="return-refund.html" class="btn-select"><div class="bottom-number-right bg1">
+						退款
+					</div></a>
+				</div></a>
+				<!-- <div class="fixed-img">
+					<a href="#"><img src="images/red.png" /></a>
+				</div> -->
+			</div>
+		</div>
+		<div class="info-content">
+			<div class="info-bottom">
+			<div class="titleb">供应商：阿里巴巴天猫商城<span>待发货<span></div>
+				<a href="../../order-detail.html"><div class="info-bottom-img">
+					<img src="${link.contextPath}/images/thumbnail2.png" />
+				</div>
+				<p class="bottom-1" style="font-size:16px;">美国蜂蜜幸运签饼干派对零食...</p>
+				<p class="bottom-3"><span style="color:#F389AA;font-size:16px;">￥1.00</span><!-- <span style="position:relative;left:80px;top:-2px;color:#666;">套装包装</span> --></p>
+				<div class="bottom-4">
+					<div class="bottom-number">数量x1</div>
+					<a href="return-refund.html" class="btn-select"><div class="bottom-number-right bg1">
+						退款
+					</div></a>
+				</div></a>
+				<!-- <div class="fixed-img">
+					<a href="#"><img src="images/red.png" /></a>
+				</div> -->
+			</div>
+		</div>
+	</div>
+	<div class="order-info3">
+		<div class="info-content">
+			<div class="info-bottom">
+			<div class="titleb">供应商：阿里巴巴天猫商城<span>待评论<span></div>
+			<a href="../../order-detail.html"><div class="info-bottom-img">
+					<img src="${link.contextPath}/images/thumbnail2.png" />
+				</div>
+				<p class="bottom-1" style="font-size:16px;">【沈师傅】 鸡蛋干礼盒1216...</p>
+				<p class="bottom-3"><span style="color:#F389AA;font-size:16px;">￥1.00</span><!-- <span style="position:relative;left:80px;top:-2px;color:#666;">套装包装</span> --></p>
+				<div class="bottom-4">
+					<div class="bottom-number">数量x1</div>
+					<a href="return-goods.html" class="btn-select"><div class="bottom-number-right2 bg1">退货</div></a>
+					<a href="evaluate.html" class="btn-select"><div class="bottom-number-right bg1">
+						立即评论
+					</div></a>
+				</div></a>
+				<!-- <div class="fixed-img">
+					<a href="#"><img src="images/blue.png" /></a>
+				</div> -->
+			</div>
+		</div>
+		<div class="info-content">
+			<div class="info-bottom">
+			<div class="titleb">供应商：阿里巴巴天猫商城<span>待评论<span></div>
+			<a href="../../order-detail.html"><div class="info-bottom-img">
+					<img src="${link.contextPath}/images/thumbnail2.png" />
+				</div>
+				<p class="bottom-1" style="font-size:16px;">【沈师傅】 鸡蛋干礼盒1216...</p>
+				<p class="bottom-3"><span style="color:#F389AA;font-size:16px;">￥1.00</span><!-- <span style="position:relative;left:80px;top:-2px;color:#666;">套装包装</span> --></p>
+				<div class="bottom-4">
+					<div class="bottom-number">数量x1</div>
+					<a href="return-goods.html" class="btn-select"><div class="bottom-number-right2 bg1">退货</div></a>
+					<a href="evaluate.html" class="btn-select"><div class="bottom-number-right bg1">
+						立即评论
+					</div></a>
+				</div></a>
+				<!-- <div class="fixed-img">
+					<a href="#"><img src="images/blue.png" /></a>
+				</div> -->
+			</div>
+		</div>
+		<div class="info-content">
+			<div class="info-bottom">
+			<div class="titleb">供应商：阿里巴巴天猫商城<span>待评论<span></div>
+			<a href="../../order-detail.html"><div class="info-bottom-img">
+					<img src="${link.contextPath}/images/thumbnail2.png" />
+				</div>
+				<p class="bottom-1" style="font-size:16px;">【沈师傅】 鸡蛋干礼盒1216...</p>
+				<p class="bottom-3"><span style="color:#F389AA;font-size:16px;">￥1.00</span><!-- <span style="position:relative;left:80px;top:-2px;color:#666;">套装包装</span> --></p>
+				<div class="bottom-4">
+					<div class="bottom-number">数量x1</div>
+					<a href="return-goods.html" class="btn-select"><div class="bottom-number-right2 bg1">退货</div></a>
+					<a href="evaluate.html" class="btn-select"><div class="bottom-number-right bg1">
+						立即评论
+					</div></a>
+				</div></a>
+				<!-- <div class="fixed-img">
+					<a href="#"><img src="images/blue.png" /></a>
+				</div> -->
+			</div>
+		</div>
+	</div>
+	<div class="order-info4">
+		<div class="info-content">
+			<div class="info-bottom">
+			<div class="titleb">供应商：阿里巴巴天猫商城<span>退款中<span></div>
+			<a href="javascript:" class="returnR-btn"><div class="info-bottom-img">
+					<img src="${link.contextPath}/images/thumbnail2.png" />
+				</div>
+				<p class="bottom-1" style="font-size:16px;">【沈师傅】 鸡蛋干礼盒1216...</p>
+				<p class="bottom-3"><span style="color:#F389AA;font-size:16px;">￥1.00</span><!-- <span style="position:relative;left:80px;top:-2px;color:#666;">套装包装</span> --></p>
+				<div class="bottom-4">
+					<div class="bottom-number">数量x1</div>
+					<a href="javascript:" class="btn-select returnR-btn"><div class="bottom-number-right bg1">
+						查看订单详情
+					</div></a>
+				</div></a>
+				<!-- <div class="fixed-img">
+					<a href="#"><img src="images/blue.png" /></a>
+				</div> -->
+			</div>
+			<div class="returnRArea">
+				<ul>
+					<li><a href="returnR-examine.html">退款审核</a></li>
+					<li><a href="returnR-pass.html">退款审核通过</a></li>
+					<li><a href="returnR-success.html">退款成功</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="info-content">
+			<div class="info-bottom">
+			<div class="titleb">供应商：阿里巴巴天猫商城<span>已退款<span></div>
+			<a href="javascript:" class="returnR-btn"><div class="info-bottom-img">
+					<img src="${link.contextPath}/images/thumbnail2.png" />
+				</div>
+				<p class="bottom-1" style="font-size:16px;">【沈师傅】 鸡蛋干礼盒1216...</p>
+				<p class="bottom-3"><span style="color:#F389AA;font-size:16px;">￥1.00</span><!-- <span style="position:relative;left:80px;top:-2px;color:#666;">套装包装</span> --></p>
+				<div class="bottom-4">
+					<div class="bottom-number">数量x1</div>
+					<a href="javascript:" class="btn-select returnR-btn"><div class="bottom-number-right bg1">
+						查看订单详情
+					</div></a>
+				</div></a>
+				<!-- <div class="fixed-img">
+					<a href="#"><img src="images/blue.png" /></a>
+				</div> -->
+			</div>
+			<div class="returnRArea">
+				<ul>
+					<li><a href="${link.contextPath}/return-money-detail?moneyReturnID=25">退款审核</a></li>
+					<li><a href="${link.contextPath}/return-money-detail?moneyReturnID=26">退款审核通过</a></li>
+					<li><a href="${link.contextPath}/return-money-detail?moneyReturnID=27">退款审核不通过</a></li>
+					<li><a href="${link.contextPath}/return-money-detail?moneyReturnID=28">退款成功</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="info-content">
+			<div class="info-bottom">
+			<div class="titleb">供应商：阿里巴巴天猫商城<span>已退货<span></div>
+			<a href="javascript:" class="returnG-btn"><div class="info-bottom-img">
+					<img src="${link.contextPath}/images/thumbnail2.png" />
+				</div>
+				<p class="bottom-1" style="font-size:16px;">【沈师傅】 鸡蛋干礼盒1216...</p>
+				<p class="bottom-3"><span style="color:#F389AA;font-size:16px;">￥1.00</span><!-- <span style="position:relative;left:80px;top:-2px;color:#666;">套装包装</span> --></p>
+				<div class="bottom-4">
+					<div class="bottom-number">数量x1</div>
+					<a href="javascript:" class="btn-select returnG-btn"><div class="bottom-number-right bg1">
+						查看订单详情
+					</div></a>
+				</div></a>
+				<!-- <div class="fixed-img">
+					<a href="#"><img src="images/blue.png" /></a>
+				</div> -->
+			</div>
+			<div class="returnGArea">
+				<ul>
+					<li><a href="${link.contextPath}/return-goods-detail?goodsReturnID=22">等待卖家审核</a></li>
+					<li><a href="${link.contextPath}/return-goods-detail?goodsReturnID=25">审核被拒绝</a></li>
+					<li><a href="${link.contextPath}/return-goods-detail?goodsReturnID=23">卖家审核通过</a></li>
+					<li><a href="${link.contextPath}/return-goods-detail?goodsReturnID=21">等待卖家收货</a></li>
+					<li><a href="${link.contextPath}/return-goods-detail?goodsReturnID=24">退货成功</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+<script>
+    $(function(){
+		$(".btn").click(function(){
+			if($(this).find(".img1").is(":visible")){
+				$(this).find(".img1").hide();
+				$(this).find(".img2").show();
+			}else{
+				$(this).find(".img1").show();
+				$(this).find(".img2").hide();
+			}
+		});
+		$(".btn-select").click(function(){
+			if($(this).find(".bg1")){
+				$(".bottom-number-right").removeClass("bg2").addClass("bg1");
+				$(".bottom-number-right2").removeClass("bg2").addClass("bg1");
+				$(this).find(".bottom-number-right").removeClass("bg1").addClass("bg2");
+				$(this).find(".bottom-number-right2").removeClass("bg1").addClass("bg2");
+			}
+			setTimeout(function(){
+				$(".bottom-number-right").removeClass("bg2").addClass("bg1");
+				$(".bottom-number-right2").removeClass("bg2").addClass("bg1");
+			},1000)
+		});
+	});
+	$("#menu-all").click(function(){
+		$("#menu-1").css({"color":"#555"});
+		$("#menu-2").css({"color":"#555"});
+		$("#menu-3").css({"color":"#555"});
+		$("#menu-4").css({"color":"#555"});
+		$(this).css({"color":"#E81959"});
+		$(".order-info").show();
+		$(".order-info2").show();
+		$(".order-info3").show();
+		$(".order-info4").show();
+	});
+	$("#menu-1").click(function(){
+		$("#menu-all").css({"color":"#555"});
+		$("#menu-2").css({"color":"#555"});
+		$("#menu-3").css({"color":"#555"});
+		$("#menu-4").css({"color":"#555"});
+		$(this).css({"color":"#E81959"});
+		$(".order-info").show();
+		$(".order-info2").hide();
+		$(".order-info3").hide();
+		$(".order-info4").hide();
+	});
+	$("#menu-2").click(function(){
+		$("#menu-all").css({"color":"#555"});
+		$("#menu-1").css({"color":"#555"});
+		$("#menu-3").css({"color":"#555"});
+		$("#menu-3").css({"color":"#555"});
+		$(this).css({"color":"#E81959"});
+		$(".order-info").hide();
+		$(".order-info2").show();
+		$(".order-info3").hide();
+		$(".order-info4").hide();
+	});
+	$("#menu-3").click(function(){
+		$("#menu-all").css({"color":"#555"});
+		$("#menu-1").css({"color":"#555"});
+		$("#menu-2").css({"color":"#555"});
+		$("#menu-4").css({"color":"#555"});
+		$(this).css({"color":"#E81959"});
+		$(".order-info").hide();
+		$(".order-info2").hide();
+		$(".order-info3").show();
+		$(".order-info4").hide();
+	});
+	$("#menu-4").click(function(){
+		$("#menu-1").css({"color":"#555"});
+		$("#menu-2").css({"color":"#555"});
+		$("#menu-3").css({"color":"#555"});
+		$("#menu-all").css({"color":"#555"});
+		$(this).css({"color":"#E81959"});
+		$(".order-info").hide();
+		$(".order-info2").hide();
+		$(".order-info3").hide();
+		$(".order-info4").show();
+	});
+	$(".returnR-btn").click(function(){
+		if($(this).parents(".info-content").find(".returnRArea").is(":visible")){
+			$(this).parents(".info-content").find(".returnRArea").hide();
+		}else{
+			$(this).parents(".info-content").find(".returnRArea").show();
+		}
+	});
+	$(".returnG-btn").click(function(){
+		if($(this).parents(".info-content").find(".returnGArea").is(":visible")){
+			$(this).parents(".info-content").find(".returnGArea").hide();
+		}else{
+			$(this).parents(".info-content").find(".returnGArea").show();
+		}
+	});
+</script>
+</html>

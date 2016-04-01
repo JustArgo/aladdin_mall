@@ -1,0 +1,119 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>申请退款</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<script src="${link.contextPath}/js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="${link.contextPath}/css/return-goods.css" type="text/css" />
+</head>
+<style>
+.return-area{height:360px;}
+</style>
+<body>
+<div id="container">
+    <div class="header">
+        <a href="order-index.html" class="header-back btn">
+			<img class="img1" src="${link.contextPath}/images/back_n.png">
+			<img class="img2" src="${link.contextPath}/images/back_p.png">
+		</a>
+        <span>申请退款</span>
+	</div>
+	<form id="returnMoney" action="${link.contextPath}/apply-return-money" method="POST">
+	<input type="hidden" name="orderCode" value="$!{orderCode}"/>
+	<div class="return-area">
+		<p class="area-title">退款原因</p>
+		<div class="area-selected">
+			<div class="seleted-content">选择退款原因</div>
+			<select class="selected" name="returnReason">
+				<option value="SEV">七天无理由退货</option>
+				<option value="DES">收到商品破损</option>
+				<option value="QUA">商品质量问题</option>
+				<option value="SJ#">少件/漏发</option>
+				<option value="TYF">退运费</option>
+				<option value="WAY">未按约定发货</option>
+				<option value="JMP">假冒品牌</option>
+				<option value="FP#">发票问题</option>
+				<option value="REP">商品需要维修</option>
+				<option value="WRO">收到商品与描述不符</option>
+			</select>
+			<div class="select-img">
+				<img class="img1" src="${link.contextPath}/images/pull_down.png" />
+				<img class="img2" src="${link.contextPath}/images/up_down.png" />
+			</div>
+		</div>
+		<p class="area-title"><span>退款金额</span><span class="price">最多可以退款￥$number.format("#0.00",${refundLimit})</span></p>
+		<div class="area-input">
+			<input type="text" placeholder="请输入退款金额" name="refundFee">
+		</div> 
+		<p class="waring">退款金额不得超过￥<span class="refundLimit">$number.format("#0.00",${refundLimit})</span></p>
+		<p class="area-title"><span>退款说明</span><span class="price">(可不填)</span></p>
+		<div class="area-textarea">
+			<textarea  placeholder="请输入退款说明" name="returnDesc"></textarea>
+		</div> 
+	</div>
+	</form>
+	<div class="return-btn">
+		<a href="javascript:void(0);" class="rbrn">提交申请</a>
+	</div>
+</div>
+</body>
+</body>
+<script>
+    $(function(){
+		$(".btn").click(function(){
+			if($(this).find(".img1").is(":visible")){
+				$(this).find(".img1").hide();
+				$(this).find(".img2").show();
+			}else{
+				$(this).find(".img1").show();
+				$(this).find(".img2").hide();
+			}
+		});
+		$(".rbrn").click(function(){
+			$(this).css({"color":"#fff","background-color":"#E81959"});
+			setTimeout(function(){
+				$(".rbrn").css({"color":"#666","background-color":"#fff"});
+			},1000);
+			if($(".seleted-content").text()=='选择退款原因'){
+				alert("请选择退款原因");
+				return;
+			}
+			if($("input[name=refundFee]").val().trim()==''){
+				alert("请填写退款金额");
+				return;
+			}
+			var refundFee = parseFloat($("input[name=refundFee]").val());
+			if(isNaN(refundFee)){
+				alert("请填写合法的退款金额");
+				return;
+			}
+			
+			if(refundFee>$(".refundLimit").text()){
+				alert("您输入的退款金额超出范围");
+				return;
+			}
+			$("input[name=refundFee]").val(parseFloat($("input[name=refundFee]").val()).toFixed(2)*100);
+			
+			$("#returnMoney").submit();
+		});
+		$(".selected").click(function(){
+			if($(this).siblings(".select-img").find(".img1").is(":visible")){
+				$(this).siblings(".select-img").find(".img1").hide();
+				$(this).siblings(".select-img").find(".img2").show();
+			}else{
+				$(this).siblings(".select-img").find(".img1").show();
+				$(this).siblings(".select-img").find(".img2").hide();
+			}
+		});
+		$(".selected").change(function(){
+			var divTxt = $(".seleted-content");
+			var optionTxt = $(".selected option:selected");
+			divTxt.text(optionTxt.text());
+			$(this).siblings(".select-img").find(".img1").show();
+			$(this).siblings(".select-img").find(".img2").hide();
+		})
+	});
+</script>
+</html>
