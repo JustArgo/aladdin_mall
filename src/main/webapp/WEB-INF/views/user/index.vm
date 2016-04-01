@@ -47,7 +47,7 @@
 		</div>
 	</div>
 	<div class="personal-select">
-		<a href="http://$request.serverName/user/wealth" class="btn2"><div class="order-1">
+		<a href="$link.getContextPath()/user/wealth" class="btn2"><div class="order-1">
 			<img class="img1" src="http://$request.serverName/images/treasure_n.png" />
 			<img class="img2" src="http://$request.serverName/images/treasure_p.png" />
 			我的财富
@@ -63,12 +63,12 @@
 				<img src="http://$request.serverName/images/arrow.png">
 			</span>
 		</div></a>
-		<a href="javascript:" class="btn2"><div class="order-1">
+		<a href="team" class="btn2"><div class="order-1">
 			<img class="img1" src="http://$request.serverName/images/team_n.png" />
 			<img class="img2" src="http://$request.serverName/images/team_p.png" />
 			我的团队
 			<span>
-				<img src="http://$request.serverName/images/arrow.png">
+				<img src="/images/arrow.png">
 			</span>
 		</div></a>
 		<a href="javascript:" class="btn2"><div class="order-1">

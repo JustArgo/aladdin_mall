@@ -2,73 +2,79 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>我的财富</title>
- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<script src="http://$request.serverName/js/jquery-2.1.3.min.js"></script>
-<link rel="stylesheet" href="http://$request.serverName/css/my-wealth.css" type="text/css" />
-</head>
-<body>
-<div id="container">
-    <div class="header">
-        <a href="http://$request.serverName/user/index" class="header-back btn">
-			<img class="img1" src="http://$request.serverName/images/back_n.png">
-			<img class="img2" src="http://$request.serverName/images/back_p.png">
-		</a>
-        <span>我的财富</span>
-    </div>
-	<div class="header-menu">
-		<ul>
-			<li>
-				<p>可用余额</p>
-				<p style="color:#E81959">￥$accountInfo.result.remainingSum</p>
-			</li>
-			<li>
-				<p>冻结余额</p>
-				<p style="color:#E81959">￥$accountInfo.result.frozenSum</p>
-			</li>
-		</ul>
-	</div>
-	<div class="money">
-		<ul>
-			<li style="border:1px dashed #6DA6F3">
-				<p>累计收入</p>
-				<p style="color:#E81959">￥$accountInfo.result.totalEaring</p>
-			</li>
-			<li style="border:1px dashed #E81959">
-				<p>已提现</p>
-				<p style="color:#E81959">￥$accountInfo.result.totalWithdraw</p>
-			</li>
-		</ul>
-	</div>
-	<div class="footer-btn">
-		<a href="http://$request.serverName/user/withDraw" id="money-btn">我要提现</a>
-	</div>
-	<div class="footer-tip">
-		<p style="color:#E81959">温馨提示：</p>
-		<p>可用余额：是已经到账的，可以进行提现的。</p>
-		<div class="tip01">冻结佣金：</div><div class="tip02">买家已经购买，但是交易未完成，有可能存在退款的情况，佣金未到账<div>
-	</div>
-</div>
-</body>
+<script type="text/javascript" src="$link.getContextPath()/js/jquery-2.1.3.min.js"/>
+<link rel="stylesheet" href="$link.getContextPath()/css/my-wealth.css" type="text/css" />
 <script>
-    $(function(){
-		$(".btn").click(function(){
-			if($(this).find(".img1").is(":visible")){
+	$(function() {
+		$(".btn").click(function() {
+			if ($(this).find(".img1").is(":visible")) {
 				$(this).find(".img1").hide();
 				$(this).find(".img2").show();
-			}else{
+			} else {
 				$(this).find(".img1").show();
 				$(this).find(".img2").hide();
 			}
 		});
-		
-		$("#money-btn").click(function(){
-			$(this).css({"color":"#fff","background-color":"#E81959"});
-			setTimeout(function(){
-				$("#money-btn").css({"color":"#5e5b5c","background-color":"#fff"});
-			},1000)
+
+		$("#money-btn").click(function() {
+			$(this).css({
+				"color" : "#fff",
+				"background-color" : "#E81959"
+			});
+			setTimeout(function() {
+				$("#money-btn").css({
+					"color" : "#5e5b5c",
+					"background-color" : "#fff"
+				});
+			}, 1000)
 		});
 	});
 </script>
+</head>
+<body>
+	<div id="container">
+		<div class="header">
+			<a href="$link.getContextPath()/user/index" class="header-back btn"> <img class="img1"
+				src="$link.getContextPath()/images/back_n.png"> <img class="img2"
+					src="$link.getContextPath()/images/back_p.png"></a> <span>我的财富</span>
+		</div>
+		<div class="header-menu">
+			<ul>
+				<li><a href="$link.getContextPath()/user/wealthDetail">
+						<p>可用余额</p>
+						<p style="color: #E81959">￥$accountInfo.remainingSum</p>
+				</a></li>
+				<li><a href="$link.getContextPath()/user/wealthDetail?tabIdx=1">
+						<p>冻结余额</p>
+						<p style="color: #E81959">￥$accountInfo.frozenSum</p>
+				</a></li>
+			</ul>
+		</div>
+		<div class="money">
+			<ul>
+				<li style="border: 1px dashed #6DA6F3">
+					<p>累计收入</p>
+					<p style="color: #E81959">￥$accountInfo.totalEaring</p>
+				</li>
+				<li style="border: 1px dashed #E81959">
+					<p>已提现</p>
+					<p style="color: #E81959">￥$accountInfo.totalWithdraw</p>
+				</li>
+			</ul>
+		</div>
+		<div class="footer-btn">
+			<a href="$link.getContextPath()/user/withDraw" id="money-btn">我要提现</a>
+		</div>
+		<div class="footer-tip">
+			<p style="color: #E81959">温馨提示：</p>
+			<p>可用余额：是已经到账的，可以进行提现的。</p>
+			<div class="tip01">冻结佣金：</div>
+			<div class="tip02">
+				买家已经购买，但是交易未完成，有可能存在退款的情况，佣金未到账
+				<div></div>
+			</div>
+</body>
 </html>
- 
+

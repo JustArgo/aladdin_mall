@@ -63,6 +63,27 @@ public class UserController {
 	}
 
 	/**
+	 * 余额明细
+	 */
+	@RequestMapping(value = "/wealthDetail", method = RequestMethod.GET)
+	public String wealthDetail(String requestId, ModelMap modelMap, Integer tabIdx) {
+		modelMap.put("tabIdx", tabIdx == null ? 0 : tabIdx);
+		return "user/wealthDetail";
+	}
+
+	/**
+	 * 查询余额明细
+	 */
+	@RequestMapping(value = "/wealthDetail/query", method = RequestMethod.POST)
+	@ResponseBody
+	public Object wealthDetailQuery(String requestId, ModelMap modelMap, String accountType, int page, int pageSize) {
+		// Principal principal = WebUtil.getCurrentPrincipal();
+		MapData data = MapUtil.newInstance(accountService.getAccountDetail(requestId, "1", accountType, page, pageSize));
+		logger.info(data.errorString());
+		return data.getObject("result");
+	}
+
+	/**
 	 * 我要推广
 	 * 
 	 * @return
@@ -73,7 +94,7 @@ public class UserController {
 		modelMap.addAttribute("mqId", principal.getMqId());
 		return "user/generalize";
 	}
-	
+
 	@RequestMapping(value = "/clear", method = RequestMethod.GET)
 	public void clear(String d) throws Exception {
 		WebUtil.getSession().setAttribute(Principal.ATTRIBUTE_KEY, null);
@@ -101,8 +122,7 @@ public class UserController {
 		Principal principal = WebUtil.getCurrentPrincipal();
 		// modelMap.addAttribute("accountInfo",
 		// accountService.getRemainingSum(principal.getMqId(), "1"));
-		modelMap.addAttribute("remainingSum",
-				accountService.getRemainingSum(UUID.randomUUID().toString().replaceAll("-", ""), "1"));
+		modelMap.addAttribute("remainingSum", accountService.getRemainingSum(UUID.randomUUID().toString().replaceAll("-", ""), "1"));
 		return "user/withDraw";
 	}
 
@@ -152,11 +172,11 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/team", method = RequestMethod.GET)
-	public String team(String requestId, ModelMap modelMap,Integer levelIdx,Integer ddd) {
+	public String team(String requestId, ModelMap modelMap, Integer levelIdx, Integer ddd) {
 		MapData data = MapUtil.newInstance(distributionService.findMemberCount(requestId, "1"));
 		logger.info(data.errorString());
-		modelMap.put("levelIdx", levelIdx==null?0:levelIdx);
-		modelMap.put("counts", data.getData());
+		modelMap.put("levelIdx", levelIdx == null ? 0 : levelIdx);
+		modelMap.put("counts", data.getObject("result"));
 		return "user/team";
 	}
 
@@ -168,8 +188,7 @@ public class UserController {
 	@RequestMapping(value = "/teamMember", method = RequestMethod.POST)
 	@ResponseBody
 	public Object teamMember(String requestId, ModelMap modelMap, int levelNum, int page, int pageSize) {
-		MapData data = MapUtil
-				.newInstance(distributionService.findMemberByLevelNum(requestId, "1", levelNum, page, pageSize));
+		MapData data = MapUtil.newInstance(distributionService.findMemberByLevelNum(requestId, "1", levelNum, page, pageSize));
 		logger.info(data.errorString());
 		return data.getObject("result");
 	}
