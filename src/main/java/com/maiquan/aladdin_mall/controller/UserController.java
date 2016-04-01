@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,8 @@ import com.maiquan.aladdin_mall.Principal;
 import com.maiquan.aladdin_mall.util.QRCodeUtil;
 import com.maiquan.aladdin_mall.util.WebUtil;
 import com.maiquan.aladdin_product.service.IProductCollectService;
+import com.util.MapUtil;
+import com.util.MapUtil.MapData;
 
 /**
  * 用户
@@ -31,6 +34,7 @@ import com.maiquan.aladdin_product.service.IProductCollectService;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+	Logger logger = Logger.getLogger(this.getClass());
 	@Value("${hostName}")
 	private String hostName;
 	@Autowired
@@ -147,7 +151,26 @@ public class UserController {
 	 * 
 	 * @return
 	 */
-	public String team(String requestId) {
+	@RequestMapping(value = "/team", method = RequestMethod.GET)
+	public String team(String requestId, ModelMap modelMap,Integer levelIdx,Integer ddd) {
+		MapData data = MapUtil.newInstance(distributionService.findMemberCount(requestId, "1"));
+		logger.info(data.errorString());
+		modelMap.put("levelIdx", levelIdx==null?0:levelIdx);
+		modelMap.put("counts", data.getData());
 		return "user/team";
+	}
+
+	/**
+	 * 我的团队成员
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/teamMember", method = RequestMethod.POST)
+	@ResponseBody
+	public Object teamMember(String requestId, ModelMap modelMap, int levelNum, int page, int pageSize) {
+		MapData data = MapUtil
+				.newInstance(distributionService.findMemberByLevelNum(requestId, "1", levelNum, page, pageSize));
+		logger.info(data.errorString());
+		return data.getObject("result");
 	}
 }
