@@ -18,7 +18,7 @@ public class ProductCategoryController {
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(String requestId,ModelMap modelMap) {
-		modelMap.addAttribute("productCategory",productCategoryService.findList(UUID.randomUUID().toString().replaceAll("-", "")));
+		modelMap.addAttribute("productCategory",productCategoryService.findList(requestId));
 		return "productCategory/index";
 	}
 }

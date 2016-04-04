@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>余额明细</title>
+	<link rel="stylesheet" type="text/css" href="$link.getContextPath()/css/wealth-detail.css" />
+	<script type="text/javascript" src="$link.getContextPath()/js/jquery-2.1.3.min.js" />
+	</script>
+	<script>
+		$(function() {
+			$(".btn").click(function() {
+				if ($(this).find(".img1").is(":visible")) {
+					$(this).find(".img1").hide();
+					$(this).find(".img2").show();
+				} else {
+					$(this).find(".img1").show();
+					$(this).find(".img2").hide();
+				}
+			});
+			$(".menu-btn").css({"color" : "#666"});
+			$(".menu-btn").eq($tabIdx).css({"color" : "#E81959"});
+			$('#tabs').children().eq($tabIdx).css("display", "block");
+			
+			var scrollData={
+					currentPage:0,
+					target:$('#tabs').children().eq($tabIdx),
+					pageSize:15,
+					append:function(str){
+						this.target.append(str);
+					},
+					nextPage:function(){
+						this.currentPage++;
+						$.ajax({ 
+							url: '$link.getContextPath()/user/wealthDetail/query',
+							data:{accountType:"#if($tabIdx==0)KYY#elseif($tabIdx==1)DJY#end",page:this.currentPage,pageSize:this.pageSize},
+							type:"post",
+							success: function(data){
+								var htmlStr='';
+								for(var i=0;i<data.length;i++){
+									htmlStr+='<div class="sale-list"><div class="sale-1"><p style="font-size: 14px; color: #232323;">订单金额：<span style="color: #E81959">￥'+data[i].sum+'</span></p></div>'
+									+'<div class="sale-2"><p>'+data[i].inserttime+'</p><p style="position: absolute; right: 13px; color: #666;">'+data[i].remark+'</p></div></div>';
+								}
+								scrollData.append(htmlStr);
+							}
+						});
+					}
+			}
+			scrollData.nextPage();
+		});
+	</script>
+</head>
+<body>
+	<div id="container">
+		<div class="header">
+			<a href="personal-index.html" class="header-back btn"> <img class="img1" src="images/back_n.png"> <img
+					class="img2" src="images/back_p.png"></a> <span>余额明细</span>
+		</div>
+		<div class="header-menu">
+			<ul>
+				<li><a href="$link.getContextPath()/user/wealthDetail?tabIdx=0" class="menu-btn">可用余额</a></li>
+				<li><a href="$link.getContextPath()/user/wealthDetail?tabIdx=1" class="menu-btn">冻结余额</a></li>
+			</ul>
+		</div>
+		<div id="tabs">
+			<div class="sale-area1" style="display:none;">
+			</div>
+			<div class="sale-area1" style="display:none;">
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+

@@ -13,7 +13,7 @@ body a{color:#666;text-decoration:none;}
 .header-menu ul li{float:left;width:49.99%;text-align:center;}
 .header-menu ul li a{display:block;width:100%;height:100%;}
 .header-menu ul li:first-child a{border-right:1px solid #cecece;color:#E81959;}
-.sale-area1{width:100%;box-shadow:0 0 3px #cecece;background-color:#fff;margin-top:10px;padding-bottom:1px;float:left;}
+.sale-area1{width:100%;box-shadow:0 0 3px #cecece;background-color:#fff;margin-top:10px;padding-bottom:0px;float:left;}
 .sale-list{width:94%;border-bottom:1px solid #cecece;margin-left:3%;margin-top:5px;float:left;}
 .sale-list:last-child{border-bottom:none;}
 .sale-1{width:40%;height:55px;float:left;}
@@ -22,8 +22,6 @@ body a{color:#666;text-decoration:none;}
 .sale-2{width:40%;height:55px;float:right;position:relative;}
 .sale-2 p{margin:5px 0 5px 0;padding:0;color:#cecece;font-size:12px;}
 
-/* 会员销售 */
-.sale-area2{width:100%;box-shadow:0 0 3px #cecece;background-color:#fff;margin-top:10px;padding-bottom:10px;float:left;display:none}
 .sale-head{width:55px;height:60px;float:left;margin-right:5px;font-size:12px;color:#666;text-align:center;}
 .head-img{width:40px;height:40px;margin-left:7px;border-radius:50%;}
 .head-img img{width:100%;height:100%;}

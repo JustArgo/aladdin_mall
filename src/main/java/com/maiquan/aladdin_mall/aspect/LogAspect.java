@@ -27,7 +27,6 @@ public class LogAspect {
 				.getLogger(joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
 		String requestId=UUID.randomUUID().toString().replace("-", "");
 		Object[] params=joinPoint.getArgs();
-		System.out.println(params[0]);
 		params[0]=requestId;
 		try {
 			logger.info(">>>>>>>>>> requestId:" + requestId);

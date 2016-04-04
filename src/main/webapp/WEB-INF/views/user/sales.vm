@@ -18,8 +18,8 @@
     </div>
 	<div class="header-menu">
 		<ul>
-			<li><a href="javascript:" id="mySale">我的销售(100)</a></li>
-			<li><a href="javascript:" id="memberSale">会员销售(258)</a></li>
+			<li><a href="javascript:" class="menu-btn" id="mySale">我的销售(100)</a></li>
+			<li><a href="javascript:" class="menu-btn" id="memberSale">会员销售(258)</a></li>
 		</ul>
 	</div>
 	<div class="sale-area1">

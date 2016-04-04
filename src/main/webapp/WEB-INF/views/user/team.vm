@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>我的团队</title>
+	<link rel="stylesheet" type="text/css" href="$link.getContextPath()/css/my-team.css" />
+	<script type="text/javascript" src="$link.getContextPath()/js/jquery-2.1.3.min.js" ></script>
+	<script>
+	$(function(){
+		alert("inini");
+		$(".btn").click(function(){
+			if($(this).find(".img1").is(":visible")){
+				$(this).find(".img1").hide();
+				$(this).find(".img2").show();
+			}else{
+				$(this).find(".img1").show();
+				$(this).find(".img2").hide();
+			}
+		});
+		$(".menu-btn").css({"color":"#666"});
+		$(".menu-btn").eq($tabIdx).css({"color":"#E81959"});
+		$('#tabs').children().eq($tabIdx).css("display","block");
+		
+		$(window).scroll(function(){
+			var scrollTop = $(this).scrollTop();
+		　　  var scrollHeight = $(document).height();
+		　　  var windowHeight = $(this).height();
+		　　  if(scrollTop + windowHeight == scrollHeight){
+			  	scrollData.nextPage();
+			}
+		});
+		var scrollData={
+				currentPage:0,
+				target:$('#tabs').children().eq($tabIdx),
+				pageSize:15,
+				append:function(str){
+					this.target.append(str);
+				},
+				nextPage:function(){
+					this.currentPage++;
+					$.ajax({ 
+						url: '$link.getContextPath()/user/team/query',
+						data:{levelNum:#set($levelNum=$tabIdx+1)$levelNum,page:this.currentPage,pageSize:this.pageSize},
+						type:"post",
+						success: function(data){
+							var htmlStr='';
+							for(var i=0;i<data.length;i++){
+								htmlStr+='<div class="member"> <img src="'+data[i].headImage+'" />'+data[i].nickname+'</div>'
+								scrollData.append(htmlStr);
+							}
+							scrollData.append(htmlStr);
+						}
+					});
+				}
+		}
+		scrollData.nextPage();
+	})
+	</script>
+</head>
+<body>
+	<div id="container">
+		<div class="header">
+			<a href="personal-index.html" class="header-back btn"> <img class="img1"
+				src="$link.getContextPath()/images/back_n.png"> <img class="img2"
+					src="$link.getContextPath()/images/back_p.png"></a> <span>我的团队</span>
+		</div>
+		<div class="team-menu">
+			<ul>
+				<li><a href="$link.getContextPath()/user/team?tabIdx=0" class="menu-btn" style="color: #E81959">第一级($counts.result.countLevel1)</a></li>
+				<li><a href="$link.getContextPath()/user/team?tabIdx=1" class="menu-btn">第二级($counts.result.countLevel2)</a></li>
+				<li><a href="$link.getContextPath()/user/team?tabIdx=2" class="menu-btn">第三级($counts.result.countLevel3)</a></li>
+				<li><a href="$link.getContextPath()/user/team?tabIdx=3" class="menu-btn">更多($counts.result.countLevelFurther)</a></li>
+			</ul>
+		</div>
+		<div id="team-area1">
+			<div class="search">
+				<input type="type" placeholder="输入关键字" /> <a href="javscript:"> <img
+					src="$link.getContextPath()/images/search_n.png"></a> </a>
+			</div>
+			<div class="area-title">
+				<a href="my-team2.html"><span>群发消息</span></a>
+			</div>
+			<div id="tabs">
+				<div idx="1" style="display: none;"></div>
+				<div idx="2" style="display: none;"></div>
+				<div idx="3" style="display: none;"></div>
+				<div idx="4" style="display: none;"></div>
+			</div>
+		</div>
+		<div class="footer">滑动刷新</div>
+	</div>
+</body>
+</html>
+
