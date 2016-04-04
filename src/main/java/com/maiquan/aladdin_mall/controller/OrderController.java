@@ -1,5 +1,6 @@
 package com.maiquan.aladdin_mall.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,7 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +27,7 @@ import com.maiquan.aladdin_mall.util.WebUtil;
 import com.maiquan.aladdin_order.domain.GoodsReturn;
 import com.maiquan.aladdin_order.domain.MoneyReturn;
 import com.maiquan.aladdin_order.domain.Order;
+import com.maiquan.aladdin_order.domain.OrderPayment;
 import com.maiquan.aladdin_order.domain.OrderProduct;
 import com.maiquan.aladdin_order.service.IOrderProductService;
 import com.maiquan.aladdin_order.service.IOrderService;
@@ -110,7 +115,7 @@ public class OrderController {
 		}
 		
 		//TODO 此处应该返回orderCode 供下面使用
-		orderService.placeOrder(mqID, skuIds, buyNums, skuPrices, pFee, pSum, invoiceName, notes, "");
+		orderService.placeOrder(mqID, "NOR", skuIds, buyNums, skuPrices, pFee, pSum, invoiceName, notes, "");
 
 		Map<String,String> parameters = new HashMap<String,String>();
 		parameters.put("openid", openID);
@@ -513,9 +518,88 @@ public class OrderController {
 	 */
 	@RequestMapping("/unifiedorder_notify")
 	public String unifiedorder_notify(String requestId,String retXml){
-		System.out.println("unifiedorder_notify");
-		System.out.println("retXml----"+retXml);
+
+		Map<String,String> retMap = new TreeMap<String,String>();
+		
+		Pattern pattern = Pattern.compile("<([^/]\\S*?)>(.*?)</(\\S*?)>");
+		Matcher m = pattern.matcher(retXml.replace("<xml>", "").replace("</xml>", ""));
+		while(m.find()){
+			retMap.put(m.group(1), m.group(2).replace("<![CDATA[", "").replace("]]>", ""));
+		}
+		
+		String return_code = retMap.get("return_code");
+		
+		if(return_code.equals("SUCCESS")){
+			
+			String result_code = retMap.get("result_code");
+			//先验证签名
+			String sign = retMap.get("sign");
+			retMap.remove("sign");
+			String createSign = "";//wxInteractionService.createSign(retMap);
+			if(createSign.equals(sign)){
+				String orderCode = retMap.get("out_trade_no");
+				Long total_fee = Long.valueOf(retMap.get("total_fee"));
+				String payTime = retMap.get("time_end");
+				String fee_type = retMap.get("fee_type");
+				String transaction_id = retMap.get("transaction_id");
+				Order order = orderService.getOrderByOrderCode(orderCode, UUID.randomUUID().toString().replace("-", ""));
+				if(result_code.equals("SUCCESS")){
+					if(!order.getpSum().equals(total_fee)){
+						//支付错误 支付金额被篡改
+					}else{
+						//设置订单的支付时间和支付金额 还有支付状态
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+						try {
+							Date pay_time = sdf.parse(payTime);
+							order.setPayTime(pay_time);
+						} catch (ParseException e) {
+							e.printStackTrace();
+						}
+						order.setPaySum(total_fee);
+						order.setPayStatus("PAY");
+						orderService.updateOrder(order, UUID.randomUUID().toString());
+						OrderPayment orderPayment = new OrderPayment();
+						
+						//新增订单支付对象
+						orderPayment.setCreateTime(new Date());
+						orderPayment.setMoneyType(fee_type);
+						orderPayment.setOrderCode(orderCode);
+						orderPayment.setPayChannel("WX#");
+						orderPayment.setPayNum(transaction_id);
+						orderPayment.setPayStatus("PAY");
+						orderPayment.setPaySum(total_fee);
+						orderPayment.setPayTime(order.getPayTime());
+						
+						//TODO 新增接口 orderService.addOrderPayment();
+						
+					}
+				}else{
+					OrderPayment orderPayment = new OrderPayment();
+					
+					//新增订单支付对象
+					orderPayment.setCreateTime(new Date());
+					orderPayment.setMoneyType(fee_type);
+					orderPayment.setOrderCode(orderCode);
+					orderPayment.setPayChannel("WX#");
+					orderPayment.setPayNum(transaction_id);
+					orderPayment.setPayStatus("NOT");
+					orderPayment.setPaySum(total_fee);
+					orderPayment.setPayTime(order.getPayTime());
+					
+					//TODO 新增接口 orderService.addOrderPayment();
+					
+				}
+				
+			}else{
+				//签名失败 数据被篡改
+				//支付错误
+			}
+		}else{
+			//支付错误
+		}
+		
 		return "";
+		
 	}
 	
 	

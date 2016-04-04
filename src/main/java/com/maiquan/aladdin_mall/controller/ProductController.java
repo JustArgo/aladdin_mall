@@ -202,4 +202,29 @@ public class ProductController {
 		modelMap.addAttribute("products", productService.getProductListByCategoryID(categoryId,null));
 		return "product/list";
 	}
+	
+	@RequestMapping("/search")
+	public String search(String requestID, String keyWord, Integer startIndex, Integer pageSize, Model model){
+		
+		List<Map> productList = productService.selectByKeyWordWithPagination(keyWord, startIndex, pageSize, "asc", requestID);//默认采用价格上升排序
+		model.addAttribute("productList",productList);
+		model.addAttribute("keyWord",keyWord);
+		
+		if(productList.size()==0){
+			//TODO  新增推荐
+			return "product/search-fail";
+		}
+		
+		return "product/search-success";
+		
+	}
+	
+	@RequestMapping("/ajaxSearch")
+	@ResponseBody
+	public List<Map> ajaxSearch(String requestID, String keyWord, Integer startIndex, Integer pageSize, String orderBy, Model model){
+		
+		List<Map> productList = productService.selectByKeyWordWithPagination(keyWord, startIndex, pageSize, orderBy, requestID);
+		return productList;
+		
+	}
 }
