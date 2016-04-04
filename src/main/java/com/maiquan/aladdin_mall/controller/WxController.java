@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aladdin.interaction.wx.service.WxInteractionService;
 import com.aladdin.user.service.UserService;
-import com.aladdin.vertical.distribution.service.DistributionService;
 import com.maiquan.aladdin_mall.Principal;
 import com.maiquan.aladdin_mall.util.WebUtil;
 import com.util.MapUtil;

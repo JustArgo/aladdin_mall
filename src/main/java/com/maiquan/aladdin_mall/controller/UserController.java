@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aladdin.account.service.AccountService;
 import com.aladdin.user.service.UserService;
-import com.aladdin.vertical.distribution.service.DistributionService;
+import com.aladdin.vertical.distribution.service.VerticalDistributionService;
 import com.maiquan.aladdin_mall.Principal;
 import com.maiquan.aladdin_mall.util.QRCodeUtil;
 import com.maiquan.aladdin_mall.util.WebUtil;
@@ -42,7 +42,7 @@ public class UserController {
 	@Autowired
 	private IProductCollectService productCollectService;
 	@Autowired
-	private DistributionService distributionService;
+	private VerticalDistributionService verticalDistributionService;
 
 	/**
 	 * 个人中心
@@ -161,8 +161,8 @@ public class UserController {
 	public String sales(String requestId, ModelMap modelMap, int page, int pageSize) {
 		Principal principal = WebUtil.getCurrentPrincipal();
 		String mqId = principal.getMqId();
-		modelMap.addAttribute("sales", distributionService.findSales(requestId, mqId, page, pageSize));
-		modelMap.addAttribute("memberSales", distributionService.findMemberSales(requestId, mqId, page, pageSize));
+		modelMap.addAttribute("sales", verticalDistributionService.findSales(requestId, mqId, page, pageSize));
+		modelMap.addAttribute("memberSales", verticalDistributionService.findMemberSales(requestId, mqId, page, pageSize));
 		return "user/sales";
 	}
 
@@ -173,7 +173,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/team", method = RequestMethod.GET)
 	public String team(String requestId, ModelMap modelMap, Integer levelIdx, Integer ddd) {
-		MapData data = MapUtil.newInstance(distributionService.findMemberCount(requestId, "1"));
+		MapData data = MapUtil.newInstance(verticalDistributionService.findMemberCount(requestId, "1"));
 		logger.info(data.errorString());
 		modelMap.put("levelIdx", levelIdx == null ? 0 : levelIdx);
 		modelMap.put("counts", data.getObject("result"));
@@ -188,7 +188,7 @@ public class UserController {
 	@RequestMapping(value = "/teamMember", method = RequestMethod.POST)
 	@ResponseBody
 	public Object teamMember(String requestId, ModelMap modelMap, int levelNum, int page, int pageSize) {
-		MapData data = MapUtil.newInstance(distributionService.findMemberByLevelNum(requestId, "1", levelNum, page, pageSize));
+		MapData data = MapUtil.newInstance(verticalDistributionService.findMemberByLevelNum(requestId, "1", levelNum, page, pageSize));
 		logger.info(data.errorString());
 		return data.getObject("result");
 	}
