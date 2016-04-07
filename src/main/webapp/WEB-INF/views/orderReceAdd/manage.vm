@@ -14,7 +14,7 @@
 <body>
 	<div id="container">
     <div class="header">
-        <a href="${link.contextPath}/previewOrder" class="header-back"><img src="images-address/back_n.png"></a>
+        <a href="${link.contextPath}/order/previewOrder" class="header-back"><img src="images-address/back_n.png"></a>
         <span>${i18n.get("receiveAddress")}</span>
     </div>
     #foreach($add in $adds)
@@ -45,7 +45,7 @@
     </div>
     #end
     <div class="address-btn">
-        <a href="${link.contextPath}/order_edit_rece_add" class="addAddress">${i18n.get("newReceiveAddress")}
+        <a href="${link.contextPath}/order/order_add_rece_add" class="addAddress">${i18n.get("newReceiveAddress")}
 		 <img class="img1" src="images-address/add_n.png">
          <img class="img2" src="images-address/add_p.png"></a>
     </div>
@@ -115,7 +115,7 @@
 			 
         	 if(confirm('确定删除该地址吗?')){
  				$(this).parents(".address").remove();
- 				location.href="${link.contextPath}/order_del_rece_add?ID="+$(this).data("id");
+ 				location.href="${link.contextPath}/order/order_del_rece_add?ID="+$(this).data("id");
  			 }else{
  				$(this).siblings(".img1").show();
  				$(this).siblings(".img2").hide();

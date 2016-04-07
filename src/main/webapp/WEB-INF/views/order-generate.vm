@@ -11,7 +11,7 @@
 </head>
 <body>
 	<div id="container">
-    <form id="placeOrder" action="${link.contextPath}/placeOrder">
+    <form id="placeOrder" action="${link.contextPath}/order/placeOrder">
     <input type="hidden" name="recaddID" value=""/>
     <div class="header">
         <a href="shop-car.html" class="header-back btn">
@@ -20,7 +20,7 @@
 		</a>
         <span>确认订单</span>
     </div>
-	<a href="${link.contextPath}/chooseReceAdd"><div class="order-address">
+	<a href="${link.contextPath}/order/chooseReceAdd"><div class="order-address">
 		<div class="order-left">
 			#if($recName)
 			<div class="order-left-top">
@@ -248,7 +248,7 @@
 		$("input[name=pFee]").val(pFee);
 		$("input[name=pSum]").val(pSum);
 		$.ajax({
-			url:"${link.contextPath}/placeOrder",
+			url:"${link.contextPath}/order/placeOrder",
 			type:"POST",
 			data:$("#placeOrder").serialize(),
 			dataType:"json",

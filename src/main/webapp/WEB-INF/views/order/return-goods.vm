@@ -6,6 +6,8 @@
 <title>申请退货</title>
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <script src="../../js/jquery-2.1.3.min.js"></script>
+<script type="text/javascript" src="${link.contextPath}/js/plupload/plupload.full.min.js"></script>
+<script type="text/javascript" src="${link.contextPath}/js/qiniu.js"></script>
 <link rel="stylesheet" href="../css/return-goods.css" type="text/css" />
 </head>
 <body>
@@ -18,47 +20,85 @@
         <span>申请退货</span>
 	</div>
 	<form id="returnGoods" action="${link.contextPath}/apply-return-goods" method="POST">
-	<input type="hidden" name="orderCode" value="$!{orderCode}"/>
-	<input type="hidden" name="orderProductID" value="$!{orderProductID}"/>
-	<div class="return-area">
-		<p class="area-title">退货原因</p>
-		<div class="area-selected">
-			<div class="seleted-content">选择退款原因</div>
-			<select class="selected" name="returnReason">
-				<option value="SEV">七天无理由退货</option>
-				<option value="DES">收到商品破损</option>
-				<option value="QUA">商品质量问题</option>
-				<option value="SJ#">少件/漏发</option>
-				<option value="TYF">退运费</option>
-				<option value="WAY">未按约定发货</option>
-				<option value="JMP">假冒品牌</option>
-				<option value="FP#">发票问题</option>
-				<option value="REP">商品需要维修</option>
-				<option value="WRO">收到商品与描述不符</option>
-			</select>
-			<div class="select-img">
-				<img class="img1" src="../images/pull_down.png" />
-				<img class="img2" src="../images/up_down.png" />
+		<input type="hidden" name="orderCode" value="$!{orderCode}"/>
+		<input type="hidden" name="orderProductID" value="$!{orderProductID}"/>
+		<div class="return-area">
+			<p class="area-title">退货原因</p>
+			<div class="area-selected">
+				<div class="seleted-content">选择退款原因</div>
+				<select class="selected" name="returnReason">
+					<option value="SEV">七天无理由退货</option>
+					<option value="DES">收到商品破损</option>
+					<option value="QUA">商品质量问题</option>
+					<option value="SJ#">少件/漏发</option>
+					<option value="TYF">退运费</option>
+					<option value="WAY">未按约定发货</option>
+					<option value="JMP">假冒品牌</option>
+					<option value="FP#">发票问题</option>
+					<option value="REP">商品需要维修</option>
+					<option value="WRO">收到商品与描述不符</option>
+				</select>
+				<div class="select-img">
+					<img class="img1" src="../images/pull_down.png" />
+					<img class="img2" src="../images/up_down.png" />
+				</div>
+			</div>
+			<p class="area-title"><span>退货金额</span><span class="price">最多可以退款￥$number.format("#0.00",${refundLimit})</span></p>
+			<div class="area-input">
+				<input type="text" placeholder="请输入退货金额" name="refundFee">
+			</div> 
+			<p class="waring">退款金额不得超过￥<span class="refundLimit">$number.format("#0.00",${refundLimit})</span></p>
+			<p class="area-title"><span>退货说明</span><span class="price">(可不填)</span></p>
+			<div class="area-textarea">
+				<textarea  placeholder="请输入退货说明" name="returnDesc"></textarea>
+			</div>
+			<div class="upload-img">上传照片</div>
+			<div class="upload-area">
+				<a href="javascript:" class="btn" id="pickfiles"><div class="area-img">
+					<img class="img1" src="${link.contextPath}/images/add_n.png">
+					<img class="img2" src="${link.contextPath}/images/add_p.png">
+				</div></a>
+				<span class="e-img">
+				</span>
+				<span class="imgPaths">
+				</span>
+				最多可选择5张照片，不得大于3M，尺寸80*80
 			</div>
 		</div>
-		<p class="area-title"><span>退货金额</span><span class="price">最多可以退款￥$number.format("#0.00",${refundLimit})</span></p>
-		<div class="area-input">
-			<input type="text" placeholder="请输入退货金额" name="refundFee">
-		</div> 
-		<p class="waring">退款金额不得超过￥<span class="refundLimit">$number.format("#0.00",${refundLimit})</span></p>
-		<p class="area-title"><span>退货说明</span><span class="price">(可不填)</span></p>
-		<div class="area-textarea">
-			<textarea  placeholder="请输入退货说明" name="returnDesc"></textarea>
-		</div> 
-	</div>
+		
+		<div class="return-btn">
+			<a href="javascript:void(0);" class="rbrn">提交申请</a>
+		</div>
 	</form>
-	<div class="return-btn">
-		<a href="javascript:void(0);" class="rbrn">提交申请</a>
-	</div>
 </div>
 </body>
 </body>
 <script>
+function uuid() {
+
+	var s = [];
+
+	var hexDigits = "0123456789abcdef";
+
+	for (var i = 0; i < 36; i++) {
+
+		s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+
+	}
+
+	s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
+
+	s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+
+	s[8] = s[13] = s[18] = s[23] = "-";
+
+ 
+
+	var uuid = s.join("");
+
+	return uuid;
+
+}
     $(function(){
 		$(".btn").click(function(){
 			if($(this).find(".img1").is(":visible")){
@@ -114,6 +154,82 @@
 			$(this).siblings(".select-img").find(".img1").show();
 			$(this).siblings(".select-img").find(".img2").hide();
 		})
+		
+		
+		//上传图片等
+		var time = parseInt((new Date().getTime()+'').substring(0,10))+7200;
+		var uptoken = '';
+		$.ajaxSetup({  
+		    async : false  
+		});
+		$.get('/common/uptoken',function(result){uptoken = result});
+		console.log(uptoken);
+	    var uploader = Qiniu.uploader({
+	        runtimes: 'html5,flash,html4',
+	        browse_button: 'pickfiles',
+	        uptoken:uptoken,
+	        container: 'container',
+	        drop_element: 'container',
+	        max_file_size: '100mb',
+	        flash_swf_url: 'js/plupload/Moxie.swf',
+	        dragdrop: true,
+	        chunk_size: '3mb',
+	        domain: 'http://7xrade.com2.z0.glb.qiniucdn.com',
+	        auto_start: false,
+	        init: {
+	            'FilesAdded': function(up, files) {
+	                var imgNum = $(".evaluate-img").length;
+	                var upNum = files.length;
+	                if(upNum+imgNum>5){
+	                	alert("您已上传"+imgNum+"张图片,只能再上传"+(5-imgNum)+"张图片");
+	                	for(var i=0;i<files.length;i++){
+							up.removeFile(files[i]);
+						}
+						return false;
+	                }
+	                up.start();
+	            },
+	            'BeforeUpload': function(up, file) {
+//	                var progress = new FileProgress(file, 'fsUploadProgress');
+//	                var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
+//	                if (up.runtime === 'html5' && chunk_size) {
+//	                    progress.setChunkProgess(chunk_size);
+//	                }
+	            },
+	            'UploadProgress': function(up, file) {
+//	                var progress = new FileProgress(file, 'fsUploadProgress');
+//	                var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
+//	                progress.setProgress(file.percent + "%", file.speed, chunk_size);
+	            },
+	            'UploadComplete': function() {
+					
+	            },
+	            'FileUploaded': function(up, file, info) {
+	            	
+					var domain = up.getOption('domain');
+					var res = $.parseJSON(info)
+					var imgPath = domain+"/"+res.key;
+					
+					$.get('/common/imgPath',{'imgPath':imgPath},function(result){
+						$('.e-img').append('<span class="return-img" style="display:inline-block;margin-left:3px;width:80px;height:80px;vertical-align:middle;border:1px solid gray;"><img width="80" height="80" src="'+result+'"></span>');
+					})
+					
+					$('.imgPaths').append('<input type="hidden" name="imgs" value="'+imgPath+'"/>');
+					
+	            },
+	            'Error': function(up, err, errTip) {
+					alert("图片上传失败");
+	            },
+				'Key': function(up, file) {
+					var key = 'returngoods_'+new Date().getTime()+"_"+uuid()+"_"+file.name;
+					return key;
+				}
+	        }
+	    });
+	    
+	    
+	    
+	    
 	});
 </script>
 </html>

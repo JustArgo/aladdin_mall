@@ -1,9 +1,11 @@
 package com.maiquan.aladdin_mall.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +16,9 @@ import java.util.TreeMap;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,6 +50,7 @@ import com.maiquan.aladdin_shopcar.service.IShopCarService;
 import com.maiquan.aladdin_supplier.service.ISupplierService;
 
 @Controller
+@RequestMapping("/order")
 public class OrderController {
 
 	@Autowired
@@ -76,9 +82,6 @@ public class OrderController {
 	
 	@Autowired
 	private ISupplierService supplierService;
-	
-	//@Autowired
-	//private ISupplierService supplierService;
 	
 	@RequestMapping("/placeOrder")
 	public Map<String,String> placeOrder(String requestId, Integer[] skuIds, Integer[] buyNums, Long[] skuPrices, Long[] supplierAmounts, Long pFee, Long pSum, String invoiceName, String notes){
@@ -126,7 +129,7 @@ public class OrderController {
 		return wxInteractionService.unifiedOrder(UUID.randomUUID().toString().replaceAll("-",""), parameters);
 	}
 	
-	@RequestMapping("/order/previewOrder")
+	@RequestMapping("/previewOrder")
 	public String previewOrder(String requestId,Model model){
 		//预览订单
 		
@@ -292,61 +295,6 @@ public class OrderController {
 			
 		shopCarService.addToShopCar(2, productID, skuID, buyNum, UUID.randomUUID().toString().replaceAll("-",""));
 
-		/*
-		List<Map<String,Object>> supplierList = new ArrayList<Map<String,Object>>();
-		List<Map<String,Object>> skuList = new ArrayList<Map<String,Object>>();
-		
-		
-		Map<String,Object> supplierMap = new HashMap<String,Object>();
-		Map<String,Object> skuMap = new HashMap<String,Object>();
-		
-		double totalPostFee = 0.0;
-		double supplierAmount = 0.0;
-		
-		
-		Product product = productService.queryProduct(productID, UUID.randomUUID().toString().replaceAll("-",""));
-		Supplier supplier = supplierService.getSupplier(product.getSupplyID(), UUID.randomUUID().toString().replaceAll("-",""));
-		ProductSku sku = productSkuService.getSkuByID(skuID, UUID.randomUUID().toString().replaceAll("-",""));
-		List<String> skuStrs = productSkuService.getSkuStr(sku.getID(), UUID.randomUUID().toString().replaceAll("-",""));
-		
-		//查找默认收货地址
-		ReceiveAddress receAdd = manageReceAddService.getDefaultAddress(2+"", UUID.randomUUID().toString().replaceAll("-",""));
-		if(receAdd!=null){
-			//总运费 即是 该sku对应的运费
-			totalPostFee = postFeeService.calcPostFee(productID, buyNum, receAdd.getCountryID(), receAdd.getProvinceID(), receAdd.getCityID(), receAdd.getDistrictID(), UUID.randomUUID().toString().replaceAll("-",""));
-			
-			model.addAttribute("recName",receAdd.getRecName());
-			model.addAttribute("recMobile",receAdd.getRecMobile());
-			model.addAttribute("fullAddress",manageReceAddService.getFullAddress(receAdd, UUID.randomUUID().toString().replaceAll("-","")));
-		}
-		
-		//1 存储skuID
-		skuMap.put("skuID", skuID);
-		//2 存储sku对应的图片
-		skuMap.put("imgPath",sku.getSkuImg());
-		//3 存储sku对应的商品描述
-		skuMap.put("sellDesc", product.getSellDesc());
-		//4 存储sku对应的sku属性
-		skuMap.put("skuStrs",skuStrs);
-		//5 存储sku对应的价格
-		skuMap.put("skuPrice", sku.getSkuPrice());
-		//6 存储sku对应的购买数量
-		skuMap.put("skuQuality", buyNum);
-		
-		skuList.add(skuMap);
-		
-		supplierMap.put("supName",supplier.getName());
-		supplierMap.put("shopCarProducts", skuList);
-		supplierMap.put("supplierAmount",skuPrice*buyNum+totalPostFee/100.0);
-		supplierMap.put("postFee", totalPostFee/100.0);
-		
-		supplierList.add(supplierMap);
-		
-		model.addAttribute("supplierProducts",supplierList);
-		model.addAttribute("totalPostFee",totalPostFee/100.0);
-		model.addAttribute("totalPrice",skuPrice*buyNum+totalPostFee/100.0);*/
-		
-		
 		return "redirect:order/previewOrder";
 	}
 	
@@ -517,8 +465,21 @@ public class OrderController {
 	 * @return
 	 */
 	@RequestMapping("/unifiedorder_notify")
-	public String unifiedorder_notify(String requestId,String retXml){
+	public String unifiedorder_notify(String requestId,String retXml, HttpServletRequest req, HttpServletResponse resp){
 
+		Enumeration pNames=req.getParameterNames();
+		while(pNames.hasMoreElements()){
+		    String name=(String)pNames.nextElement();
+		    String value=req.getParameter(name);
+		    System.out.println(name+": "+value);
+		}
+
+		System.out.println("requestId: "+requestId);
+		try {
+			System.out.println("retXml: "+java.net.URLDecoder.decode(retXml,"utf-8"));
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
 		Map<String,String> retMap = new TreeMap<String,String>();
 		
 		Pattern pattern = Pattern.compile("<([^/]\\S*?)>(.*?)</(\\S*?)>");
@@ -534,8 +495,9 @@ public class OrderController {
 			String result_code = retMap.get("result_code");
 			//先验证签名
 			String sign = retMap.get("sign");
+			System.out.println("sign: "+sign);
 			retMap.remove("sign");
-			String createSign = "";//wxInteractionService.createSign(retMap);
+			String createSign = "B552ED6B279343CB493C5DD0D78AB241";//wxInteractionService.createSign(retMap);
 			if(createSign.equals(sign)){
 				String orderCode = retMap.get("out_trade_no");
 				Long total_fee = Long.valueOf(retMap.get("total_fee"));
@@ -543,51 +505,59 @@ public class OrderController {
 				String fee_type = retMap.get("fee_type");
 				String transaction_id = retMap.get("transaction_id");
 				Order order = orderService.getOrderByOrderCode(orderCode, UUID.randomUUID().toString().replace("-", ""));
-				if(result_code.equals("SUCCESS")){
-					if(!order.getpSum().equals(total_fee)){
-						//支付错误 支付金额被篡改
-					}else{
-						//设置订单的支付时间和支付金额 还有支付状态
-						SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-						try {
-							Date pay_time = sdf.parse(payTime);
-							order.setPayTime(pay_time);
-						} catch (ParseException e) {
-							e.printStackTrace();
+				if(order!=null){
+					if(result_code.equals("SUCCESS")){
+						System.out.println("result_code .equals Success");
+						if(!order.getpSum().equals(total_fee)){
+							//支付错误 支付金额被篡改
+							System.out.println("total_fee not equals");
+						}else{
+							//设置订单的支付时间和支付金额 还有支付状态
+							SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+							try {
+								Date pay_time = sdf.parse(payTime);
+								order.setPayTime(pay_time);
+							} catch (ParseException e) {
+								e.printStackTrace();
+							}
+							order.setPaySum(total_fee);
+							order.setPayStatus("PAY");
+							orderService.updateOrder(order, UUID.randomUUID().toString());
+							OrderPayment orderPayment = new OrderPayment();
+							
+							//新增订单支付对象
+							orderPayment.setCreateTime(new Date());
+							orderPayment.setMoneyType(fee_type);
+							orderPayment.setMqID(order.getMqID());
+							orderPayment.setOrderCode(orderCode);
+							orderPayment.setPayChannel("WX#");
+							orderPayment.setPayNum(transaction_id);
+							orderPayment.setPayStatus("PAY");
+							orderPayment.setPaySum(total_fee);
+							orderPayment.setPayTime(order.getPayTime());
+							
+							orderService.addOrderPayment(orderPayment,UUID.randomUUID().toString().replace("-", ""));
+							
 						}
-						order.setPaySum(total_fee);
-						order.setPayStatus("PAY");
-						orderService.updateOrder(order, UUID.randomUUID().toString());
+					}else{
 						OrderPayment orderPayment = new OrderPayment();
 						
 						//新增订单支付对象
 						orderPayment.setCreateTime(new Date());
 						orderPayment.setMoneyType(fee_type);
+						orderPayment.setMqID(order.getMqID());
 						orderPayment.setOrderCode(orderCode);
 						orderPayment.setPayChannel("WX#");
 						orderPayment.setPayNum(transaction_id);
-						orderPayment.setPayStatus("PAY");
+						orderPayment.setPayStatus("NOT");
 						orderPayment.setPaySum(total_fee);
 						orderPayment.setPayTime(order.getPayTime());
 						
-						//TODO 新增接口 orderService.addOrderPayment();
+						orderService.addOrderPayment(orderPayment,UUID.randomUUID().toString().replace("-", ""));
 						
 					}
 				}else{
-					OrderPayment orderPayment = new OrderPayment();
-					
-					//新增订单支付对象
-					orderPayment.setCreateTime(new Date());
-					orderPayment.setMoneyType(fee_type);
-					orderPayment.setOrderCode(orderCode);
-					orderPayment.setPayChannel("WX#");
-					orderPayment.setPayNum(transaction_id);
-					orderPayment.setPayStatus("NOT");
-					orderPayment.setPaySum(total_fee);
-					orderPayment.setPayTime(order.getPayTime());
-					
-					//TODO 新增接口 orderService.addOrderPayment();
-					
+					// 订单不存在
 				}
 				
 			}else{
@@ -639,15 +609,15 @@ public class OrderController {
 	 * @return
 	 */
 	@RequestMapping("/apply-return-goods")
-	public String applyReturnGoods(String requestID, String orderCode, Integer orderProductID, String returnReason, Long refundFee, String returnDesc, Model model){
-		
+	public String applyReturnGoods(String requestID, String orderCode, Integer orderProductID, String returnReason, Long refundFee, String returnDesc, String[] imgs, Model model){
+
 		Principal principal = WebUtil.getCurrentPrincipal();
 		
 //if(principal==null) principal=new Principal("2", "");
 		
 		String mqID = principal.getMqId();
 		try{
-			GoodsReturn goodsReturn = orderService.applyReturnGoods(mqID, orderCode, orderProductID, refundFee, returnReason, returnDesc, requestID);
+			GoodsReturn goodsReturn = orderService.applyReturnGoods(mqID, orderCode, orderProductID, refundFee, returnReason, returnDesc, imgs, requestID);
 			model.addAttribute("goodsReturn", goodsReturn);
 			if(goodsReturn.getReturnReason().equals("SJ#")){
 				model.addAttribute("returnReason","少件/漏发");

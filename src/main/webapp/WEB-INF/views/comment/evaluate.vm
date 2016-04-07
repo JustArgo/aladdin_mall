@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>评价</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<script src="${link.contextPath}/js/jquery-2.1.3.min.js"></script>
+<script type="text/javascript" src="${link.contextPath}/js/plupload/plupload.full.min.js"></script>
+<script type="text/javascript" src="${link.contextPath}/js/qiniu.js"></script>
+<link rel="stylesheet" href="${link.contextPath}/css/evaluate.css" type="text/css" />
+</head>
+<body>
+<div id="container">
+	<form id="commentForm" action="${link.contextPath}/comments/comment">
+		<input type="hidden" name="orderProductID" value="${orderProductID}"/>
+		<input type="hidden" name="sendGoodsScore" value="5"/>
+		<input type="hidden" name="descScore" value="5"/>
+		<input type="hidden" name="serveScore" value="5"/>
+	    <div class="header">
+	        <a href="order-index.html" class="header-back btn">
+				<img class="img1" src="${link.contextPath}/images/back_n.png">
+				<img class="img2" src="${link.contextPath}/images/back_p.png">
+			</a>
+	        <span>评价</span>
+	    </div>
+		<div class="evaluate-area">
+			<table class="evaluate-tb">
+				<tr>
+					<td>发货速度</td>
+					<td>
+						<img class="star1" src="${link.contextPath}/images/star_n.png" />
+						<img class="star1" src="${link.contextPath}/images/star_n.png" />
+						<img class="star1" src="${link.contextPath}/images/star_n.png" />
+						<img class="star1" src="${link.contextPath}/images/star_n.png" />
+						<img class="star1" src="${link.contextPath}/images/star_n.png" />
+					</td>
+				</tr>
+				<tr>
+					<td>描述相符</td>
+					<td>
+						<img class="star2" src="${link.contextPath}/images/star_n.png" />
+						<img class="star2" src="${link.contextPath}/images/star_n.png" />
+						<img class="star2" src="${link.contextPath}/images/star_n.png" />
+						<img class="star2" src="${link.contextPath}/images/star_n.png" />
+						<img class="star2" src="${link.contextPath}/images/star_n.png" />
+					</td>
+				</tr>
+				<tr>
+					<td>服务态度</td>
+					<td class="start">
+						<img class="star3" src="${link.contextPath}/images/star_n.png" />
+						<img class="star3" src="${link.contextPath}/images/star_n.png" />
+						<img class="star3" src="${link.contextPath}/images/star_n.png" />
+						<img class="star3" src="${link.contextPath}/images/star_n.png" />
+						<img class="star3" src="${link.contextPath}/images/star_n.png" />
+					</td>
+				</tr>
+			</table>
+			<div class="evaluate-content">
+				<textarea placeholder="请填写评论" name="commentStr" value=""></textarea>
+			</div>
+			<div class="upload-img">上传照片</div>
+			<div class="upload-area">
+				<a href="javascript:" class="btn" id="pickfiles"><div class="area-img">
+					<img class="img1" src="${link.contextPath}/images/add_n.png">
+					<img class="img2" src="${link.contextPath}/images/add_p.png">
+				</div></a>
+				<span class="e-img">
+				</span>
+				<span class="imgPaths">
+				<input type="hidden" name="imgs" value="http://7xrade.com2.z0.glb.qiniucdn.com/2016-03-01_7792ef91fc8c65dd1b339c02f9a250e5.jpg"/>
+				<input type="hidden" name="imgs" value="http://7xrade.com2.z0.glb.qiniucdn.com/2016-03-01_9ec8595d2f7fc8c8a104fbf499c2cb0d.jpg"/>
+				<input type="hidden" name="imgs" value="http://7xrade.com2.z0.glb.qiniucdn.com/2016-03-01_b362bc9d281b840bb47a62d690a60688.jpg"/>
+				</span>
+				最多可选择5张照片，不得大于3M，尺寸80*80
+			</div>
+		</div>
+		<div class="evaluate-footer">
+			<a href="javascript:" class="evaluate-btn">提交评价</a>
+		</div>
+	</form>
+</div>
+</body>
+<script>
+	
+function uuid() {
+
+	var s = [];
+
+	var hexDigits = "0123456789abcdef";
+
+	for (var i = 0; i < 36; i++) {
+
+		s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+
+	}
+
+	s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
+
+	s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+
+	s[8] = s[13] = s[18] = s[23] = "-";
+
+ 
+
+	var uuid = s.join("");
+
+	return uuid;
+
+}
+	
+    $(function(){
+		$(".btn").click(function(){
+			if($(this).find(".img1").is(":visible")){
+				$(this).find(".img1").hide();
+				$(this).find(".img2").show();
+			}else{
+				$(this).find(".img1").show();
+				$(this).find(".img2").hide();
+			}
+			setTimeout(function(){
+				$(".btn").find(".img1").show();
+				$(".btn").find(".img2").hide();
+			},1000)
+		});
+		
+		$(".evaluate-btn").click(function(){
+			$(this).css({"color":"#fff","background-color":"#E81959"});
+			setTimeout(function(){
+				$(".evaluate-btn").css({"color":"#5e5b5c","background-color":"#fff"});
+			},1000);
+			$("#commentForm").submit();
+		});
+		
+		$(".star1").click(function(){
+			var index = $(this).index();
+			$("input[name=sendGoodsScore]").val(index+1);
+			var num = $(".star1").length;
+			console.log("num"+num);
+			console.log("index"+index);
+			for(var i=0;i<=index;i++){
+				$(".star1").eq(i).attr("src","../images/star_p.png");
+				for(var j=index+1;j<num;j++){
+					$(".star1").eq(j).attr("src","../images/star_n.png");
+				}
+			}
+		})
+		$(".star2").click(function(){
+			var index = $(this).index();
+			$("input[name=descScore]").val(index+1);
+			var num = $(".star2").length;
+			console.log("num"+num);
+			console.log("index"+index);
+			for(var i=0;i<=index;i++){
+				$(".star2").eq(i).attr("src","../images/star_p.png");
+				for(var j=index+1;j<num;j++){
+					$(".star2").eq(j).attr("src","../images/star_n.png");
+				}
+			}
+		});
+		$(".star3").click(function(){
+			var index = $(this).index();
+			$("input[name=serveScore]").val(index+1);
+			var num = $(".star3").length;
+			console.log("num"+num);
+			console.log("index"+index);
+			for(var i=0;i<=index;i++){
+				$(".star3").eq(i).attr("src","../images/star_p.png");
+				for(var j=index+1;j<num;j++){
+					$(".star3").eq(j).attr("src","../images/star_n.png");
+				}
+			}
+		});
+		
+		var time = parseInt((new Date().getTime()+'').substring(0,10))+7200;
+		var uptoken = '';
+		$.ajaxSetup({  
+		    async : false  
+		});
+		$.get('/common/uptoken',function(result){uptoken = result});
+		console.log(uptoken);
+	    var uploader = Qiniu.uploader({
+	        runtimes: 'html5,flash,html4',
+	        browse_button: 'pickfiles',
+	        uptoken:uptoken,
+	        container: 'container',
+	        drop_element: 'container',
+	        max_file_size: '100mb',
+	        flash_swf_url: 'js/plupload/Moxie.swf',
+	        dragdrop: true,
+	        chunk_size: '3mb',
+	        domain: 'http://7xrade.com2.z0.glb.qiniucdn.com',
+	        auto_start: false,
+	        init: {
+	            'FilesAdded': function(up, files) {
+	                var imgNum = $(".evaluate-img").length;
+	                var upNum = files.length;
+	                if(upNum+imgNum>5){
+	                	alert("您已上传"+imgNum+"张图片,只能再上传"+(5-imgNum)+"张图片");
+	                	for(var i=0;i<files.length;i++){
+							up.removeFile(files[i]);
+						}
+						return false;
+	                }
+	                up.start();
+	            },
+	            'BeforeUpload': function(up, file) {
+//	                var progress = new FileProgress(file, 'fsUploadProgress');
+//	                var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
+//	                if (up.runtime === 'html5' && chunk_size) {
+//	                    progress.setChunkProgess(chunk_size);
+//	                }
+	            },
+	            'UploadProgress': function(up, file) {
+//	                var progress = new FileProgress(file, 'fsUploadProgress');
+//	                var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
+//	                progress.setProgress(file.percent + "%", file.speed, chunk_size);
+	            },
+	            'UploadComplete': function() {
+					
+	            },
+	            'FileUploaded': function(up, file, info) {
+	            	
+					var domain = up.getOption('domain');
+					var res = $.parseJSON(info)
+					var imgPath = domain+"/"+res.key;
+					
+					$.get('/common/imgPath',{'imgPath':imgPath},function(result){
+						$('.e-img').append('<span class="evaluate-img" style="display:inline-block;margin-left:3px;width:80px;height:80px;vertical-align:middle;border:1px solid gray;"><img width="80" height="80" src="'+result+'"></span>');
+					})
+					
+					$('.imgPaths').append('<input type="hidden" name="imgs" value="'+imgPath+'"/>');
+					
+	            },
+	            'Error': function(up, err, errTip) {
+					alert("图片上传失败");
+	            },
+				'Key': function(up, file) {
+					var key = 'comment_'+new Date().getTime()+"_"+uuid()+"_"+file.name;
+					return key;
+				}
+	        }
+	    });
+
+
+		
+	});
+</script>
+</html>

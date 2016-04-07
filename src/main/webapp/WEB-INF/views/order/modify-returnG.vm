@@ -17,10 +17,10 @@
 		</a>
         <span>申请退货</span>
 	</div>
-	<form id="returnGoods" action="${link.contextPath}/apply-return-goods" method="POST">
+	<form id="returnGoods" action="${link.contextPath}/order/apply-return-goods" method="POST">
 	<input type="hidden" name="orderCode" value="$!{orderCode}"/>
 	<input type="hidden" name="orderProductID" value="$!{orderProductID}"/>
-	<div class="return-area">
+	<div class="return-area" style="height:360px;">
 		<p class="area-title">退货原因</p>
 		<div class="area-selected">
 			<div class="seleted-content">$!{returnReason}</div>
@@ -91,7 +91,6 @@
 				alert("请填写合法的退款金额");
 				return;
 			}
-			alert(refundFee+" "+$(".refundLimit").text());
 			if(refundFee>$(".refundLimit").text()){
 				alert("您输入的退款金额超出范围");
 				return;

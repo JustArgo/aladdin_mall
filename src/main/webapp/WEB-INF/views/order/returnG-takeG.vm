@@ -20,7 +20,7 @@
 	<div class="returnG-title">
 		<div class="title1">
 			<p>退货编号：$!{goodsReturn.returnCode}</p>
-			<p>申请时间：$!date.format('yyyy-MM-dd HH:mm ',$!goodsReturn.createTime)</p>
+			<p>申请时间：$!date.format('yyyy-MM-dd HH:mm ',$!goodsReturn.applyTime)</p>
 		</div>
 		<div class="detail-process">
 			<ul>
@@ -64,7 +64,7 @@
 			<span>退货编号</span><span>$!{goodsReturn.returnCode}</span>
 		</div>
 		<div class="area-list">
-			<span>申请时间</span><span>$!date.format('yyyy-MM-dd HH:mm ',$!goodsReturn.createTime)</span>
+			<span>申请时间</span><span>$!date.format('yyyy-MM-dd HH:mm ',$!goodsReturn.applyTime)</span>
 		</div>
 	</div>
 </div>

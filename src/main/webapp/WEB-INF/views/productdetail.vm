@@ -435,7 +435,7 @@
 				
 				$('<form>', {  
 				    method: 'post',
-				    action: '${link.contextPath}/buyNow'
+				    action: '${link.contextPath}/order/buyNow'
 				}).append(params).submit();
 			}
 		});

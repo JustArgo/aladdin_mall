@@ -12,10 +12,10 @@
 <body>
 	<div id="container">
     <div class="header">
-        <a href="${link.contextPath}/chooseReceAdd" class="header-back"><img src="images-newAddress/back_n.png"></a>
+        <a href="${link.contextPath}/order/chooseReceAdd" class="header-back"><img src="images-newAddress/back_n.png"></a>
         <span>#if($add.iD)${i18n.get("editReceiveAddress")}#else${i18n.get("newReceiveAddress")}#end</span>
     </div>
-    <form id="addressForm" #if($add.ID)action="order_update_rece_add" #else action="order_add_rece_address"#end>
+    <form id="addressForm" #if($add.ID)action="order/order_update_rece_add" #else action="order_add_rece_address"#end>
     	<input type="hidden" name="ID" value="$!{add.iD}"/>
     	<input type="hidden" class="isDefault" name="isDefault" #if($add.isDefault)value="$add.isDefault"#else value="NOR" #end/>
 	    <div class="addAddress-main">

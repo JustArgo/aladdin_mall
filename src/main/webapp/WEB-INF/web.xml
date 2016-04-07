@@ -2,7 +2,7 @@
 <web-app
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_5.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/j2ee"
-	version="2.5" i>
+	version="2.5" >
 
 	<servlet>
 		<servlet-name>springMVC</servlet-name>
